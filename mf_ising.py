@@ -80,7 +80,8 @@ class mf_ising:
         self.m_p = self.m.copy()
         self.m = update_m_P0_o1(self.H, self.J, self.m_p)
         self.C = update_C_P0_o1(self.H, self.J, self.m)
-
+        self.D = update_D_P0_o1(self.H, self.J, self.m, self.m_p)
+        
     def update_P0_o2(self):
         """
         Update mean field P[t-1:t] order 2 approximation
@@ -88,23 +89,18 @@ class mf_ising:
         self.m_p = self.m.copy()
         self.m = update_m_P0_o2(self.H, self.J, self.m_p)
         self.C = update_C_P0_o2(self.H, self.J, self.m, self.m_p)
+        self.D = update_D_P0_o2(self.H, self.J, self.m, self.m_p)
 
-
-    def update_P0_o2_(self):
-        """
-        Update mean field P[t-1:t] order 2 approximation without neglecting order 3 terms
-        """
-        self.m_p = self.m.copy()
-        self.m = update_m_P0_o2_(self.H, self.J, self.m_p)
-        self.C = update_C_P0_o2_(self.H, self.J, self.m, self.m_p)
 
     def update_P1_o1(self):
         """
         Update mean field P[t] order 1 approximation
         """
         self.m_p = self.m.copy()
+        self.C_p = self.C.copy()
         self.m = update_m_P1_o1(self.H, self.J, self.m_p)
         self.C = update_C_P1_o1(self.H, self.J, self.m)
+        self.D = update_D_P1_o1(self.H, self.J, self.m, self.C_p)
 
     def update_P1_o2(self):
         """
@@ -115,6 +111,7 @@ class mf_ising:
 #		self.m = update_m_P2_o1(self.H, self.J, self.m_p)
         self.m = update_m_P1_o2(self.H, self.J, self.m_p, self.C_p)
         self.C = update_C_P1_o2(self.H, self.J, self.m, self.C_p)
+        self.D = update_D_P1_o2(self.H, self.J, self.m, self.m_p, self.C_p)
 
     def update_P1_o2_(self):
         """
@@ -139,8 +136,12 @@ class mf_ising:
             self.C_p,
             optimize=True)
 #
-        self.m, self.C = update_P1C_o2(self.H, self.J, self.m, self.m_p, V_p)
-#		self.m = update_m_P2_o2(self.H, self.J, self.m_p, self.C_p)
+        self.m = update_m_P1_o2(self.H, self.J, self.m_p, self.C_p)
+        self.C = update_P1C_o2(self.H, self.J, self.m, self.m_p, V_p)
+#        self.D = update_P1D_o1(self.H, self.J, self.m_p)
+        self.D = update_P1D_o2(self.H, self.J, self.m_p, self.C_p)
+#        self.m = update_m_P0_o2(self.H, self.J, self.m_p)
+        
 #		print()
 #		print(self.m_p)
 #		print((self.C_p))
@@ -156,7 +157,8 @@ class mf_ising:
         Update mean field P[t-1] order 1 approximation
         """
         self.m_p = self.m.copy()
-        self.m = update_m_P2_o1(self.H, self.J, self.m_p)
+#        self.m = update_m_P2_o1(self.H, self.J, self.m_p)
+        self.m, self.D = update_D_P2_o1(self.H, self.J, self.m_p)
         self.C = update_C_P2_o1(self.H, self.J, self.m, self.m_p)
 #
 #    def update_P2_o2(self):
