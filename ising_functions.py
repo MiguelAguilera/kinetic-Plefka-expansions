@@ -56,12 +56,10 @@ def update_D_P0_o1(H, J, m, m_p):
     return D
 
 # PLEFKA[t-1,t], order 2
-
-
 def update_m_P0_o2(H, J, m):
     Vii = np.einsum('ij,j->i', J**2, 1 - m**2, optimize=True)
     h = H + np.dot(J, m)
-    return scipy.optimize.fsolve(TAP_eq, m.copy(), args=(h, Vii))
+    return solve_TAP_eq(m_p.copy(), Heff, Vii)
 
 
 def update_C_P0_o2(H, J, m, m_p):
@@ -98,7 +96,6 @@ def update_D_P1_o1(H, J, m, C_p):
     return D
 
 # PLEFKA[t], order 2
-
 
 def update_m_P1_o2(H, J, m_p, C_p):
     Vii = np.einsum('ij,il,jl->i', J, J, C_p, optimize=True)
