@@ -97,8 +97,8 @@ DPexp_final = np.zeros((size, size))
 
 
 # Load data
-filename = 'data/m-c-ts0-gamma1-' + str(gamma1) + '-gamma2-' + str(gamma2) + '-s-' + \
-    str(size) + '-R-' + str(R) + '-beta-' + str(beta) + '.npz'
+filename = 'data/m-c-ts0-gamma1-' + str(gamma1) + '-gamma2-' + str(
+    gamma2) + '-s-' + str(size) + '-R-' + str(R) + '-beta-' + str(beta) + '.npz'
 print(filename)
 data = np.load(filename)
 H = data['H']
@@ -106,7 +106,7 @@ J = data['J']
 s0 = data['s0']
 
 
-# Load statistical moments from data			
+# Load statistical moments from data
 mPexp_mean[0] = 1
 for t in range(T):
     print('Exp', str(t) + '/' + str(T))
@@ -207,23 +207,68 @@ DP2o1_final = I.D
 
 # Save results to file
 
-filename = 'img/compare-T_' + str(int(beta * 100)) + '_size_'+str(size)+'.npz'
+filename = 'img/compare-T_' + \
+    str(int(beta * 100)) + '_size_' + str(size) + '.npz'
 np.savez_compressed(filename,
-                    m_exp=data['m'][:, t], C_exp=data['C'][:,
-                                                           :, t], D_exp=data['D'][:, :, t],
-                    mP0o2_mean=mP0o2_mean, mP1o2_mean=mP1o2_mean, mP2o1_mean=mP2o1_mean, mP1Co2_mean=mP1Co2_mean,
-                    CP0o2_mean=CP0o2_mean, CP1o2_mean=CP1o2_mean, CP2o1_mean=CP2o1_mean, CP1Co2_mean=CP1Co2_mean,
-                    DP0o2_mean=DP0o2_mean, DP1o2_mean=DP1o2_mean, DP2o1_mean=DP2o1_mean, DP1Co2_mean=DP1Co2_mean,
-                    mP0o2_std=mP0o2_std, mP1o2_std=mP1o2_std, mP2o1_std=mP2o1_std, mP1Co2_std=mP1Co2_std,
-                    CP0o2_std=CP0o2_std, CP1o2_std=CP1o2_std, CP2o1_std=CP2o1_std, CP1Co2_std=CP1Co2_std,
-                    DP0o2_std=DP0o2_std, DP1o2_std=DP1o2_std, DP2o1_std=DP2o1_std, DP1Co2_std=DP1Co2_std,
-                    mPexp_mean=mPexp_mean, CPexp_mean=CPexp_mean, DPexp_mean=DPexp_mean,
-                    mP0o2=mP0o2_final, mP1o2=mP1o2_final, mP2o1=mP2o1_final, mP1Co2=mP1Co2_final,
-                    CP0o2=CP0o2_final, CP1o2=CP1o2_final, CP2o1=CP2o1_final, CP1Co2=CP1Co2_final,
-                    DP0o2=DP0o2_final, DP1o2=DP1o2_final, DP2o1=DP2o1_final, DP1Co2=DP1Co2_final,
-                    EmP0o2=EmP0o2, EmP1o2=EmP1o2, EmP2o1=EmP2o1, EmP1Co2=EmP1Co2,
-                    ECP0o2=ECP0o2, ECP1o2=ECP1o2, ECP2o1=ECP2o1, ECP1Co2=ECP1Co2,
-                    EDP0o2=EDP0o2, EDP1o2=EDP1o2, EDP2o1=EDP2o1, EDP1Co2=EDP1Co2)
+                    m_exp=data['m'][:,
+                                    t],
+                    C_exp=data['C'][:,
+                                    :,
+                                    t],
+                    D_exp=data['D'][:,
+                                    :,
+                                    t],
+                    mP0o2_mean=mP0o2_mean,
+                    mP1o2_mean=mP1o2_mean,
+                    mP2o1_mean=mP2o1_mean,
+                    mP1Co2_mean=mP1Co2_mean,
+                    CP0o2_mean=CP0o2_mean,
+                    CP1o2_mean=CP1o2_mean,
+                    CP2o1_mean=CP2o1_mean,
+                    CP1Co2_mean=CP1Co2_mean,
+                    DP0o2_mean=DP0o2_mean,
+                    DP1o2_mean=DP1o2_mean,
+                    DP2o1_mean=DP2o1_mean,
+                    DP1Co2_mean=DP1Co2_mean,
+                    mP0o2_std=mP0o2_std,
+                    mP1o2_std=mP1o2_std,
+                    mP2o1_std=mP2o1_std,
+                    mP1Co2_std=mP1Co2_std,
+                    CP0o2_std=CP0o2_std,
+                    CP1o2_std=CP1o2_std,
+                    CP2o1_std=CP2o1_std,
+                    CP1Co2_std=CP1Co2_std,
+                    DP0o2_std=DP0o2_std,
+                    DP1o2_std=DP1o2_std,
+                    DP2o1_std=DP2o1_std,
+                    DP1Co2_std=DP1Co2_std,
+                    mPexp_mean=mPexp_mean,
+                    CPexp_mean=CPexp_mean,
+                    DPexp_mean=DPexp_mean,
+                    mP0o2=mP0o2_final,
+                    mP1o2=mP1o2_final,
+                    mP2o1=mP2o1_final,
+                    mP1Co2=mP1Co2_final,
+                    CP0o2=CP0o2_final,
+                    CP1o2=CP1o2_final,
+                    CP2o1=CP2o1_final,
+                    CP1Co2=CP1Co2_final,
+                    DP0o2=DP0o2_final,
+                    DP1o2=DP1o2_final,
+                    DP2o1=DP2o1_final,
+                    DP1Co2=DP1Co2_final,
+                    EmP0o2=EmP0o2,
+                    EmP1o2=EmP1o2,
+                    EmP2o1=EmP2o1,
+                    EmP1Co2=EmP1Co2,
+                    ECP0o2=ECP0o2,
+                    ECP1o2=ECP1o2,
+                    ECP2o1=ECP2o1,
+                    ECP1Co2=ECP1Co2,
+                    EDP0o2=EDP0o2,
+                    EDP1o2=EDP1o2,
+                    EDP2o1=EDP2o1,
+                    EDP1Co2=EDP1Co2)
 
 
 # Plot results
@@ -233,7 +278,7 @@ steps = np.arange(T + 1)
 cmap = cm.get_cmap('inferno_r')
 colors = []
 for i in range(4):
-    colors += [cmap((i+0.5)/4)]
+    colors += [cmap((i + 0.5) / 4)]
 labels = [r'P[$t-1,t$]', r'P[$t$]', r'P[$t-1$]', r'P2[$t$]']
 
 
