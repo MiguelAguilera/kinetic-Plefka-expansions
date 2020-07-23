@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Mon Jan 28 15:32:23 2019
+@author: Miguel Aguilera
 
-@author: maguilera
+This code defines functions for applying Plefka expansions for mean field simulations
 """
 import numpy as np
-import scipy.optimize
 
 
 def bool2int(x):  # Transform bool array into positive integer
@@ -27,7 +26,7 @@ def TAP_eq(x, H, Vii):
 
 
 def diff_TAP_eq(x, H, Vii):
-    return -Vii*(1-np.tanh(H - x * Vii)**2) - 1
+    return -Vii * (1 - np.tanh(H - x * Vii)**2) - 1
 
 
 def solve_TAP_eq(x0, H, Vii, TOL=1E-15):
@@ -36,9 +35,10 @@ def solve_TAP_eq(x0, H, Vii, TOL=1E-15):
     while error > TOL:
         TAP = TAP_eq(x, H, Vii)
         dTAP = diff_TAP_eq(x, H, Vii)
-        x -= TAP/dTAP
+        x -= TAP / dTAP
         error = np.max(np.abs(TAP))
     return x
+
 
 # PLEFKA[t-1,t], order 1
 
@@ -56,6 +56,8 @@ def update_D_P0_o1(H, J, m, m_p):
     return D
 
 # PLEFKA[t-1,t], order 2
+
+
 def update_m_P0_o2(H, J, m):
     Vii = np.einsum('ij,j->i', J**2, 1 - m**2, optimize=True)
     h = H + np.dot(J, m)
@@ -96,6 +98,7 @@ def update_D_P1_o1(H, J, m, C_p):
     return D
 
 # PLEFKA[t], order 2
+
 
 def update_m_P1_o2(H, J, m_p, C_p):
     Vii = np.einsum('ij,il,jl->i', J, J, C_p, optimize=True)
@@ -189,7 +192,7 @@ def update_C_P2_o1(H, J, m, m_p, C_p):
     C = np.zeros((size, size))
     g = H + np.dot(J, m_p)
     D = np.dot(J**2, 1 - m_p**2)
-    inv_D = 1/D
+    inv_D = 1 / D
     inv_D[D == 0] = 0
     rho = np.einsum('i,k,ij,kl,jl->ik', np.sqrt(inv_D),
                     np.sqrt(inv_D), J, J, C_p, optimize=True)
@@ -235,7 +238,7 @@ def TAP_eq_D(x, Heff_i, Jijsj, V_pij):
 
 
 def diff_TAP_eq_D(x, Jijsj, V_pij):
-    return 1 + (1-np.tanh(x + Jijsj)**2) * V_pij
+    return 1 + (1 - np.tanh(x + Jijsj)**2) * V_pij
 
 
 def update_P1D_o2(H, J, m_p, C_p, D_p):
@@ -256,14 +259,14 @@ def update_P1D_o2(H, J, m_p, C_p, D_p):
     V_pil += np.einsum('ij,jj->ij', J**2, C_p)
     W_pil = W_p - np.einsum('il,ln,ln->il', J, J, D_p, optimize=True)
     Heff_i = np.einsum('i,il->il', Heff, np.ones((size, size)))
-    Heff_i -= J*m_pil
-    Heff_i -= m_pil*W_pil
+    Heff_i -= J * m_pil
+    Heff_i -= m_pil * W_pil
     Delta_il = J + W_pil
 
     inds = np.zeros((size, size), int)
     for i in range(size):
-        for k in range(i+1, size):
-            inds[i, k] = np.argmax(np.abs(Delta_il[i, :]*Delta_il[k, :]))
+        for k in range(i + 1, size):
+            inds[i, k] = np.argmax(np.abs(Delta_il[i, :] * Delta_il[k, :]))
 
     for sl in [-1, 1]:
         Theta = Heff_i.copy()
@@ -271,8 +274,8 @@ def update_P1D_o2(H, J, m_p, C_p, D_p):
         count = 0
         while error > 1E-15:
             TAP = TAP_eq_D(Theta, Heff_i, Delta_il * sl, V_pil)
-            dTAP = diff_TAP_eq_D(Theta,  Delta_il * sl, V_pil)
-            Theta -= TAP/dTAP
+            dTAP = diff_TAP_eq_D(Theta, Delta_il * sl, V_pil)
+            Theta -= TAP / dTAP
             error = np.max(np.abs(TAP))
             ind = np.argmax(np.abs(TAP))
         D += np.tanh(Theta + Delta_il * sl) * sl * (1 + sl * m_pil) / 2
@@ -285,8 +288,8 @@ def update_P1D_o2(H, J, m_p, C_p, D_p):
     V_ik = np.einsum('ij,kl,jl->ik', J, J, C_p, optimize=True)
     V_ik -= np.einsum('ii,kl,il->ik', J, J, C_p, optimize=True) + \
         np.einsum('ij,kk,jk->ik', J, J, C_p, optimize=True)
-    C_D = np.einsum('i,j,ij->ij', 1-t2, 1-t2, V_ik, optimize=True)
-    np.einsum('ii->i', C_D)[:] = 1-m_D**2
+    C_D = np.einsum('i,j,ij->ij', 1 - t2, 1 - t2, V_ik, optimize=True)
+    np.einsum('ii->i', C_D)[:] = 1 - m_D**2
     return m_D, C_D, D
 
 # PLEFKA_C (Old code from https://arxiv.org/abs/2002.04309v1)
