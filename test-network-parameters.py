@@ -15,9 +15,9 @@ font = {'size': 15}
 plt.rc('font', **font)
 plt.rc('legend', **{'fontsize': 12})
 
-size = 512
+size = 1024
 
-save = False
+save = True
 
 gamma1 = 0.5
 gamma2 = 0.1
@@ -100,7 +100,7 @@ for ib in range(len(betas)):
 
 
 # Save parameters
-filename = 'data/parameters_size-' + str(size) + '.npz'
+filename='data/parameters_size-'+str(size)+'-gamma1-' + str(gamma1) +'-gamma2-' + str(gamma2) +'.npz'
 if save:
     np.savez_compressed(filename, H0=H0, J0=J0)
 
