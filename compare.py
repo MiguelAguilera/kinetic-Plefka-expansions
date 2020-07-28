@@ -6,48 +6,52 @@ Created on Wed Dec  5 15:45:08 2018
 @author: maguilera
 """
 
-from mf_ising import mf_ising, mf_ising_roudi
-from kinetic_ising import ising
+from mf_ising import mf_ising
 import numpy as np
 from matplotlib import pyplot as plt
-
+from matplotlib import cm
 
 plt.rc('text', usetex=True)
-font = {'size':15}
-plt.rc('font',**font)
-plt.rc('legend',**{'fontsize':12})
+font = {'size': 15}
+plt.rc('font', **font)
+plt.rc('legend', **{'fontsize': 12})
 
-
-size = 100
-#beta = 0.6
-beta = 0.5
+size=512
 beta = 1.0
-R = 10000
-mode = 'c'
-random_s0=False
-random_s0=True
+R = 500000
+gamma1 = 0.5
+gamma2 = 0.1
+random_s0 = False
+stationary = False
 
-T = 32
-#T=4
-if random_s0:
-    filename = 'data/m-' + mode + '-rs0-s-' + str(size) + '-R-' + str(R) + '-beta-' + str(beta) + '.npz'
-else:
-    filename = 'data/m-' + mode + '-ss0-s-' + str(size) + '-R-' + str(R) + '-beta-' + str(beta) + '.npz'
+
+#labels = [r'P[$t-1,t$]', r'P[$t$]', r'P[$t-1$]',r'P[$\mathbf{C}_t,\mathbf{D}_t$]']
+labels = [r'P[$t-1,t$]', r'P[$t$]', r'P[$t-1$]',r'P2[$t$]']
+
+T = 128
+filename = 'data/m-c-ts0-gamma1-' + str(gamma1) +'-gamma2-' + str(gamma2) + '-s-' + \
+            str(size) + '-R-' + str(R) + '-beta-' + str(beta) + '.npz'
 data = np.load(filename)
 H = data['H']
 J = data['J']
-m_exp = data['m'][:, T]
-C_exp = data['C'][:, :, T]
-D_exp = data['C'][:, :, T]
+m_exp = data['m'][:, T-1]
+C_exp = data['C'][:, :, T-1]
+D_exp = data['D'][:, :, T-2]
 iu1 = np.triu_indices(size, 1)
-s0 = data['s0']
-if not s0 is np.ndarray:
-    s0=None
+s0 = np.array(data['s0'])
+
+if random_s0:
+    s0 = None
+    print(s0)
+else:
+    print(np.mean(s0))
 print('TAP')
+
 I = mf_ising(size)
 I.H = H.copy()
 I.J = J.copy()
 
+print('mP0o2')
 I.initialize_state(s0)
 for t in range(T):
     I.update_P0_o2()
@@ -55,6 +59,7 @@ mP0o2 = I.m.copy()
 CP0o2 = I.C.copy()
 DP0o2 = I.D.copy()
 
+print('mP1o2')
 I.initialize_state(s0)
 for t in range(T):
     I.update_P1_o2()
@@ -62,6 +67,7 @@ mP1o2 = I.m.copy()
 CP1o2 = I.C.copy()
 DP1o2 = I.D.copy()
 
+print('mP1Co2')
 I.initialize_state(s0)
 for t in range(T):
     I.update_P1C_o2()
@@ -69,74 +75,60 @@ mP1Co2 = I.m.copy()
 CP1Co2 = I.C.copy()
 DP1Co2 = I.D.copy()
 
-
-
+print('mP2o1')
 I.initialize_state(s0)
 for t in range(T):
     I.update_P2_o1()
 mP2o1 = I.m.copy()
 CP2o1 = I.C.copy()
 DP2o1 = I.D.copy()
-#I.initialize_state(s0)
-#for t in range(T):
-#    I.update_P2_o2()
-#mP2o2 = I.m.copy()
-#CP2o2 = I.C.copy()
 
-# I.initialize_state()
-# for t in range(T):
-#	I.update_P4_o1()
-# mP4o1=I.m.copy()
-# CP4o1=I.C.copy()
-
-# I.initialize_state()
-# for t in range(T):
-#	I.update_P4_o2()
-# mP4o2=I.m.copy()
-# CP4o2=I.C.copy()
-#
-# I.initialize_state()
-# for t in range(T):
-#	I.update_P5_o2()
-# mP5o2=I.m.copy()
-# CP5o2=I.C.copy()
-
-plt.figure()
+cmap = cm.get_cmap('inferno_r')
+colors=[]
+for i in range(4):
+	colors+=[cmap((i+0.5)/4)]
+plt.figure(figsize=(5, 4),dpi=300)
 plt.plot(sorted(m_exp), sorted(m_exp), 'k.-', lw=1)
+plt.plot(m_exp, mP0o2, 'v',color=colors[0], ms=5, label=labels[0], rasterized=True)
+plt.plot(m_exp, mP1o2, 's',color=colors[1], ms=5,  label=labels[1], rasterized=True)
+plt.plot(m_exp, mP2o1, 'd',color=colors[2], ms=5,  label=labels[2], rasterized=True)
+plt.plot(m_exp, mP1Co2, 'o',color=colors[3], ms=5,  label=labels[3], rasterized=True)
+plt.plot([np.min(m_exp),np.max(m_exp)],[np.min(m_exp),np.max(m_exp)],'k')
+plt.xlabel(r'$m_i^r$', fontsize=18)
+plt.ylabel(r'$m_i^m$', fontsize=18, rotation=0, labelpad=15)
+plt.title(r'$\beta/\beta_c=' + str(beta) + r'$', fontsize=18)
+plt.legend()
+plt.savefig('img/distribution_m-beta_' +
+            str(int(beta * 100)) + '.pdf', bbox_inches='tight')
 
-plt.plot(m_exp, mP1Co2, 'r.')
-plt.plot(m_exp,mP0o2,'b.')
-plt.plot(m_exp, mP1o2, 'g.')
-plt.plot(m_exp,mP2o1,'c.')
-#plt.plot(m_exp,mP2o2,'m.')
-# plt.plot(m_exp,mP4o1,'go',ms=8)
-# plt.plot(m_exp,mP4o2,'r*')
-# plt.plot(m_exp,mP5o2,'g.')
-plt.figure()
 
-plt.plot(C_exp[iu1], CP1Co2[iu1], 'r.')
-plt.plot(C_exp[iu1], CP0o2[iu1], 'b.')
-plt.plot(C_exp[iu1],CP1o2[iu1],'g.')
-plt.plot(C_exp[iu1], CP2o1[iu1], 'c.')
-#plt.plot(C_exp[iu1], CP2o2[iu1], 'm.')
-# plt.plot(C_exp[iu1],CP4o1[iu1],'go')
-# plt.plot(C_exp[iu1],CP4o2[iu1],'g*')
-# plt.plot(C_exp[iu1],CP5o2[iu1],'g.')
+plt.figure(figsize=(5, 4),dpi=300)
+plt.plot(C_exp[iu1], CP0o2[iu1], 'v',color=colors[0], ms=5,  label=labels[0], rasterized=True)
+plt.plot(C_exp[iu1], CP1o2[iu1], 's',color=colors[1], ms=5,  label=labels[1], rasterized=True)
+plt.plot(C_exp[iu1], CP2o1[iu1], 'd',color=colors[2], ms=5,  label=labels[2], rasterized=True)
+plt.plot(C_exp[iu1], CP1Co2[iu1], 'o',color=colors[3], ms=5,  label=labels[3], rasterized=True)
+plt.plot([np.min(C_exp[iu1]),np.max(C_exp[iu1])],[np.min(C_exp[iu1]),np.max(C_exp[iu1])],'k')
+plt.legend()
+plt.xlabel(r'$C_{ij}^r$', fontsize=18)
+plt.ylabel(r'$C_{ij}^m$', fontsize=18, rotation=0, labelpad=15)
+plt.title(r'$\beta/\beta_c=' + str(beta) + r'$', fontsize=18)
+plt.savefig('img/distribution_C-beta_' +
+            str(int(beta * 100)) + '.pdf', bbox_inches='tight')
 
-plt.plot(sorted(C_exp[iu1]), sorted(C_exp[iu1]), 'k.-', lw=1)
+plt.figure(figsize=(5, 4),dpi=300)
+plt.plot(D_exp.flatten(), DP0o2.flatten(), 'v',color=colors[0], ms=5,  label=labels[0], rasterized=True)
+plt.plot(D_exp.flatten(), DP1o2.flatten(), 's',color=colors[1], ms=5,  label=labels[1], rasterized=True)
+plt.plot(D_exp.flatten(), DP2o1.flatten(), 'd',color=colors[2], ms=5,  label=labels[2], rasterized=True)
+plt.plot(D_exp.flatten(), DP1Co2.flatten(), 'o',color=colors[3], ms=5, label=labels[3], rasterized=True)
+plt.plot([np.min(D_exp),np.max(D_exp)],[np.min(D_exp),np.max(D_exp)],'k')
+plt.legend()
+plt.xlabel(r'$D_{ij}^r$', fontsize=18)
+plt.ylabel(r'$D_{ij}^m$', fontsize=18, rotation=0, labelpad=15)
+plt.title(r'$\beta/\beta_c=' + str(beta) + r'$', fontsize=18)
+plt.savefig('img/distribution_D-beta_' +
+            str(int(beta * 100)) + '.pdf', bbox_inches='tight')
 
-plt.figure()
-
-plt.plot(D_exp.flatten(),DP1Co2.flatten(),'r.')
-plt.plot(D_exp.flatten(), DP0o2.flatten(), 'b.')
-plt.plot(D_exp.flatten(),DP1o2.flatten(),'g.')
-plt.plot(D_exp,DP2o1,'c.')
-#plt.plot(C_exp[iu1], CP2o1[iu1], 'c.')
-#plt.plot(C_exp[iu1], CP2o2[iu1], 'm.')
-# plt.plot(C_exp[iu1],CP4o1[iu1],'go')
-
-plt.plot(sorted(D_exp.flatten()), sorted(D_exp.flatten()), 'k.-', lw=1)
-plt.show()
+#plt.show()
 
 #print(np.sqrt(np.sum((C_exp-CP0o2)**2)), np.sqrt(np.sum((C_exp-CP1o2)**2)))
 
