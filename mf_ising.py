@@ -100,7 +100,6 @@ class mf_ising:
         self.m = update_m_P_t1_o1(self.H, self.J, self.m_p)
         self.D = update_D_P_t1_o1(self.H, self.J, self.m_p, self.C_p)
         self.C = update_C_P_t1_o1(self.H, self.J, self.m, self.m_p, self.C_p)
-        print(np.mean(self.m), np.mean(self.C), np.mean(self.D))
 
     def update_P2_t_o1(self):
         """
