@@ -53,56 +53,64 @@ class mf_ising:
         """
         self.J = (offset + np.random.randn(self.size, self.size) * std) / self.size
 
-    def update_P0_o1(self):
+    def update_P_t1_t_o1(self):
         """
         Update mean field Plefka[t-1:t] order 1 approximation
         """
         self.m_p = self.m.copy()
-        self.m = update_m_P0_o1(self.H, self.J, self.m_p)
-        self.C = update_C_P0_o1(self.H, self.J, self.m)
-        self.D = update_D_P0_o1(self.H, self.J, self.m, self.m_p)
+        self.m = update_m_P_t1_t_o1(self.H, self.J, self.m_p)
+        self.C = update_C_P_t1_t_o1(self.H, self.J, self.m)
+        self.D = update_D_P_t1_t_o1(self.H, self.J, self.m, self.m_p)
 
-    def update_P0_o2(self):
+    def update_P_t1_t_o2(self):
         """
         Update mean field Plefka[t-1:t] order 2 approximation
         """
         self.m_p = self.m.copy()
-        self.m = update_m_P0_o2(self.H, self.J, self.m_p)
-        self.C = update_C_P0_o2(self.H, self.J, self.m, self.m_p)
-        self.D = update_D_P0_o2(self.H, self.J, self.m, self.m_p)
+        self.m = update_m_P_t1_t_o2(self.H, self.J, self.m_p)
+        self.C = update_C_P_t1_t_o2(self.H, self.J, self.m, self.m_p)
+        self.D = update_D_P_t1_t_o2(self.H, self.J, self.m, self.m_p)
 
-    def update_P1_o1(self):
+    def update_P_t_o1(self):
         """
         Update mean field Plefka[t] order 1 approximation
         """
         self.m_p = self.m.copy()
         self.C_p = self.C.copy()
-        self.m = update_m_P1_o1(self.H, self.J, self.m_p)
-        self.C = update_C_P1_o1(self.H, self.J, self.m)
-        self.D = update_D_P1_o1(self.H, self.J, self.m, self.C_p)
+        self.m = update_m_P_t_o1(self.H, self.J, self.m_p)
+        self.C = update_C_P_t_o1(self.H, self.J, self.m)
+        self.D = update_D_P_t_o1(self.H, self.J, self.m, self.C_p)
 
-    def update_P1_o2(self):
+    def update_P_t_o2(self):
         """
         Update mean field Plefka[t] order 2 approximation
         """
         self.m_p = self.m.copy()
         self.C_p = self.C.copy()
-        self.m = update_m_P1_o2(self.H, self.J, self.m_p, self.C_p)
-        self.C = update_C_P1_o2(self.H, self.J, self.m, self.C_p)
-        self.D = update_D_P1_o2(self.H, self.J, self.m, self.m_p, self.C_p)
+        self.m = update_m_P_t_o2(self.H, self.J, self.m_p, self.C_p)
+        self.C = update_C_P_t_o2(self.H, self.J, self.m, self.C_p)
+        self.D = update_D_P_t_o2(self.H, self.J, self.m, self.m_p, self.C_p)
 
-    def update_P2_o1(self):
+    def update_P_t1_o1(self):
         """
         Update mean field P[t-1] order 1 approximation
         """
         self.m_p = self.m.copy()
         self.C_p = self.C.copy()
-        self.m = update_m_P2_o1(self.H, self.J, self.m_p)
-        self.D = update_D_P2_o1(self.H, self.J, self.m_p, self.C_p)
-        self.C = update_C_P2_o1(self.H, self.J, self.m, self.m_p, self.C_p)
+        self.m = update_m_P_t1_o1(self.H, self.J, self.m_p)
+        self.D = update_D_P_t1_o1(self.H, self.J, self.m_p, self.C_p)
+        self.C = update_C_P_t1_o1(self.H, self.J, self.m, self.m_p, self.C_p)
         print(np.mean(self.m), np.mean(self.C), np.mean(self.D))
 
-    def update_P1C_o2(self):
+    def update_P2_t_o1(self):
+        """
+        Update pairwise Plefka2[t] order 1 approximation
+        """
+        self.m_p = self.m.copy()
+        self.m, self.C, self.D = update_D_P2_t_o2(
+            self.H, self.J, self.m_p)
+            
+    def update_P2_t_o2(self):
         """
         Update pairwise Plefka2[t] order 2 approximation
         """
@@ -110,12 +118,6 @@ class mf_ising:
         self.C_pp = self.C_p.copy()
         self.C_p = self.C.copy()
         self.D_p = self.D.copy()
-        V_p = np.einsum(
-            'ij,kl,jl->ik',
-            self.J,
-            self.J,
-            self.C_p,
-            optimize=True)
-        self.m, self.C, self.D = update_P1D_o2(
+        self.m, self.C, self.D = update_D_P2_t_o2(
             self.H, self.J, self.m_p, self.C_p, self.D_p)
 

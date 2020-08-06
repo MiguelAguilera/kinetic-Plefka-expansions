@@ -43,28 +43,28 @@ def solve_TAP_eq(x0, H, Vii, TOL=1E-15):
 # PLEFKA[t-1,t], order 1
 
 
-def update_m_P0_o1(H, J, m):
+def update_m_P_t1_t_o1(H, J, m):
     return np.tanh(H + np.dot(J, m))
 
 
-def update_C_P0_o1(H, J, m):
+def update_C_P_t1_t_o1(H, J, m):
     return np.diag(1 - m**2)
 
 
-def update_D_P0_o1(H, J, m, m_p):
+def update_D_P_t1_t_o1(H, J, m, m_p):
     D = np.einsum('i,il,l->il', 1 - m**2, J, 1 - m_p**2, optimize=True)
     return D
 
 # PLEFKA[t-1,t], order 2
 
 
-def update_m_P0_o2(H, J, m):
-    Vii = np.einsum('ij,j->i', J**2, 1 - m**2, optimize=True)
-    h = H + np.dot(J, m)
+def update_m_P_t1_t_o2(H, J, m_p):
+    Vii = np.einsum('ij,j->i', J**2, 1 - m_p**2, optimize=True)
+    Heff = H + np.dot(J, m_p)
     return solve_TAP_eq(m_p.copy(), Heff, Vii)
 
 
-def update_C_P0_o2(H, J, m, m_p):
+def update_C_P_t1_t_o2(H, J, m, m_p):
     C = np.einsum(
         'i,k,ij,kj,j->ik',
         1 - m**2,
@@ -77,7 +77,7 @@ def update_C_P0_o2(H, J, m, m_p):
     return C
 
 
-def update_D_P0_o2(H, J, m, m_p):
+def update_D_P_t1_t_o2(H, J, m, m_p):
     D = np.einsum('i,il,l->il', 1 - m**2, J, 1 - m_p**2, optimize=True)
     D *= 1 + np.einsum('i,il,l->il', m, J, m_p, optimize=True)
     return D
@@ -85,28 +85,28 @@ def update_D_P0_o2(H, J, m, m_p):
 # PLEFKA[t], order 1
 
 
-def update_m_P1_o1(H, J, m):
+def update_m_P_t_o1(H, J, m):
     return np.tanh(H + np.dot(J, m))
 
 
-def update_C_P1_o1(H, J, m_p):
+def update_C_P_t_o1(H, J, m_p):
     return np.diag(1 - m_p**2)
 
 
-def update_D_P1_o1(H, J, m, C_p):
+def update_D_P_t_o1(H, J, m, C_p):
     D = np.einsum('i,ij,jl->il', 1 - m**2, J, C_p, optimize=True)
     return D
 
 # PLEFKA[t], order 2
 
 
-def update_m_P1_o2(H, J, m_p, C_p):
+def update_m_P_t_o2(H, J, m_p, C_p):
     Vii = np.einsum('ij,il,jl->i', J, J, C_p, optimize=True)
     Heff = H + np.dot(J, m_p)
     return solve_TAP_eq(m_p.copy(), Heff, Vii)
 
 
-def update_C_P1_o2(H, J, m, C_p):
+def update_C_P_t_o2(H, J, m, C_p):
     C = np.einsum(
         'i,k,ij,kl,jl->ik',
         1 - m**2,
@@ -119,7 +119,7 @@ def update_C_P1_o2(H, J, m, C_p):
     return np.clip(C, -1, 1)
 
 
-def update_D_P1_o2(H, J, m, m_p, C_p):
+def update_D_P_t_o2(H, J, m, m_p, C_p):
     D = np.einsum('i,ij,jl->il', 1 - m**2, J, C_p, optimize=True)
     D += np.einsum('i,ij, il ,jl,l->il', 2 * m * (1 - m**2),
                    J, J, C_p, m_p, optimize=True)
@@ -154,7 +154,7 @@ def dT1_2(x, g, D):
                                                            np.tanh(g + x * np.sqrt(D))) * (1 - np.tanh(g + x * np.sqrt(D))**2)
 
 
-def update_m_P2_o1(H, J, m_p):
+def update_m_P_t1_o1(H, J, m_p):
     size = len(H)
     m = np.zeros(size)
     g = H + np.dot(J, m_p)
@@ -164,7 +164,7 @@ def update_m_P2_o1(H, J, m_p):
     return m
 
 
-def update_D_P2_o1(H, J, m_p, C_p):
+def update_D_P_t1_o1(H, J, m_p, C_p):
     size = len(H)
     a = np.zeros(size)
     g = H + np.dot(J, m_p)
@@ -187,13 +187,13 @@ def dT2_rot(p, n, gx, gy, Dx, Dy, rho):
             * np.tanh(gy + (p * np.sqrt(1 + rho) - n * np.sqrt(1 - rho)) * np.sqrt(Dy / 2))
 
 
-def update_C_P2_o1(H, J, m, m_p, C_p):
+def update_C_P_t1_o1(H, J, m, m_p, C_p):
     size = len(H)
     C = np.zeros((size, size))
     g = H + np.dot(J, m_p)
     D = np.dot(J**2, 1 - m_p**2)
-    inv_D = 1 / D
-    inv_D[D == 0] = 0
+    inv_D = np.zeros(size)
+    inv_D[D > 0]  = 1 / D[D > 0]
     rho = np.einsum('i,k,ij,kl,jl->ik', np.sqrt(inv_D),
                     np.sqrt(inv_D), J, J, C_p, optimize=True)
     rho = np.clip(rho, -1, 1)
@@ -211,7 +211,7 @@ def update_C_P2_o1(H, J, m, m_p, C_p):
 
 
 # PLEFKA2[t], order 1
-def update_P1D_o1(H, J, m_p):
+def update_D_P2_t_o1(H, J, m_p):
     size = len(H)
     D = np.zeros((size, size))
     m_D = np.zeros(size)
@@ -241,7 +241,7 @@ def diff_TAP_eq_D(x, Jijsj, V_pij):
     return 1 + (1 - np.tanh(x + Jijsj)**2) * V_pij
 
 
-def update_P1D_o2(H, J, m_p, C_p, D_p):
+def update_D_P2_t_o2(H, J, m_p, C_p, D_p):
     size = len(H)
     D = np.zeros((size, size))
     m_D = np.zeros(size)
@@ -313,7 +313,7 @@ def update_P1D_o2(H, J, m_p, C_p, D_p):
 #    return m12,C12
 
 
-# def update_P1C_o2(H, J, m, m_p, C_p):
+# def update_P_t1_t_o2(H, J, m, m_p, C_p):
 #    size = len(H)
 #    V_p = np.einsum('ij,kl,jl->ik', J, J, C_p, optimize=True)
 #    Heff = H + np.dot(J, m_p)
@@ -340,7 +340,7 @@ def update_P1D_o2(H, J, m_p, C_p, D_p):
 #    C12 = np.sum(S1 * S2 * P) - m1 * m2
 #    return m1, m2, C12
 #
-# def update_P1C_o2__(H, J, m, m_p, V_p):
+# def update_P_t1_t_o2__(H, J, m, m_p, V_p):
 #    size = len(H)
 #    m_C = np.zeros(size)
 #    C = np.zeros((size, size))
