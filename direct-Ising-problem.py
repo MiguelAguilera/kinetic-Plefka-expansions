@@ -29,6 +29,8 @@ B = 21
 
 
 betas = 1 + np.linspace(-1, 1, B) * 0.3
+betas=betas[betas>0.78]
+#betas=np.array([1.0])
 for ib in range(len(betas)):
     beta_ref = round(betas[ib], 3)
     beta = beta_ref * beta0
@@ -54,11 +56,6 @@ for ib in range(len(betas)):
     mP2_t_mean = np.ones(T + 1)
     mPexp_mean = np.ones(T + 1)
     mP_t1_mean = np.ones(T + 1)
-    mP_t1_t_std = np.zeros(T + 1)
-    mP_t_std = np.zeros(T + 1)
-    mP2_t_std = np.zeros(T + 1)
-    mP_t1_std = np.zeros(T + 1)
-    mPexp_std = np.zeros(T + 1)
     mP_t1_t_final = np.zeros(size)
     mP_t_final = np.zeros(size)
     mP2_t_final = np.zeros(size)
@@ -70,11 +67,6 @@ for ib in range(len(betas)):
     CP2_t_mean = np.zeros(T + 1)
     CPexp_mean = np.zeros(T + 1)
     CP_t1_mean = np.zeros(T + 1)
-    CP_t1_t_std = np.zeros(T + 1)
-    CP_t_std = np.zeros(T + 1)
-    CP2_t_std = np.zeros(T + 1)
-    CP_t1_std = np.zeros(T + 1)
-    CPexp_std = np.zeros(T + 1)
     CP_t1_t_final = np.zeros((size, size))
     CP_t_final = np.zeros((size, size))
     CP2_t_final = np.zeros((size, size))
@@ -86,11 +78,6 @@ for ib in range(len(betas)):
     DP2_t_mean = np.zeros(T + 1)
     DPexp_mean = np.zeros(T + 1)
     DP_t1_mean = np.zeros(T + 1)
-    DP_t1_t_std = np.zeros(T + 1)
-    DP_t_std = np.zeros(T + 1)
-    DP2_t_std = np.zeros(T + 1)
-    DP_t1_std = np.zeros(T + 1)
-    DPexp_std = np.zeros(T + 1)
     DP_t1_t_final = np.zeros((size, size))
     DP_t_final = np.zeros((size, size))
     DP2_t_final = np.zeros((size, size))
@@ -106,25 +93,22 @@ for ib in range(len(betas)):
     H = data['H']
     J = data['J']
     s0 = data['s0']
+    m_exp=data['m']
+    C_exp=data['C']
+    D_exp=data['D']
+    del data
 
 
     # Load statistical moments from data
     mPexp_mean[0] = 1
     for t in range(T):
-        print('Exp', str(t) + '/' + str(T))
-        m_exp = data['m'][:, t]
-        mPexp_mean[t + 1] = np.mean(m_exp)
-        mPexp_std[t + 1] = np.std(m_exp)
-        C_exp = data['C'][:, :, t]
-        CPexp_mean[t + 1] = np.mean(C_exp[iu1])
-        CPexp_std[t + 1] = np.std(C_exp[iu1])
-        D_exp = data['D'][:, :, t]
-        DPexp_mean[t + 1] = np.mean(D_exp)
-        DPexp_std[t + 1] = np.std(D_exp)
-        print(mPexp_mean[t + 1], CPexp_mean[t + 1], DPexp_mean[t + 1])
-    mPexp_final = m_exp
-    CPexp_final = C_exp
-    DPexp_final = D_exp
+        mPexp_mean[t + 1] = np.mean(m_exp[:, t])
+        CPexp_mean[t + 1] = np.mean(C_exp[:, :, t][iu1])
+        DPexp_mean[t + 1] = np.mean(D_exp[:, :, t])
+        print('Exp', str(t) + '/' + str(T),mPexp_mean[t + 1], CPexp_mean[t + 1], DPexp_mean[t + 1])
+    mPexp_final = m_exp[:, T-1]
+    CPexp_final = C_exp[:, :, T-1]
+    DPexp_final = D_exp[:, :, T-1]
 
 
     # Initialize kinetic Ising model
@@ -138,18 +122,14 @@ for ib in range(len(betas)):
     time_start = time.perf_counter()
     I.initialize_state(s0)
     for t in range(T):
-        print('beta',beta_ref,'P_t1_t_o2', str(t) + '/' + str(T))
         I.update_P_t1_t_o2()
         CP_t1_t_mean[t + 1] = np.mean(I.C[iu1])
-        CP_t1_t_std[t + 1] = np.std(I.C[iu1])
         mP_t1_t_mean[t + 1] = np.mean(I.m)
-        mP_t1_t_std[t + 1] = np.std(I.m)
         DP_t1_t_mean[t + 1] = np.mean(I.D)
-        DP_t1_t_std[t + 1] = np.std(I.D)
-        EmP_t1_t[t + 1] = np.mean((I.m - data['m'][:, t])**2)
-        ECP_t1_t[t + 1] = np.mean((I.C[iu1] - data['C'][:, :, t][iu1])**2)
+        EmP_t1_t[t + 1] = np.mean((I.m - m_exp[:, t])**2)
+        ECP_t1_t[t + 1] = np.mean((I.C[iu1] - C_exp[:, :, t][iu1])**2)
         EDP_t1_t[t + 1] = np.mean((I.D - data['D'][:, :, t])**2)
-        print(mP_t1_t_mean[t + 1], CP_t1_t_mean[t + 1], DP_t1_t_mean[t + 1])
+        print('beta',beta_ref,'P_t1_t_o2', str(t) + '/' + str(T),mP_t1_t_mean[t + 1], CP_t1_t_mean[t + 1], DP_t1_t_mean[t + 1], EmP_t1_t[t + 1],ECP_t1_t[t + 1],EDP_t1_t[t + 1])
     mP_t1_t_final = I.m
     CP_t1_t_final = I.C
     DP_t1_t_final = I.D
@@ -159,18 +139,14 @@ for ib in range(len(betas)):
     time_start = time.perf_counter()
     I.initialize_state(s0)
     for t in range(T):
-        print('beta',beta_ref,'P_t_o2', str(t) + '/' + str(T))
         I.update_P_t_o2()
         CP_t_mean[t + 1] = np.mean(I.C[iu1])
-        CP_t_std[t + 1] = np.std(I.C[iu1])
         mP_t_mean[t + 1] = np.mean(I.m)
-        mP_t_std[t + 1] = np.std(I.m)
         DP_t_mean[t + 1] = np.mean(I.D)
-        DP_t_std[t + 1] = np.std(I.D)
-        EmP_t[t + 1] = np.mean((I.m - data['m'][:, t])**2)
-        ECP_t[t + 1] = np.mean((I.C[iu1] - data['C'][:, :, t][iu1])**2)
-        EDP_t[t + 1] = np.mean((I.D - data['D'][:, :, t])**2)
-        print(mP_t_mean[t + 1], CP_t_mean[t + 1], DP_t_mean[t + 1])
+        EmP_t[t + 1] = np.mean((I.m - m_exp[:, t])**2)
+        ECP_t[t + 1] = np.mean((I.C[iu1] - C_exp[:, :, t][iu1])**2)
+        EDP_t[t + 1] = np.mean((I.D - D_exp[:, :, t])**2)
+        print('beta',beta_ref,'P_t_o2', str(t) + '/' + str(T),mP_t_mean[t + 1], CP_t_mean[t + 1], DP_t_mean[t + 1],EmP_t[t + 1],ECP_t[t + 1],EDP_t[t + 1])
     mP_t_final = I.m
     CP_t_final = I.C
     DP_t_final = I.D
@@ -180,18 +156,14 @@ for ib in range(len(betas)):
     time_start = time.perf_counter()
     I.initialize_state(s0)
     for t in range(T):
-        print('beta',beta_ref,'P2_t_o2', str(t) + '/' + str(T))
         I.update_P2_t_o2()
         CP2_t_mean[t + 1] = np.mean(I.C[iu1])
-        CP2_t_std[t + 1] = np.std(I.C[iu1])
         mP2_t_mean[t + 1] = np.mean(I.m)
-        mP2_t_std[t + 1] = np.std(I.m)
         DP2_t_mean[t + 1] = np.mean(I.D)
-        DP2_t_std[t + 1] = np.std(I.D)
-        EmP2_t[t + 1] = np.mean((I.m - data['m'][:, t])**2)
-        ECP2_t[t + 1] = np.mean((I.C[iu1] - data['C'][:, :, t][iu1])**2)
-        EDP2_t[t + 1] = np.mean((I.D - data['D'][:, :, t])**2)
-        print(mP2_t_mean[t + 1], CP2_t_mean[t + 1], DP2_t_mean[t + 1])
+        EmP2_t[t + 1] = np.mean((I.m - m_exp[:, t])**2)
+        ECP2_t[t + 1] = np.mean((I.C[iu1] - C_exp[:, :, t][iu1])**2)
+        EDP2_t[t + 1] = np.mean((I.D - D_exp[:, :, t])**2)
+        print('beta',beta_ref,'P2_t_o2', str(t) + '/' + str(T), mP2_t_mean[t + 1], CP2_t_mean[t + 1], DP2_t_mean[t + 1],EmP2_t[t + 1],ECP2_t[t + 1],EDP2_t[t + 1])
     mP2_t_final = I.m
     CP2_t_final = I.C
     DP2_t_final = I.D
@@ -201,17 +173,14 @@ for ib in range(len(betas)):
     time_start = time.perf_counter()
     I.initialize_state(s0)
     for t in range(T):
-        print('beta',beta_ref,'P_t1_o1', str(t) + '/' + str(T))
         I.update_P_t1_o1()
         CP_t1_mean[t + 1] = np.mean(I.C[iu1])
-        CP_t1_std[t + 1] = np.std(I.C[iu1])
         mP_t1_mean[t + 1] = np.mean(I.m)
-        mP_t1_std[t + 1] = np.std(I.m)
         DP_t1_mean[t + 1] = np.mean(I.D)
-        DP_t1_std[t + 1] = np.std(I.D)
-        EmP_t1[t + 1] = np.mean((I.m - data['m'][:, t])**2)
-        ECP_t1[t + 1] = np.mean((I.C[iu1] - data['C'][:, :, t][iu1])**2)
-        EDP_t1[t + 1] = np.mean((I.D - data['D'][:, :, t])**2)
+        EmP_t1[t + 1] = np.mean((I.m - m_exp[:, t])**2)
+        ECP_t1[t + 1] = np.mean((I.C[iu1] - C_exp[:, :, t][iu1])**2)
+        EDP_t1[t + 1] = np.mean((I.D - D_exp[:, :, t])**2)
+        print('beta',beta_ref,'P_t1_o1', str(t) + '/' + str(T), mP_t1_mean[t + 1], CP_t1_mean[t + 1], DP_t1_mean[t + 1],EmP_t1[t + 1],ECP_t1[t + 1],EDP_t1[t + 1])
     mP_t1_final = I.m
     CP_t1_final = I.C
     DP_t1_final = I.D
@@ -219,12 +188,11 @@ for ib in range(len(betas)):
 
     # Save results to file
 
-    filename = 'img/compare-T_' + \
-        str(int(beta_ref * 100)) + '_size_' + str(size) + '.npz'
+    filename = 'data/results/direct_' + str(int(beta_ref * 100)) +'_R_' + str(R) +'.npz'
     np.savez_compressed(filename,
-                        m_exp=data['m'][:, t],
-                        C_exp=data['C'][:, :, t],
-                        D_exp=data['D'][:, :, t],
+                        m_exp=m_exp[:, T-1],
+                        C_exp=C_exp[:, :, T-1],
+                        D_exp=D_exp[:, :, T-1],
                         mP_t1_t_mean=mP_t1_t_mean,
                         mP_t_mean=mP_t_mean,
                         mP_t1_mean=mP_t1_mean,
@@ -237,18 +205,6 @@ for ib in range(len(betas)):
                         DP_t_mean=DP_t_mean,
                         DP_t1_mean=DP_t1_mean,
                         DP2_t_mean=DP2_t_mean,
-                        mP_t1_t_std=mP_t1_t_std,
-                        mP_t_std=mP_t_std,
-                        mP_t1_std=mP_t1_std,
-                        mP2_t_std=mP2_t_std,
-                        CP_t1_t_std=CP_t1_t_std,
-                        CP_t_std=CP_t_std,
-                        CP_t1_std=CP_t1_std,
-                        CP2_t_std=CP2_t_std,
-                        DP_t1_t_std=DP_t1_t_std,
-                        DP_t_std=DP_t_std,
-                        DP_t1_std=DP_t1_std,
-                        DP2_t_std=DP2_t_std,
                         mPexp_mean=mPexp_mean,
                         CPexp_mean=CPexp_mean,
                         DPexp_mean=DPexp_mean,
@@ -275,7 +231,7 @@ for ib in range(len(betas)):
                         EDP_t1_t=EDP_t1_t,
                         EDP_t=EDP_t,
                         EDP_t1=EDP_t1,
-                        EDP2_t=EDP2,
+                        EDP2_t=EDP2_t,
                         time_P_t1_t=time_P_t1_t,
                         time_P_t=time_P_t,
                         time_P_t1=time_P_t1,
