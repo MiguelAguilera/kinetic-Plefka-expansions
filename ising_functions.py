@@ -246,7 +246,7 @@ def update_D_P2_t_o2(H, J, m_p, C_p, D_p):
     D = np.zeros((size, size))
     m_D = np.zeros(size)
     C_D = np.zeros((size, size))
-    t2 = np.zeros(size)
+    t2 = np.zeros((size, size))
 
     Heff = H + np.dot(J, m_p)
     V_p = np.einsum('ij,il,jl->i', J, J, C_p, optimize=True)
@@ -263,10 +263,10 @@ def update_D_P2_t_o2(H, J, m_p, C_p, D_p):
     Heff_i -= m_pil * W_pil
     Delta_il = J + W_pil
 
-    inds = np.zeros((size, size), int)
-    for i in range(size):
-        for k in range(i + 1, size):
-            inds[i, k] = np.argmax(np.abs(Delta_il[i, :] * Delta_il[k, :]))
+#    inds = np.zeros((size, size), int)
+#    for i in range(size):
+#        for k in range(i + 1, size):
+#            inds[i, k] = np.argmax(np.abs(Delta_il[i, :] * Delta_il[k, :]))
 
     for sl in [-1, 1]:
         Theta = Heff_i.copy()
@@ -280,17 +280,49 @@ def update_D_P2_t_o2(H, J, m_p, C_p, D_p):
             ind = np.argmax(np.abs(TAP))
         D += np.tanh(Theta + Delta_il * sl) * sl * (1 + sl * m_pil) / 2
         m_i += np.tanh(Theta + Delta_il * sl) * (1 + sl * m_pil) / 2
-        t2 += np.diag(np.tanh(Theta + Delta_il * sl)**2 * (1 + sl * m_pil) / 2)
+#        t2 += np.tanh(Theta + Delta_il * sl)**2 * (1 + sl * m_pil) / 2
 
     D -= m_i * m_pil
-    m_D = np.diag(m_i)
+#    m_D = np.diag(m_i)
+    m_D = np.einsum('il->i',m_i/size, optimize=True)
+    return m_D, D
+#    V_ik = np.einsum('ij,kl,jl->ik', J, J, C_p, optimize=True)
+#    V_ik -= np.einsum('ii,kl,il->ik', J, J, C_p, optimize=True) + \
+#        np.einsum('ij,kk,jk->ik', J, J, C_p, optimize=True)
+##    C_D = np.einsum('i,j,ij->ij', np.diag(1 - t2), np.diag(1 - t2), V_ik, optimize=True)
+#    C_D = np.einsum('il,jn,ij->ij', (1 - t2)/size, (1 - t2)/size, V_ik, optimize=True)
+#    np.einsum('ii->i', C_D)[:] = 1 - m_D**2
+#    return m_D, C_D, D
+    
+def update_C_P2_t_o2(H, J, m, m_p, C_p):
+    size = len(H)
+    C_D = np.zeros((size, size))
 
-    V_ik = np.einsum('ij,kl,jl->ik', J, J, C_p, optimize=True)
-    V_ik -= np.einsum('ii,kl,il->ik', J, J, C_p, optimize=True) + \
-        np.einsum('ij,kk,jk->ik', J, J, C_p, optimize=True)
-    C_D = np.einsum('i,j,ij->ij', 1 - t2, 1 - t2, V_ik, optimize=True)
-    np.einsum('ii->i', C_D)[:] = 1 - m_D**2
-    return m_D, C_D, D
+    Heff = H + np.dot(J, m_p)
+    V_p = np.einsum('ij,il,jl->i', J, J, C_p, optimize=True)
+    W_p = np.einsum('ij,kl,jl->ik', J, J, C_p, optimize=True)
+
+    m_i = np.zeros((size, size))
+    m_pik = np.einsum('k,ik->ik', m_p, np.ones((size, size)))
+    Heff_i = np.einsum('i,il->il', Heff, np.ones((size, size)))
+    Delta_ik = W_p
+    
+
+    for sk in [-1, 1]:
+        Theta = Heff_i.copy()
+        error = np.max(np.abs(TAP_eq_D(Theta, Heff_i, Delta_ik * sk, V_p)))
+        count = 0
+        while error > 1E-15:
+            TAP = TAP_eq_D(Theta, Heff_i, Delta_ik * sk, V_p)
+            dTAP = diff_TAP_eq_D(Theta, Delta_ik * sk, V_p)
+            Theta -= TAP / dTAP
+            error = np.max(np.abs(TAP))
+            ind = np.argmax(np.abs(TAP))
+        C_D += np.tanh(Theta + Delta_ik * sk) * (sk - m_pik) * (1 + sk * m_pik) / 2
+    
+    C_D = 0.5*(C_D + C_D.T)
+    np.einsum('ii->i', C_D)[:] = 1 - m**2
+    return C_D
 
 # PLEFKA_C (Old code from https://arxiv.org/abs/2002.04309v1)
 # def correlation_Ising_2nodes(Heff_i, Heff_j, Jeff):

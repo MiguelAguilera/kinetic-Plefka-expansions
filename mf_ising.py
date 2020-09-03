@@ -114,9 +114,10 @@ class mf_ising:
         Update pairwise Plefka2[t] order 2 approximation
         """
         self.m_p = self.m.copy()
-        self.C_pp = self.C_p.copy()
         self.C_p = self.C.copy()
         self.D_p = self.D.copy()
-        self.m, self.C, self.D = update_D_P2_t_o2(
-            self.H, self.J, self.m_p, self.C_p, self.D_p)
+#        self.m, self.C, self.D = update_D_P2_t_o2(
+#            self.H, self.J, self.m_p, self.C_p, self.D_p)
+        self.m, self.D = update_D_P2_t_o2(self.H, self.J, self.m_p, self.C_p, self.D_p)
+        self.C = update_C_P2_t_o2(self.H, self.J, self.m, self.m_p, self.C_p)
 
