@@ -232,14 +232,27 @@ def update_D_P2_t_o1(H, J, m_p):
 
 # PLEFKA2[t], order 2
 
+#def TAP_eq_D(x, Heff_i, Jijsj, V_pij):
+#    return x - Heff_i + np.tanh(x + Jijsj) * V_pij
 
-def TAP_eq_D(x, Heff_i, Jijsj, V_pij):
-    return x - Heff_i + np.tanh(x + Jijsj) * V_pij
+#def diff_TAP_eq_D(x, Jijsj, V_pij):
+#    return 1 + (1 - np.tanh(x + Jijsj)**2) * V_pij
+    
+def TAP_eq_D(x, Heff, V):
+    return x - Heff + np.tanh(x) * V
 
+def diff_TAP_eq_D(x, V):
+    return 1 + (1 - np.tanh(x)**2) * V
 
-def diff_TAP_eq_D(x, Jijsj, V_pij):
-    return 1 + (1 - np.tanh(x + Jijsj)**2) * V_pij
-
+def solve_TAP_eq_D(x0, Heff, V, TOL=1E-15):
+    x = x0.copy()
+    error = np.max(np.abs(TAP_eq_D(x, Heff, V)))
+    while error > TOL:
+        TAP = TAP_eq_D(x, Heff, V)
+        dTAP = diff_TAP_eq_D(x, V)
+        x -= TAP / dTAP
+        error = np.max(np.abs(TAP))
+    return x
 
 def update_D_P2_t_o2(H, J, m_p, C_p, D_p):
     size = len(H)
@@ -249,19 +262,21 @@ def update_D_P2_t_o2(H, J, m_p, C_p, D_p):
     t2 = np.zeros((size, size))
 
     Heff = H + np.dot(J, m_p)
-    V_p = np.einsum('ij,il,jl->i', J, J, C_p, optimize=True)
+    Heff_i = np.einsum('i,il->il', Heff, np.ones((size, size)))
+    V_p = np.einsum('ij,in,jn->i', J, J, C_p, optimize=True)
     W_p = np.einsum('ij,ln,jn->il', J, J, D_p, optimize=True)
 
     m_i = np.zeros((size, size))
     m_pil = np.einsum('l,il->il', m_p, np.ones((size, size)))
-    V_pil = np.einsum('i,ij->ij', V_p, np.ones((size, size)))
-    V_pil -= 2 * J * np.einsum('il,ln->il', J, C_p)
-    V_pil += np.einsum('ij,jj->ij', J**2, C_p)
+    V_pil = np.einsum('i,il->il', V_p, np.ones((size, size)))
+    V_pil -= 2 * np.einsum('il,in,ln->il', J, J, C_p)
+    V_pil += np.einsum('il,ll->il', J**2, C_p)
     W_pil = W_p - np.einsum('il,ln,ln->il', J, J, D_p, optimize=True)
-    Heff_i = np.einsum('i,il->il', Heff, np.ones((size, size)))
-    Heff_i -= J * m_pil
-    Heff_i -= m_pil * W_pil
+    
+#    Heff_i -= J * m_pil
+#    Heff_i -= m_pil * W_pil
     Delta_il = J + W_pil
+    
 
 #    inds = np.zeros((size, size), int)
 #    for i in range(size):
@@ -269,17 +284,19 @@ def update_D_P2_t_o2(H, J, m_p, C_p, D_p):
 #            inds[i, k] = np.argmax(np.abs(Delta_il[i, :] * Delta_il[k, :]))
 
     for sl in [-1, 1]:
-        Theta = Heff_i.copy()
-        error = np.max(np.abs(TAP_eq_D(Theta, Heff_i, Delta_il * sl, V_pil)))
-        count = 0
-        while error > 1E-15:
-            TAP = TAP_eq_D(Theta, Heff_i, Delta_il * sl, V_pil)
-            dTAP = diff_TAP_eq_D(Theta, Delta_il * sl, V_pil)
-            Theta -= TAP / dTAP
-            error = np.max(np.abs(TAP))
-            ind = np.argmax(np.abs(TAP))
-        D += np.tanh(Theta + Delta_il * sl) * sl * (1 + sl * m_pil) / 2
-        m_i += np.tanh(Theta + Delta_il * sl) * (1 + sl * m_pil) / 2
+        Heff_il = Heff_i + Delta_il*(sl-m_pil)
+        Theta = solve_TAP_eq_D(Heff_il, Heff_il, V_pil)
+#        Theta = Heff_i.copy()
+#        error = np.max(np.abs(TAP_eq_D(Theta, Heff_i, Delta_il * sl, V_pil)))
+#        count = 0
+#        while error > 1E-15:
+#            TAP = TAP_eq_D(Theta, Heff_i, Delta_il * sl, V_pil)
+#            dTAP = diff_TAP_eq_D(Theta, Delta_il * sl, V_pil)
+#            Theta -= TAP / dTAP
+#            error = np.max(np.abs(TAP))
+#            ind = np.argmax(np.abs(TAP))
+        D += np.tanh(Theta) * sl * (1 + sl * m_pil) / 2
+        m_i += np.tanh(Theta) * (1 + sl * m_pil) / 2
 #        t2 += np.tanh(Theta + Delta_il * sl)**2 * (1 + sl * m_pil) / 2
 
     D -= m_i * m_pil
@@ -300,6 +317,7 @@ def update_C_P2_t_o2(H, J, m, m_p, C_p):
 
     Heff = H + np.dot(J, m_p)
     V_p = np.einsum('ij,il,jl->i', J, J, C_p, optimize=True)
+    V_pik = np.einsum('i,ik->ik', V_p, np.ones((size, size)))
     W_p = np.einsum('ij,kl,jl->ik', J, J, C_p, optimize=True)
 
     m_i = np.zeros((size, size))
@@ -309,16 +327,18 @@ def update_C_P2_t_o2(H, J, m, m_p, C_p):
     
 
     for sk in [-1, 1]:
-        Theta = Heff_i.copy()
-        error = np.max(np.abs(TAP_eq_D(Theta, Heff_i, Delta_ik * sk, V_p)))
-        count = 0
-        while error > 1E-15:
-            TAP = TAP_eq_D(Theta, Heff_i, Delta_ik * sk, V_p)
-            dTAP = diff_TAP_eq_D(Theta, Delta_ik * sk, V_p)
-            Theta -= TAP / dTAP
-            error = np.max(np.abs(TAP))
-            ind = np.argmax(np.abs(TAP))
-        C_D += np.tanh(Theta + Delta_ik * sk) * (sk - m_pik) * (1 + sk * m_pik) / 2
+        Heff_ik = Heff_i + Delta_ik*(sk-m_pik)
+        Theta = solve_TAP_eq_D(Heff_ik, Heff_ik, V_pik)
+#        Theta = Heff_i.copy()
+#        error = np.max(np.abs(TAP_eq_D(Theta, Heff_i, Delta_ik * (sk-m_pik), V_p)))
+#        count = 0
+#        while error > 1E-15:
+#            TAP = TAP_eq_D(Theta, Heff_i, Delta_ik * (sk-m_pik), V_p)
+#            dTAP = diff_TAP_eq_D(Theta, Delta_ik * (sk-m_pik), V_p)
+#            Theta -= TAP / dTAP
+#            error = np.max(np.abs(TAP))
+#            ind = np.argmax(np.abs(TAP))
+        C_D += np.tanh(Theta) * (sk - m_pik) * (1 + sk * m_pik) / 2
     
     C_D = 0.5*(C_D + C_D.T)
     np.einsum('ii->i', C_D)[:] = 1 - m**2
