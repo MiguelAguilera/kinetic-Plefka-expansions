@@ -64,25 +64,22 @@ def main():
     for phase in range(1):
         shuffled_steps = np.random.permutation(T0)
         if phase==0:
-            etaH = eta * 0.2
+#            etaH = eta * 0.2
+            etaH = eta
             etaJ = eta / size**0.5
-            rel_error_ref = 0.02
         else:
             etaH = eta * 0.1
             etaJ = eta / size**0.5 * 0.1
-            rel_error_ref = 0.02 * 0.1
-        
-        rel_error_ref = 0.02 * 0.2**(phase)
         
         print('Initiate phase',phase, '- eta =' , eta)
         if phase ==0:
-            HP_t1_t_0 = np.arctanh(m_exp[:, T-2])
+            HP_t1_t_0 = np.zeros(size)
             JP_t1_t_0 = np.zeros((size,size))
-            HP_t_0 = np.arctanh(m_exp[:, T-2])
+            HP_t_0 = np.zeros(size)
             JP_t_0 = np.zeros((size,size))
-            HP_t1_0 = np.arctanh(m_exp[:, T-2])
+            HP_t1_0 = np.zeros(size)
             JP_t1_0 = np.zeros((size,size))
-            HP2_t_0 = np.arctanh(m_exp[:, T-2])
+            HP2_t_0 = np.zeros(size)
             JP2_t_0 = np.zeros((size,size))
         else:
             filename = 'data/results/inverse_' + str(int(beta_ref * 100)) +'_R_' + str(R) +'_phase_' + str(phase-1) + '.npz'
@@ -128,7 +125,8 @@ def main():
                 I.m_p = m_exp[:, t]
                 I.m = update_m_P_t1_t_o2(I.H, I.J, I.m_p)
                 I.D = update_D_P_t1_t_o2(I.H, I.J, I.m, I.m_p)
-                DJ =  (D_exp[:, :, t + 1] + np.einsum('i,j->ij',m_exp[:, t + 1],I.m_p,optimize=True)) - (I.D + np.einsum('i,j->ij',I.m,I.m_p,optimize=True))
+#                DJ =  (D_exp[:, :, t + 1] + np.einsum('i,j->ij',m_exp[:, t + 1],I.m_p,optimize=True)) - (I.D + np.einsum('i,j->ij',I.m,I.m_p,optimize=True))
+                DJ =  D_exp[:, :, t + 1] - I.D 
                 DH = m_exp[:, t + 1] - I.m
                 I.H += etaH * DH 
                 I.J += etaJ * DJ 
@@ -166,7 +164,8 @@ def main():
                 I.C_p = C_exp[:, :, t]
                 I.m = update_m_P_t_o2(I.H, I.J, I.m_p, I.C_p)
                 I.D = update_D_P_t_o2(I.H, I.J, I.m, I.m_p, I.C_p)
-                DJ =  (D_exp[:, :, t + 1] + np.einsum('i,j->ij',m_exp[:, t + 1],I.m_p,optimize=True)) - (I.D + np.einsum('i,j->ij',I.m,I.m_p,optimize=True))
+#                DJ =  (D_exp[:, :, t + 1] + np.einsum('i,j->ij',m_exp[:, t + 1],I.m_p,optimize=True)) - (I.D + np.einsum('i,j->ij',I.m,I.m_p,optimize=True))
+                DJ =  D_exp[:, :, t + 1] - I.D 
                 DH = m_exp[:, t + 1] - I.m
                 I.J += etaJ * DJ
                 I.H += etaH * DH
@@ -204,7 +203,8 @@ def main():
                 I.C_p = C_exp[:, :, t]
                 I.D_p = D_exp[:, :, t]
                 I.m, I.D = update_D_P2_t_o2(I.H, I.J, I.m_p, I.C_p, I.D_p)
-                DJ =  (D_exp[:, :, t + 1] + np.einsum('i,j->ij',m_exp[:, t + 1],I.m_p,optimize=True)) - (I.D + np.einsum('i,j->ij',I.m,I.m_p,optimize=True))
+#                DJ =  (D_exp[:, :, t + 1] + np.einsum('i,j->ij',m_exp[:, t + 1],I.m_p,optimize=True)) - (I.D + np.einsum('i,j->ij',I.m,I.m_p,optimize=True))
+                DJ =  D_exp[:, :, t + 1] - I.D 
                 DH = m_exp[:, t + 1] - I.m
                 I.J += etaJ * DJ
                 I.H += etaH * DH
@@ -250,7 +250,8 @@ def main():
                 I.C_p = C_exp[:, :, t]
                 I.m = update_m_P_t1_o1(I.H, I.J, I.m_p)
                 I.D = update_D_P_t1_o1(I.H, I.J, I.m_p, I.C_p)
-                DJ =  (D_exp[:, :, t + 1] + np.einsum('i,j->ij',m_exp[:, t + 1],I.m_p,optimize=True)) - (I.D + np.einsum('i,j->ij',I.m,I.m_p,optimize=True))
+#                DJ =  (D_exp[:, :, t + 1] + np.einsum('i,j->ij',m_exp[:, t + 1],I.m_p,optimize=True)) - (I.D + np.einsum('i,j->ij',I.m,I.m_p,optimize=True))
+                DJ =  D_exp[:, :, t + 1] - I.D 
                 DH = m_exp[:, t + 1] - I.m
                 I.J += etaJ * DJ
                 I.H += etaH * DH
