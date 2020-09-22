@@ -19,7 +19,7 @@ def nsf(num, n=4):
 
 size = 512
 
-R = 100000
+R = 500000
 mode = 'c'
 gamma1 = 0.5
 gamma2 = 0.1
