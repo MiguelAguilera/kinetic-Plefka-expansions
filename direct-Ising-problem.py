@@ -12,28 +12,27 @@ from matplotlib import pyplot as plt
 from matplotlib import cm
 import time
 
+def nsf(num, n=4):
+    """n-Significant Figures"""
+    numstr = ("{0:.%ie}" % (n-1)).format(num)
+    return float(numstr)
 
 size = 512
 
-R = 500000
+R = 100000
 mode = 'c'
 gamma1 = 0.5
 gamma2 = 0.1
 
 T = 128
 iu1 = np.triu_indices(size, 1)
-
-if gamma1 == 0.5 and gamma2 == 0.1:
-    beta0 = 1.1123
 B = 21
 
 
 betas = 1 + np.linspace(-1, 1, B) * 0.3
-betas=betas[betas>0.78]
 #betas=np.array([1.0])
 for ib in range(len(betas)):
     beta_ref = round(betas[ib], 3)
-    beta = beta_ref * beta0
 
     EmP_t1_t = np.zeros(T + 1)
     EmP_t = np.zeros(T + 1)
@@ -86,7 +85,7 @@ for ib in range(len(betas)):
 
 
     # Load data
-    filename = 'data/m-c-ts0-gamma1-' + str(gamma1) + '-gamma2-' + str(
+    filename = 'data/data-gamma1-' + str(gamma1) + '-gamma2-' + str(
         gamma2) + '-s-' + str(size) + '-R-' + str(R) + '-beta-' + str(beta_ref) + '.npz'
     print(filename)
     data = np.load(filename)
@@ -128,8 +127,8 @@ for ib in range(len(betas)):
         DP_t1_t_mean[t + 1] = np.mean(I.D)
         EmP_t1_t[t + 1] = np.mean((I.m - m_exp[:, t])**2)
         ECP_t1_t[t + 1] = np.mean((I.C[iu1] - C_exp[:, :, t][iu1])**2)
-        EDP_t1_t[t + 1] = np.mean((I.D - data['D'][:, :, t])**2)
-        print('beta',beta_ref,'P_t1_t_o2', str(t) + '/' + str(T),mP_t1_t_mean[t + 1], CP_t1_t_mean[t + 1], DP_t1_t_mean[t + 1], EmP_t1_t[t + 1],ECP_t1_t[t + 1],EDP_t1_t[t + 1])
+        EDP_t1_t[t + 1] = np.mean((I.D - D_exp[:, :, t])**2)
+        print('beta',beta_ref,'P_t1_t_o2', str(t) + '/' + str(T), nsf(mP_t1_t_mean[t + 1]), nsf(CP_t1_t_mean[t + 1]), nsf(DP_t1_t_mean[t + 1]), nsf(EmP_t1_t[t + 1]), nsf(ECP_t1_t[t + 1]), nsf(EDP_t1_t[t + 1]))
     mP_t1_t_final = I.m
     CP_t1_t_final = I.C
     DP_t1_t_final = I.D
@@ -146,7 +145,7 @@ for ib in range(len(betas)):
         EmP_t[t + 1] = np.mean((I.m - m_exp[:, t])**2)
         ECP_t[t + 1] = np.mean((I.C[iu1] - C_exp[:, :, t][iu1])**2)
         EDP_t[t + 1] = np.mean((I.D - D_exp[:, :, t])**2)
-        print('beta',beta_ref,'P_t_o2', str(t) + '/' + str(T),mP_t_mean[t + 1], CP_t_mean[t + 1], DP_t_mean[t + 1],EmP_t[t + 1],ECP_t[t + 1],EDP_t[t + 1])
+        print('beta',beta_ref,'P_t_o2', str(t) + '/' + str(T), nsf(mP_t_mean[t + 1]), nsf(CP_t_mean[t + 1]), nsf(DP_t_mean[t + 1]), nsf(EmP_t[t + 1]), nsf(ECP_t[t + 1]), nsf(EDP_t[t + 1]))
     mP_t_final = I.m
     CP_t_final = I.C
     DP_t_final = I.D
@@ -163,7 +162,7 @@ for ib in range(len(betas)):
         EmP2_t[t + 1] = np.mean((I.m - m_exp[:, t])**2)
         ECP2_t[t + 1] = np.mean((I.C[iu1] - C_exp[:, :, t][iu1])**2)
         EDP2_t[t + 1] = np.mean((I.D - D_exp[:, :, t])**2)
-        print('beta',beta_ref,'P2_t_o2', str(t) + '/' + str(T), mP2_t_mean[t + 1], CP2_t_mean[t + 1], DP2_t_mean[t + 1],EmP2_t[t + 1],ECP2_t[t + 1],EDP2_t[t + 1])
+        print('beta',beta_ref,'P2_t_o2', str(t) + '/' + str(T), nsf(mP2_t_mean[t + 1]), nsf(CP2_t_mean[t + 1]), nsf(DP2_t_mean[t + 1]), nsf(EmP2_t[t + 1]), nsf(ECP2_t[t + 1]), nsf(EDP2_t[t + 1]))
     mP2_t_final = I.m
     CP2_t_final = I.C
     DP2_t_final = I.D
@@ -180,7 +179,7 @@ for ib in range(len(betas)):
         EmP_t1[t + 1] = np.mean((I.m - m_exp[:, t])**2)
         ECP_t1[t + 1] = np.mean((I.C[iu1] - C_exp[:, :, t][iu1])**2)
         EDP_t1[t + 1] = np.mean((I.D - D_exp[:, :, t])**2)
-        print('beta',beta_ref,'P_t1_o1', str(t) + '/' + str(T), mP_t1_mean[t + 1], CP_t1_mean[t + 1], DP_t1_mean[t + 1],EmP_t1[t + 1],ECP_t1[t + 1],EDP_t1[t + 1])
+        print('beta',beta_ref,'P_t1_o1', str(t) + '/' + str(T), nsf(mP_t1_mean[t + 1]), nsf(CP_t1_mean[t + 1]), nsf(DP_t1_mean[t + 1]), nsf(EmP_t1[t + 1]), nsf(ECP_t1[t + 1]), nsf(EDP_t1[t + 1]))
     mP_t1_final = I.m
     CP_t1_final = I.C
     DP_t1_final = I.D
@@ -253,7 +252,7 @@ for ib in range(len(betas)):
     plt.plot(steps, EmP_t, 'g', label=labels[1])
     plt.plot(steps, EmP_t1, 'm', label=labels[2])
     plt.plot(steps, EmP2_t, 'r', label=labels[3])
-    plt.title(r'$\beta/\beta_c=' + str(beta) + r'$', fontsize=18)
+    plt.title(r'$\beta/\beta_c=' + str(beta_ref) + r'$', fontsize=18)
     plt.xlabel(r'$t$', fontsize=18)
     plt.ylabel(r'$MSE[\textbf{m}_t]$', fontsize=18, rotation=0, labelpad=30)
     plt.legend()
@@ -266,7 +265,7 @@ for ib in range(len(betas)):
     plt.plot(steps, ECP_t, 'g', label=labels[1])
     plt.plot(steps, ECP_t1, 'm', label=labels[2])
     plt.plot(steps, ECP2_t, 'r', label=labels[3])
-    plt.title(r'$\beta/\beta_c=' + str(beta) + r'$', fontsize=18)
+    plt.title(r'$\beta/\beta_c=' + str(beta_ref) + r'$', fontsize=18)
     plt.xlabel(r'$t$', fontsize=18)
     plt.ylabel(r'$MSE[\textbf{C}_t]$', fontsize=18, rotation=0, labelpad=30)
     plt.legend()
@@ -278,7 +277,7 @@ for ib in range(len(betas)):
     plt.plot(steps, EDP_t, 'g', label=labels[1])
     plt.plot(steps, EDP_t1, 'm', label=labels[2])
     plt.plot(steps, EDP2_t, 'r', label=r'P[D]')
-    plt.title(r'$\beta/\beta_c=' + str(beta) + r'$', fontsize=18)
+    plt.title(r'$\beta/\beta_c=' + str(beta_ref) + r'$', fontsize=18)
     plt.xlabel(r'$t$', fontsize=18)
     plt.ylabel(r'$MSE[\textbf{D}_t]$', fontsize=18, rotation=0, labelpad=30)
     plt.legend()
@@ -291,11 +290,11 @@ for ib in range(len(betas)):
     plt.plot(steps, mP_t1_mean, 'd', color=colors[2], ms=3, label=labels[2])
     plt.plot(steps, mP2_t_mean, 'o', color=colors[3], ms=3, label=labels[3])
     plt.plot(steps, mPexp_mean, 'k', label=r'$P$')
-    plt.title(r'$\beta/\beta_c=' + str(beta) + r'$', fontsize=18)
+    plt.title(r'$\beta/\beta_c=' + str(beta_ref) + r'$', fontsize=18)
     plt.xlabel(r'$t$', fontsize=18)
     plt.ylabel(r'$\langle m_{i,t} \rangle$', fontsize=18, rotation=0, labelpad=15)
     plt.legend()
-    plt.savefig('img/evolution_m-beta_' + str(int(beta * 100)) +
+    plt.savefig('img/evolution_m-beta_' + str(int(beta_ref * 100)) +
                 '.pdf', bbox_inches='tight')
 
 
@@ -305,12 +304,12 @@ for ib in range(len(betas)):
     plt.plot(steps, CP_t1_mean, 'd', color=colors[2], ms=3, label=labels[2])
     plt.plot(steps, CP2_t_mean, 'o', color=colors[3], ms=3, label=labels[3])
     plt.plot(steps, CPexp_mean, 'k', label=r'$P$')
-    plt.title(r'$\beta/\beta_c=' + str(beta) + r'$', fontsize=18)
+    plt.title(r'$\beta/\beta_c=' + str(beta_ref) + r'$', fontsize=18)
     plt.xlabel(r'$t$', fontsize=18)
     plt.ylabel(r'$\langle C_{ik,t} \rangle$', fontsize=18, rotation=0, labelpad=15)
     plt.legend(loc='lower right')
     # plt.axis([0,T,0,1])
-    plt.savefig('img/evolution_C-beta_' + str(int(beta * 100)) +
+    plt.savefig('img/evolution_C-beta_' + str(int(beta_ref * 100)) +
                 '.pdf', bbox_inches='tight')
 
     fig, ax = plt.subplots(1, 1, figsize=(5, 4))
@@ -319,12 +318,12 @@ for ib in range(len(betas)):
     plt.plot(steps, DP_t1_mean, 'd', color=colors[2], ms=3, label=labels[2])
     plt.plot(steps, DP2_t_mean, 'o', color=colors[3], ms=3, label=labels[3])
     plt.plot(steps, DPexp_mean, 'k', label=r'$P$')
-    plt.title(r'$\beta/\beta_c=' + str(beta) + r'$', fontsize=18)
+    plt.title(r'$\beta/\beta_c=' + str(beta_ref) + r'$', fontsize=18)
     plt.xlabel(r'$t$', fontsize=18)
     plt.ylabel(r'$\langle D_{il,t} \rangle$', fontsize=18, rotation=0, labelpad=15)
     plt.legend(loc='lower right')
     # plt.axis([0,T,0,1])
-    plt.savefig('img/evolution_D-beta_' + str(int(beta * 100)) +
+    plt.savefig('img/evolution_D-beta_' + str(int(beta_ref * 100)) +
                 '.pdf', bbox_inches='tight')
     
     #Close figures
