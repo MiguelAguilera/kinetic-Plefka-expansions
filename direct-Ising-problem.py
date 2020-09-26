@@ -19,8 +19,7 @@ def nsf(num, n=4):
 
 size = 512
 
-R = 500000
-mode = 'c'
+R = 1000000
 gamma1 = 0.5
 gamma2 = 0.1
 
@@ -30,7 +29,7 @@ B = 21
 
 
 betas = 1 + np.linspace(-1, 1, B) * 0.3
-#betas=np.array([1.0])
+betas=betas[betas>0.87]
 for ib in range(len(betas)):
     beta_ref = round(betas[ib], 3)
 
