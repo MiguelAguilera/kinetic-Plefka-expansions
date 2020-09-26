@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Wed Dec  5 15:45:08 2018
-
-@author: maguilera
+@author: Miguel Aguilera
 """
 
 from mf_ising import mf_ising
@@ -27,16 +25,8 @@ B = 21                    # Number of values of beta
 T = 2**7                  # Number of simulation time steps
 
 # Set critical inverse temperature value
-if gamma1 == 0.5 and gamma2 == 0.2:
-    beta0 = 1.1451
 elif gamma1 == 0.5 and gamma2 == 0.1:
-    beta0 = 1.1123
-elif gamma1 == 0.5 and gamma2 == 0.05:
-    beta0 = 1.1041
-elif gamma1 == 0.5 and gamma2 == 0.02:
-    beta0 = 1.1019
-elif gamma1 == 0.5 and gamma2 == 0.01:
-    beta0 = 1.1015
+    beta0 = 1.099715
 else:
     print('Undefined beta0')
     beta0 = 1
@@ -84,8 +74,8 @@ for ib in range(len(betas)):
     J = I.J.copy()
     H = I.H.copy()
 
-    print(J[0,0:10])
-    print(J0[0,0:10]*beta)
+#    print(J[0,0:10])
+#    print(J0[0,0:10]*beta)
     m_exp = np.zeros((size, T))
     m_exp_prev = np.zeros((size, T))
     C_exp = np.zeros((size, size, T))
@@ -122,7 +112,7 @@ for ib in range(len(betas)):
     D_exp -= np.einsum('it,lt->ilt', m_exp, m_exp_prev, optimize=True)
 
     # Save the evolution of statistical moments
-    filename = 'data/m-c-ts0-gamma1-' + str(gamma1) +'-gamma2-' + str(gamma2) + '-s-' + \
+    filename = 'data/data-gamma1-' + str(gamma1) +'-gamma2-' + str(gamma2) + '-s-' + \
             str(size) + '-R-' + str(R) + '-beta-' + str(beta_ref) + '.npz'
     ndec=5     # Number of significative figures
-    np.savez_compressed(filename, C=np.around(C_exp,ndec), m=np.around(m_exp,ndec), D=np.around(D_exp,ndec), H=H, J=J, s0=s0, beta0=beta0)
+    np.savez_compressed(filename,C_exp, m=m_exp, D=D_exp, H=H, J=J, s0=s0, beta_c=beta0)
