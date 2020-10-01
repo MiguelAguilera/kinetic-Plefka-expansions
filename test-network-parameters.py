@@ -15,9 +15,8 @@ font = {'size': 15}
 plt.rc('font', **font)
 plt.rc('legend', **{'fontsize': 12})
 
-size = 1024
-
-save = True
+size = 512
+save = False
 
 gamma1 = 0.5
 gamma2 = 0.1
@@ -40,18 +39,10 @@ C_mean1 = np.zeros(B)
 
 
 # Set critical inverse temperature value
-if gamma1 == 0.5 and gamma2 == 0.2:
-    beta0 = 1.1451
-elif gamma1 == 0.5 and gamma2 == 0.1:
-    beta0 = 1.1123
-elif gamma1 == 0.5 and gamma2 == 0.05:
-    beta0 = 1.1041
-elif gamma1 == 0.5 and gamma2 == 0.02:
-    beta0 = 1.1019
-elif gamma1 == 0.5 and gamma2 == 0.01:
-    beta0 = 1.1015
+if gamma1 == 0.5 and gamma2 == 0.1:
+    beta0 = 1.099715
 else:
-    print('Undefined beta0')
+    print('Undefined critical beta')
     beta0 = 1
 
 # Define reference values of beta, normalized by the critical temperature
@@ -86,7 +77,8 @@ for ib in range(len(betas)):
 
     # Run simulation with Plefka[t] to check convergence
     for t in range(T):
-        I.update_P1_o2()
+        I.update_P2_t_o2()
+        print(beta_ref,t,np.mean(I.m), np.mean(I.C[iu1]),np.mean(I.D))
         if t == T // 2:
             C_mean1[ib] = np.mean(I.C[iu1])
             D_mean1[ib] = np.mean(I.D)
@@ -111,15 +103,15 @@ plt.plot(betas, np.abs(m_mean1), 'k--')
 plt.ylabel(r'$\langle m_{i,t} \rangle$', fontsize=18, rotation=0, labelpad=20)
 plt.xlabel(r'$\beta/\beta_c$', fontsize=18)
 plt.axis([np.min(betas), np.max(betas), 0, 1.05 * np.max(np.abs(m_mean))])
-plt.savefig('img/model-m_size-' + str(size) + '1.pdf', bbox_inches='tight')
+#plt.savefig('img/model-m_size-' + str(size) + '1.pdf', bbox_inches='tight')
 
 fig, ax = plt.subplots(1, 1, figsize=(4, 3))
 plt.plot(betas, C_mean, 'k')
-plt.plot(betas, C_mean, 'k--')
+plt.plot(betas, C_mean1, 'k--')
 plt.ylabel(r'$\langle C_{ik,t} \rangle$', fontsize=18, rotation=0, labelpad=20)
 plt.xlabel(r'$\beta/\beta_c$', fontsize=18)
 plt.axis([np.min(betas), np.max(betas), 0, 1.05 * np.max(np.abs(C_mean))])
-plt.savefig('img/model-C_size-' + str(size) + '1.pdf', bbox_inches='tight')
+#plt.savefig('img/model-C_size-' + str(size) + '1.pdf', bbox_inches='tight')
 
 fig, ax = plt.subplots(1, 1, figsize=(4, 3))
 plt.plot(betas, D_mean, 'k')
@@ -127,5 +119,5 @@ plt.plot(betas, D_mean1, 'k--')
 plt.ylabel(r'$\langle D_{il,t} \rangle$', fontsize=18, rotation=0, labelpad=20)
 plt.xlabel(r'$\beta/\beta_c$', fontsize=18)
 plt.axis([np.min(betas), np.max(betas), 0, 1.05 * np.max(np.abs(D_mean))])
-plt.savefig('img/model-D_size-' + str(size) + '-1.pdf', bbox_inches='tight')
+#plt.savefig('img/model-D_size-' + str(size) + '-1.pdf', bbox_inches='tight')
 plt.show()
