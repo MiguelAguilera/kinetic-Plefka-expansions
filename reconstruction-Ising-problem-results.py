@@ -115,7 +115,7 @@ for ib in range(len(betas)):
     print(ib, beta_ref)
     filename_r = 'data/reconstruction/transition_r_' + \
         str(int(round(beta_ref * 1000))) + '_R_' + str(R) + '.npz'
-    filename_d = 'data/reconstruction/transition_d_' + \
+    filename_d = 'data/reconstruction/transition_f_' + \
         str(int(round(beta_ref * 1000))) + '_R_' + str(R) + '.npz'
 
     data_r = np.load(filename_r)

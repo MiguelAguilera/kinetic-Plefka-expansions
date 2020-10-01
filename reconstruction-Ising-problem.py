@@ -26,8 +26,6 @@ T = 128
 iu1 = np.triu_indices(size, 1)
 
 B = 201
-#B = 21
-
 
 betas = 1 + np.linspace(-1, 1, B) * 0.3
 
@@ -38,7 +36,10 @@ data1 = np.load(filename1)
 s0 = data1['s0']
 del data1
 
-modes=['d','r']        # Direct and reconstruction modes
+# As we need more data than generated in the forward problem,
+# we run this file twice, for mode='f' and mode='r' for
+# generating data for the forward and reconstruction problems
+modes=['f','r']        # Forward and reconstruction modes
 mode = modes[0]
 #mode = modes[1]
 #for ib in range(len(betas)):
@@ -66,27 +67,10 @@ for ib in range(123,200):
     J=data['J']*beta_ref
     H=data['H']*beta_ref
     del data
-#    plt.figure()
-#    plt.plot(H,HP2_t,'*')
-#    plt.plot([np.min(H),np.max(H)],[np.min(H),np.max(H)],'k')
-#    plt.figure()
-#    plt.plot(J.flatten(),JP2_t.flatten(),'.')
-#    plt.plot([np.min(J),np.max(J)],[np.min(J),np.max(J)],'k')
-#    
-#    plt.figure()
-#    plt.plot(H,HP_t,'*')
-#    plt.plot([np.min(H),np.max(H)],[np.min(H),np.max(H)],'k')
-#    plt.figure()
-#    plt.plot(J.flatten(),JP_t.flatten(),'.')
-#    plt.plot([np.min(J),np.max(J)],[np.min(J),np.max(J)],'k')
-
-#    print('P',np.mean((H-HP_t)**2),np.mean((J-JP_t)**2))
-#    print('P2',np.mean((H-HP2_t)**2),np.mean((J-JP2_t)**2))
-#    plt.show()
 
     # Run Plefka[t-1,t], order 2
     I = mf_ising(size)
-    if mode == 'd':
+    if mode == 'f':
         I.H = H.copy()
         I.J = J.copy()
     elif mode =='r':
@@ -102,7 +86,7 @@ for ib in range(123,200):
 
     # Run Plefka[t], order 2
     I = mf_ising(size)
-    if mode == 'd':
+    if mode == 'f':
         I.H = H.copy()
         I.J = J.copy()
     elif mode =='r':
@@ -118,7 +102,7 @@ for ib in range(123,200):
 
     # Run Plefka2[t], order 2
     I = mf_ising(size)
-    if mode == 'd':
+    if mode == 'f':
         I.H = H.copy()
         I.J = J.copy()
     elif mode =='r':
@@ -134,7 +118,7 @@ for ib in range(123,200):
 
     # Run Plefka[t-1], order 1
     I = mf_ising(size)
-    if mode == 'd':
+    if mode == 'f':
         I.H = H.copy()
         I.J = J.copy()
     elif mode =='r':
