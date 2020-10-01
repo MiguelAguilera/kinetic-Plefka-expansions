@@ -23,14 +23,9 @@ plt.rc('legend', **{'fontsize': 18})
 size=512
 beta = 1.0
 R = 1000000
-mode = 'c'
 gamma1 = 0.5
 gamma2 = 0.1
-random_s0 = False
-# stationary=True
-stationary = False
 
-# random_s0 = True
 
 T = 128
 
@@ -251,6 +246,6 @@ ax[2, 2].text(pos_l[0],pos_l[1], r'\textbf '+letters[8], transform=ax[2, 2].tran
 
 plt.figlegend(loc='upper center',bbox_to_anchor=(0.5, 1.), borderaxespad=0, ncol=5 )
 fig.tight_layout(h_pad=0.3,w_pad=0.7,rect=[0,0,1,0.975])
-plt.savefig('img/results-direct-Ising.pdf', bbox_inches='tight')
+plt.savefig('img/results-forward-Ising.pdf', bbox_inches='tight')
 
 
