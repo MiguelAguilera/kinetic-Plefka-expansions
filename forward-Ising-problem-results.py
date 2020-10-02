@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
-Created on Wed Dec  5 15:45:08 2018
+GPLv3 2020 Miguel Aguilera
 
-@author: maguilera
+This code displays the results of the forward Ising problem computed 
+from running "generate_data.py" and "forward-Ising-problem.py"
 """
 
 from mf_ising import mf_ising

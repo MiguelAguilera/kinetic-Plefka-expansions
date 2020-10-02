@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
-Created on Wed Dec  5 15:45:08 2018
+GPLv3 2020 Miguel Aguilera
 
-@author: maguilera
+This code computes the solution of the forward Ising problem with different 
+mean-field approximation methods and compares it with the averages and 
+correlations obtained from simulation from "generate_data.py".
+The results can be displayed running "forward-Ising-problem-results.py"
 """
 
 from mf_ising import mf_ising
