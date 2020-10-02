@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
-@author: Miguel Aguilera
+GPLv3 2020 Miguel Aguilera
+
+This code runs a simualtion of the kinetic Ising models form an initial
+state for T steps repeated over R trials. The results are used for reference
+in the forward Ising model and as input for the inverse Ising model.
+All simulations used pre-generated parameters 
+An example of the data generated from this file can be found at XXX.
 """
 
 from mf_ising import mf_ising
@@ -39,25 +44,6 @@ else:
 
 # Define reference values of beta, normalized by the critical temperature
 betas = 1 + np.linspace(-1, 1, B) * 0.3
-
-
-def RoundToSigFigs_fp(x, sigfigs):
-    """
-    Rounds the value(s) in x to the number of significant figures in sigfigs.
-    Return value has the same type as x.
-
-    Restrictions:
-    sigfigs must be an integer type and store a positive value.
-    x must be a real value.
-    """
-    xsgn = np.sign(x)
-    absx = xsgn * x
-    with np.errstate(divide='ignore'):
-        R = 10**np.ceil(np.log10(absx))
-    R[absx == 0] = 1
-
-    return xsgn * R * np.around(absx / R, decimals=sigfigs)
-
 
 # Load network parameters
 filename = 'data/parameters_size-' + \
