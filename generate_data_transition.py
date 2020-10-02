@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
-@author: Miguel Aguilera
+GPLv3 2020 Miguel Aguilera
+
+This code is similar to "generate_data.py" but only saves the average
+means and correlations (same-time and time-delayed), as well as the 
+entropy production. It is used for the purpose of generating data 
+with shorter simulations for more points of beta.
+An example of the data generated from this file can be found at XXX.
 """
 
-from mf_ising import mf_ising
 from kinetic_ising import ising
 import numpy as np
 from matplotlib import pyplot as plt

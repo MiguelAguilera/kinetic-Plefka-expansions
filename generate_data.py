@@ -9,7 +9,6 @@ All simulations used pre-generated parameters
 An example of the data generated from this file can be found at XXX.
 """
 
-from mf_ising import mf_ising
 from kinetic_ising import ising
 import numpy as np
 from matplotlib import pyplot as plt
