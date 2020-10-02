@@ -48,14 +48,12 @@ modes=['f','r']        # Forward and reconstruction modes
 mode = modes[0]
 #mode = modes[1]
 #for ib in range(len(betas)):
-for ib in range(123,200):
+for ib in range(201):
     beta_ref = round(betas[ib], 3)
-    print(beta_ref*1000)
-    exit()
 
     # Load data
     
-    filename = 'data/results/inverse_100_R_' + str(R) +'.npz'
+    filename = 'data/inverse/inverse_100_R_' + str(R) +'.npz'
     print(beta_ref,mode)
     
     data = np.load(filename)
@@ -83,7 +81,7 @@ for ib in range(123,200):
         I.J = JP_t1_t.copy()
     I.initialize_state(s0)
     for t in range(T):
-        print('beta',beta_ref,'P_t1_t_o2', str(t) + '/' + str(T),nsf(np.mean(I.m)), nsf(np.mean(I.C[iu1])), nsf(np.mean(I.D)))
+        print(beta_ref, mode,'P_t1_t_o2', str(t) + '/' + str(T),nsf(np.mean(I.m)), nsf(np.mean(I.C[iu1])), nsf(np.mean(I.D)))
         I.update_P_t1_t_o2()
     mP_t1_t_final = I.m
     CP_t1_t_final = I.C
@@ -99,7 +97,7 @@ for ib in range(123,200):
         I.J = JP_t.copy()
     I.initialize_state(s0)
     for t in range(T):
-        print('beta',beta_ref,'P_t_o2', str(t) + '/' + str(T),nsf(np.mean(I.m)), nsf(np.mean(I.C[iu1])), nsf(np.mean(I.D)))
+        print(beta_ref, mode,'P_t_o2', str(t) + '/' + str(T),nsf(np.mean(I.m)), nsf(np.mean(I.C[iu1])), nsf(np.mean(I.D)))
         I.update_P_t_o2()
     mP_t_final = I.m
     CP_t_final = I.C
@@ -115,7 +113,7 @@ for ib in range(123,200):
         I.J = JP2_t.copy()
     I.initialize_state(s0)
     for t in range(T):
-        print('beta',beta_ref,'P2_t_o2', str(t) + '/' + str(T),nsf(np.mean(I.m)), nsf(np.mean(I.C[iu1])), nsf(np.mean(I.D)))
+        print(beta_ref, mode,'P2_t_o2', str(t) + '/' + str(T),nsf(np.mean(I.m)), nsf(np.mean(I.C[iu1])), nsf(np.mean(I.D)))
         I.update_P2_t_o2()
     mP2_t_final = I.m
     CP2_t_final = I.C
@@ -131,7 +129,7 @@ for ib in range(123,200):
         I.J = JP_t1.copy()
     I.initialize_state(s0)
     for t in range(T):
-        print('beta',beta_ref,'P_t1_o1', str(t) + '/' + str(T),nsf(np.mean(I.m)), nsf(np.mean(I.C[iu1])), nsf(np.mean(I.D)))
+        print(beta_ref, mode,'P_t1_o1', str(t) + '/' + str(T),nsf(np.mean(I.m)), nsf(np.mean(I.C[iu1])), nsf(np.mean(I.D)))
         I.update_P_t1_o1()
     mP_t1_final = I.m
     CP_t1_final = I.C
