@@ -114,12 +114,12 @@ for ib in range(len(betas)):
     C_exp -= np.einsum('i,j->ij', m_exp, m_exp, optimize=True)
     D_exp -= np.einsum('i,l->il', m_exp, m_exp_prev, optimize=True)
 
-    
     iu1 = np.triu_indices(size, 1)
     m_mean=np.mean(m_exp)
     C_mean=np.mean(C_exp[iu1])
     D_mean=np.mean(D_exp)
     sigma = np.sum(J*(D_exp-D_exp.T))
+    
     # Save the evolution of statistical moments
     filename = 'data/results/data-transition-gamma1-' + str(gamma1) +'-gamma2-' + str(gamma2) + '-s-' + \
             str(size) + '-R-' + str(R) + '-beta-' + str(beta_ref) + '.npz'
