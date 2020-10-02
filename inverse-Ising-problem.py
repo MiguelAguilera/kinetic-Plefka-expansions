@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
-Created on Wed Dec  5 15:45:08 2018
+GPLv3 2020 Miguel Aguilera
 
-@author: maguilera
+This code computes the solution of the inverse Ising problem with different 
+mean-field approximation methods using data generated form simulation from 
+"generate_data.py".
+The results can be displayed running "inverse-Ising-problem-results.py"
 """
 
 from mf_ising import mf_ising
@@ -17,6 +19,7 @@ def nsf(num, n=4):
     """n-Significant Figures"""
     numstr = ("{0:.%ie}" % (n - 1)).format(num)
     return float(numstr)
+
 
 gamma1 = 0.5
 gamma2 = 0.1
@@ -37,11 +40,11 @@ for ib in range(B):
     filename = 'data/data-gamma1-' + str(gamma1) + '-gamma2-' + str(
         gamma2) + '-s-' + str(size) + '-R-' + str(R) + '-beta-' + str(beta_ref) + '.npz'
     data = np.load(filename)
-    
+
     # We load original parameters for reference
     H = data['H']
     J = data['J']
-    
+
     # We compute moments averaged over trials and trajectories
     m_exp = data['m']
     C_exp = data['C']
@@ -65,7 +68,7 @@ for ib in range(B):
     D_mean = d_mean - np.einsum('i,j->ij', m_mean, mp_mean, optimize=True)
     Cp_mean = cp_mean - np.einsum('i,j->ij', mp_mean, mp_mean, optimize=True)
     Dp_mean = dp_mean - np.einsum('i,j->ij', mp_mean, mpp_mean, optimize=True)
-#
+
     s0 = np.array(data['s0'])
     del data
 
@@ -92,8 +95,10 @@ for ib in range(B):
         I.D = update_D_P_t1_t_o2(I.H, I.J, I.m, I.m_p)
         DH = m_mean - I.m
         DJ = D_mean - I.D
-        DH[I.H > 5] = np.clip(DH[I.H > 5], -np.inf, 0)    # We impose a bound on H to avoid
-        DH[I.H < -5] = np.clip(DH[I.H < -5], 0, np.inf)   # divergence of Boltzmann learning
+        # We impose a bound on H to avoid
+        DH[I.H > 5] = np.clip(DH[I.H > 5], -np.inf, 0)
+        # divergence of Boltzmann learning
+        DH[I.H < -5] = np.clip(DH[I.H < -5], 0, np.inf)
         I.J += etaJ * DJ
         I.H += etaH * DH
         error_H = np.mean(DH**2)

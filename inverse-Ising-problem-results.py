@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
-Created on Wed Dec  5 15:45:08 2018
+GPLv3 2020 Miguel Aguilera
 
-@author: maguilera
+This code displays the results of the inverse Ising problem computed 
+from running "generate_data.py" and "inverse-Ising-problem.py"
 """
 
 from mf_ising import mf_ising
@@ -105,7 +105,7 @@ labels = [
 lws = [2, 2, 2, 3, 1.5]
 
 
-filename = filename = 'data/results/inverse_100_R_' + str(R) + '.npz'
+filename = filename = 'data/inverse/inverse_100_R_' + str(R) + '.npz'
 data = np.load(filename)
 HP_t1_t = data['HP_t1_t']
 HP_t = data['HP_t']
