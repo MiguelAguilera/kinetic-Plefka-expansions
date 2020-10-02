@@ -18,6 +18,7 @@ def nsf(num, n=4):
     numstr = ("{0:.%ie}" % (n - 1)).format(num)
     return float(numstr)
 
+
 size = 512
 
 R = 1000000

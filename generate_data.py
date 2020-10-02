@@ -11,13 +11,19 @@ from matplotlib import pyplot as plt
 from sys import argv
 
 if len(argv) < 3:
-    print("Usage: " + argv[0] + " <network size>"  + " <repetitions>"+ " <gamma1>"+ " <gamma2>")
+    print(
+        "Usage: " +
+        argv[0] +
+        " <network size>" +
+        " <repetitions>" +
+        " <gamma1>" +
+        " <gamma2>")
     exit(1)
 
-size=int(argv[1])        # Network size
-R=int(argv[2])            # Repetitions of the simulation
-gamma1=float(argv[3])    # 
-gamma2=float(argv[4])
+size = int(argv[1])        # Network size
+R = int(argv[2])            # Repetitions of the simulation
+gamma1 = float(argv[3])    #
+gamma2 = float(argv[4])
 
 I = ising(size)
 
@@ -35,7 +41,7 @@ else:
 betas = 1 + np.linspace(-1, 1, B) * 0.3
 
 
-def RoundToSigFigs_fp( x, sigfigs ):
+def RoundToSigFigs_fp(x, sigfigs):
     """
     Rounds the value(s) in x to the number of significant figures in sigfigs.
     Return value has the same type as x.
@@ -47,29 +53,30 @@ def RoundToSigFigs_fp( x, sigfigs ):
     xsgn = np.sign(x)
     absx = xsgn * x
     with np.errstate(divide='ignore'):
-         R = 10**np.ceil(np.log10(absx))
-    R[absx==0]=1
+        R = 10**np.ceil(np.log10(absx))
+    R[absx == 0] = 1
 
-    return xsgn * R * np.around( absx/R, decimals=sigfigs)
-    
-    
+    return xsgn * R * np.around(absx / R, decimals=sigfigs)
+
+
 # Load network parameters
-filename='data/parameters_size-'+str(size)+'-gamma1-' + str(gamma1) +'-gamma2-' + str(gamma2) +'.npz'
-data=np.load(filename)
-H0=data['H0']
-J0=data['J0']
+filename = 'data/parameters_size-' + \
+    str(size) + '-gamma1-' + str(gamma1) + '-gamma2-' + str(gamma2) + '.npz'
+data = np.load(filename)
+H0 = data['H0']
+J0 = data['J0']
 
 
 # Run for each value of beta
 for ib in range(len(betas)):
-    beta_ref = round(betas[ib],3)
+    beta_ref = round(betas[ib], 3)
     beta = beta_ref * beta0
-    print(beta_ref,str(ib)+'/'+str(len(betas)),gamma1,gamma2,size)
-    
+    print(beta_ref, str(ib) + '/' + str(len(betas)), gamma1, gamma2, size)
+
     I.H = beta * H0
-    if np.mean(I.H)<0:
-        I.H*=-1
-    I.J= beta * J0
+    if np.mean(I.H) < 0:
+        I.H *= -1
+    I.J = beta * J0
 
     J = I.J.copy()
     H = I.H.copy()
@@ -80,11 +87,10 @@ for ib in range(len(betas)):
     m_exp_prev = np.zeros((size, T))
     C_exp = np.zeros((size, size, T))
     D_exp = np.zeros((size, size, T))
-    
 
-    # Initial state is all ones 
+    # Initial state is all ones
     s0 = np.ones(size)
-    
+
     print('generate data')
     # Repeat for R repetitions
     for rep in range(R):
@@ -99,7 +105,7 @@ for ib in range(len(betas)):
                                         np.tanh(h),
                                         np.tanh(h),
                                         optimize=True) / R
-            C_exp[range(size),range(size),t] += (1 - np.tanh(h)**2) / R
+            C_exp[range(size), range(size), t] += (1 - np.tanh(h)**2) / R
             D_exp[:, :, t] += np.einsum('i,j->ij',
                                         np.tanh(h),
                                         s_prev,
@@ -108,11 +114,19 @@ for ib in range(len(betas)):
     for t in range(T - 1):
         m_exp_prev[:, t + 1] = m_exp[:, t]   # Mean value at the previous state
     # Substract product of means to compute covariances
-    C_exp -= np.einsum('it,jt->ijt', m_exp, m_exp, optimize=True)     
+    C_exp -= np.einsum('it,jt->ijt', m_exp, m_exp, optimize=True)
     D_exp -= np.einsum('it,lt->ilt', m_exp, m_exp_prev, optimize=True)
 
     # Save the evolution of statistical moments
-    filename = 'data/data-gamma1-' + str(gamma1) +'-gamma2-' + str(gamma2) + '-s-' + \
-            str(size) + '-R-' + str(R) + '-beta-' + str(beta_ref) + '.npz'
-    ndec=5     # Number of significative figures
-    np.savez_compressed(filename,C_exp, m=m_exp, D=D_exp, H=H, J=J, s0=s0, beta_c=beta0)
+    filename = 'data/data-gamma1-' + str(gamma1) + '-gamma2-' + str(gamma2) + '-s-' + \
+        str(size) + '-R-' + str(R) + '-beta-' + str(beta_ref) + '.npz'
+    ndec = 5     # Number of significative figures
+    np.savez_compressed(
+        filename,
+        C_exp,
+        m=m_exp,
+        D=D_exp,
+        H=H,
+        J=J,
+        s0=s0,
+        beta_c=beta0)
