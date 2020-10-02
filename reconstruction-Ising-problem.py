@@ -1,15 +1,20 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
-Created on Wed Dec  5 15:45:08 2018
+GPLv3 2020 Miguel Aguilera
 
-@author: maguilera
+This code is similar to "forward-Ising-problem.py", but it is used
+for solving the reconstruction problem, so it saves just the values of
+correlations at the end of the simulation.
+It computes the solution of the forward Ising problem with different
+mean-field approximation methods using either the original network
+mode='f', or the inferred network mode='r' from solving the inverse
+Ising problem.
+The results can be displayed running "reconstruction-Ising-problem-results.py"
 """
 
 from mf_ising import mf_ising
 import numpy as np
 from matplotlib import pyplot as plt
-from matplotlib import cm
 
 def nsf(num, n=4):
     """n-Significant Figures"""
