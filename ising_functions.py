@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
-@author: Miguel Aguilera
+GPLv3 2020 Miguel Aguilera
 
 This code defines functions for applying Plefka expansions for mean field simulations
 """
@@ -31,11 +30,13 @@ def diff_TAP_eq(x, H, Vii):
 
 def solve_TAP_eq(x0, H, Vii, TOL=1E-15):
     x = x0.copy()
-    error = np.max(np.abs(TAP_eq(x, H, Vii)))
+    TAP=TAP_eq(x, H, Vii)
+    error = np.max(np.abs(TAP))
+    count=0
     while error > TOL:
         TAP = TAP_eq(x, H, Vii)
         dTAP = diff_TAP_eq(x, H, Vii)
-        x -= TAP / dTAP
+        x -= TAP / dTAP * (np.abs(TAP)>TOL).astype(int)
         error = np.max(np.abs(TAP))
     return x
 
@@ -246,11 +247,12 @@ def diff_TAP_eq_D(x, V):
 
 def solve_TAP_eq_D(x0, Heff, V, TOL=1E-15):
     x = x0.copy()
-    error = np.max(np.abs(TAP_eq_D(x, Heff, V)))
+    TAP = TAP_eq_D(x, Heff, V)
+    error = np.max(np.abs(TAP))
     while error > TOL:
         TAP = TAP_eq_D(x, Heff, V)
         dTAP = diff_TAP_eq_D(x, V)
-        x -= TAP / dTAP
+        x -= TAP / dTAP * (np.abs(TAP)>TOL).astype(int)
         error = np.max(np.abs(TAP))
     return x
 

@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
-@author: Miguel Aguilera
+GPLv3 2020 Miguel Aguilera
+
+This code defines a class for using Plefka Expansions.
 """
 
 import numpy as np
@@ -12,9 +13,27 @@ class mf_ising:
     """
     This class implements the behaviour of a mean field approximations of an
     asymmetric kinetic Ising model according to different Plefka Expansions.
-    It can use either the naive mean field (nMF) or the Thouless-Anderson-Palmer
-    equations (TAP) equations to compute the evolution of the means and correlations
-    of the model.
+    
+    P_t1_t represents the Plefka[t-1,t] approximation, corresponding to the 
+    naive mean field (_o1) and TAP (_o2) equations as in
+    https://doi.org/10.1103/PhysRevE.61.5658
+    https://doi.org/10.1088/1742-5468/2011/03/P03031
+    
+    P_t represents the Plefka[t] approximation, which preserves correlations
+    at the previous timestep in a similar what than 
+    https://doi.org/10.1103/PhysRevLett.106.048702 
+    
+    P_t1 represents the Plefka[t-1] approximation, which preserves couplings
+    at time t and assumes that activity is independent at t-1, assuming
+    a Gaussian distribution of the effective field similarly as
+    https://doi.org/10.1088/1742-5468/2011/07/L07001
+    
+    P2_t represents the new pairwise Plefka2[t] approximation, which instead
+    of a independent model uses pairwise models as a reference, being more
+    effective for capturing correlations of a system.
+    
+    _o1 and _o2 represent the first and second order approximations of the 
+    equations
     """
 
     def __init__(self, netsize):  # Create ising model

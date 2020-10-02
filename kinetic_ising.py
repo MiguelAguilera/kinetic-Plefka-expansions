@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
-@author: Miguel Aguilera
+GPLv3 2020 Miguel Aguilera
 
-This code allows to run simulations of the kinetic Ising model, with asymmetric weights and parallel updates
+This code allows to run simulations of the kinetic Ising model,
+with asymmetric weights and parallel updates.
 """
+
 import numpy as np
-
 
 def bool2int(x):          # Transform bool array into positive integer
     y = 0
@@ -14,14 +14,12 @@ def bool2int(x):          # Transform bool array into positive integer
         y += j * 2**i
     return y
 
-
-def bitfield(n, size):  # Transform positive integer into bit array
+def bitfield(n, size):    # Transform positive integer into bit array
     x = [int(x) for x in bin(n)[2:]]
     x = [0] * (size - len(x)) + x
     return np.array(x)
 
-
-class ising:                        # Asymmetric Ising model simulation class
+class ising:              # Asymmetric Ising model simulation class
 
     def __init__(self, netsize):  # Create ising model
 
