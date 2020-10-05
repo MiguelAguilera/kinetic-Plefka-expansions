@@ -65,7 +65,7 @@ for ind in range(len(betas)):
     beta_ref = round(betas[ind], 3)
     print(ind, beta_ref)
     beta = beta_ref * beta0
-    filename = 'data/results/inverse_' + \
+    filename = 'data/inverse/inverse_' + \
         str(int(beta_ref * 100)) + '_R_' + str(R) + '.npz'
     data = np.load(filename)
     HP_t1_t = data['HP_t1_t']
