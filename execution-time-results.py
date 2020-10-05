@@ -26,11 +26,7 @@ R = 1000000
 mode = 'c'
 gamma1 = 0.5
 gamma2 = 0.1
-random_s0 = False
-# stationary=True
-stationary = False
 
-# random_s0 = True
 
 T = 128
 
@@ -126,8 +122,6 @@ plt.savefig('img/results-execution_time-forward.pdf', bbox_inches='tight')
 
 
 filename = 'data/inverse/inverse_100_R_' + str(R) + '.npz'
-#Nsample = 1
-#filename = 'data/results/inverse_100_R_' + str(R) +'_Nsample_'+str(Nsample)+'.npz'
 data = np.load(filename)
 print(list(data.keys()))
 
