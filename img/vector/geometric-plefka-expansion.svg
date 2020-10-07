@@ -12,7 +12,7 @@
    viewBox="0 0 392.63627 289.18527"
    height="81.61451mm"
    width="110.81069mm"
-   sodipodi:docname="plefka.svg"
+   sodipodi:docname="geometric-plefka-expansion.svg"
    inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)">
   <sodipodi:namedview
      pagecolor="#ffffff"
@@ -29,8 +29,8 @@
      showgrid="false"
      showguides="false"
      inkscape:zoom="1.4142136"
-     inkscape:cx="203.1195"
-     inkscape:cy="156.24636"
+     inkscape:cx="132.05527"
+     inkscape:cy="154.83215"
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
@@ -75,13 +75,13 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <path
      inkscape:connector-curvature="0"
-     style="fill:#000064;fill-opacity:0.15686275;stroke:#000000;stroke-width:1.03881848;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+     style="fill:#000000;fill-opacity:0.15686275;stroke:#000000;stroke-width:1.03881848;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
      d="m 391.55636,197.13715 c -57.21502,5.8832 -239.16293,60.10847 -281.01347,91.323 L 1.0955144,173.29635 C 114.69061,160.44134 241.5755,129.42562 287.04076,109.14313 Z"
      id="rect4136-3-7"
      sodipodi:nodetypes="ccccc" />
