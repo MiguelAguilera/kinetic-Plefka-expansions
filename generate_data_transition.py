@@ -30,7 +30,7 @@ T = 2**7                  # Number of simulation time steps
 
 # Set critical inverse temperature value
 elif gamma1 == 0.5 and gamma2 == 0.1:
-    beta0 = 1.099715
+    beta0 = 1.1108397534245904
 else:
     print('Undefined beta0')
     beta0 = 1
