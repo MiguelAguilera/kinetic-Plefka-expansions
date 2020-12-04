@@ -102,7 +102,7 @@ CPexp = data_exp['C_mean']
 DPexp = data_exp['D_mean']
 sigmaPexp = np.exp(data_exp['sigma'])
 
-filename_inv = 'data/results/inverse_100_R_' + str(R) + '.npz'
+filename_inv = 'data/inverse/inverse_100_R_' + str(R) + '.npz'
 data_inv = np.load(filename_inv)
 
 J = data_inv['J']
@@ -168,10 +168,10 @@ for ib in range(len(betas)):
     mP_t[ib] = np.mean(mP_t_all)
     mP_t1[ib] = np.mean(mP_t1_all)
     mP2_t[ib] = np.mean(mP2_t_all)
-    CP_t1_t[ib] = np.mean(CP_t1_t_all[iu1])
-    CP_t[ib] = np.mean(CP_t_all[iu1])
-    CP_t1[ib] = np.mean(CP_t1_all[iu1])
-    CP2_t[ib] = np.mean(CP2_t_all[iu1])
+    CP_t1_t[ib] = np.mean(CP_t1_t_all)
+    CP_t[ib] = np.mean(CP_t_all)
+    CP_t1[ib] = np.mean(CP_t1_all)
+    CP2_t[ib] = np.mean(CP2_t_all)
     DP_t1_t[ib] = np.mean(DP_t1_t_all)
     DP_t[ib] = np.mean(DP_t_all)
     DP_t1[ib] = np.mean(DP_t1_all)
@@ -181,10 +181,10 @@ for ib in range(len(betas)):
     mP_t_0[ib] = np.mean(mP_t_all_0)
     mP_t1_0[ib] = np.mean(mP_t1_all_0)
     mP2_t_0[ib] = np.mean(mP2_t_all_0)
-    CP_t1_t_0[ib] = np.mean(CP_t1_t_all_0[iu1])
-    CP_t_0[ib] = np.mean(CP_t_all_0[iu1])
-    CP_t1_0[ib] = np.mean(CP_t1_all_0[iu1])
-    CP2_t_0[ib] = np.mean(CP2_t_all_0[iu1])
+    CP_t1_t_0[ib] = np.mean(CP_t1_t_all_0)
+    CP_t_0[ib] = np.mean(CP_t_all_0)
+    CP_t1_0[ib] = np.mean(CP_t1_all_0)
+    CP2_t_0[ib] = np.mean(CP2_t_all_0)
     DP_t1_t_0[ib] = np.mean(DP_t1_t_all_0)
     DP_t_0[ib] = np.mean(DP_t_all_0)
     DP_t1_0[ib] = np.mean(DP_t1_all_0)
@@ -266,8 +266,8 @@ ax[nrow, ncol].plot(betas[np.argmax(sigmaP2_t_0)], [ 110], '*', ms=10, color=col
 ax[nrow, ncol].plot([1,1], [0,135], lw=0.5, color='k')
 ax[nrow, ncol].axis([np.min(betas), np.max(betas), 0, 135])
 ax[nrow, ncol].set_xlabel(r'$\beta / \beta_c$', fontsize=18)
-ax[nrow, ncol].set_ylabel(r'$\mathrm{e}^{\sigma_t}$', fontsize=18, rotation=0, labelpad=25)
-ax[nrow, ncol].text(pos_l[0], pos_l[1], r'\textbf ' + letters[5], transform=ax[nrow, ncol].transAxes, fontsize=20, va='top', ha='right')
+ax[nrow, ncol].set_ylabel(r'$\mathrm{e}^{\langle \sigma_t\rangle}$', fontsize=18, rotation=0, labelpad=25)
+ax[nrow, ncol].text(pos_l[0], pos_l[1], r'\textbf ' + letters[2], transform=ax[nrow, ncol].transAxes, fontsize=20, va='top', ha='right')
 
 nrow = 1
 ncol = 0
@@ -321,7 +321,7 @@ ax[nrow, ncol].plot(betas[np.argmax(sigmaP2_t)], [ 120], '*', ms=10, color=color
 ax[nrow, ncol].plot([1,1], [0,135], lw=0.5, color='k')
 ax[nrow, ncol].axis([np.min(betas), np.max(betas), 0, 135])
 ax[nrow, ncol].set_xlabel(r'$\tilde\beta$', fontsize=18)
-ax[nrow, ncol].set_ylabel(r'$\mathrm{e}^{\sigma_t}$', fontsize=18, rotation=0, labelpad=25)
+ax[nrow, ncol].set_ylabel(r'$\mathrm{e}^{\langle \sigma_t\rangle}$', fontsize=18, rotation=0, labelpad=25)
 ax[nrow, ncol].text(pos_l[0], pos_l[1], r'\textbf ' + letters[5], transform=ax[nrow, ncol].transAxes, fontsize=20, va='top', ha='right')
 plt.figlegend(loc='upper center', bbox_to_anchor=(0.5, 1.), borderaxespad=0, ncol=5)
 fig.tight_layout(h_pad=0.3, w_pad=0.7, rect=[0, 0, 1, 0.975])
