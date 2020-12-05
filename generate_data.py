@@ -20,14 +20,14 @@ if len(argv) < 3:
         argv[0] +
         " <network size>" +
         " <repetitions>" +
-        " <gamma1>" +
-        " <gamma2>")
+        " <H0>" +
+        " <Js>")
     exit(1)
 
 size = int(argv[1])        # Network size
-R = int(argv[2])            # Repetitions of the simulation
-gamma1 = float(argv[3])    #
-gamma2 = float(argv[4])
+R = int(argv[2])           # Repetitions of the simulation
+H0 = float(argv[3])        # Uniform distribution of fields parameter
+Js = float(argv[4])        # Coupling distribution std parameter
 
 I = ising(size)
 
@@ -35,7 +35,7 @@ B = 21                    # Number of values of beta
 T = 2**7                  # Number of simulation time steps
 
 # Set critical inverse temperature value
-elif gamma1 == 0.5 and gamma2 == 0.1:
+elif H0 == 0.5 and Js == 0.1:
     beta0 = 1.1108397534245904
 else:
     print('Undefined beta0')
@@ -46,7 +46,7 @@ betas = 1 + np.linspace(-1, 1, B) * 0.3
 
 # Load network parameters
 filename = 'data/parameters_size-' + \
-    str(size) + '-gamma1-' + str(gamma1) + '-gamma2-' + str(gamma2) + '.npz'
+    str(size) + '-H0-' + str(H0) + '-Js-' + str(Js) + '.npz'
 data = np.load(filename)
 H0 = data['H0']
 J0 = data['J0']
@@ -56,7 +56,7 @@ J0 = data['J0']
 for ib in range(len(betas)):
     beta_ref = round(betas[ib], 3)
     beta = beta_ref * beta0
-    print(beta_ref, str(ib) + '/' + str(len(betas)), gamma1, gamma2, size)
+    print(beta_ref, str(ib) + '/' + str(len(betas)), H0, Js, size)
 
     I.H = beta * H0
     if np.mean(I.H) < 0:
@@ -103,7 +103,7 @@ for ib in range(len(betas)):
     D_exp -= np.einsum('it,lt->ilt', m_exp, m_exp_prev, optimize=True)
 
     # Save the evolution of statistical moments
-    filename = 'data/data-gamma1-' + str(gamma1) + '-gamma2-' + str(gamma2) + '-s-' + \
+    filename = 'data/data-H0-' + str(H0) + '-Js-' + str(Js) + '-s-' + \
         str(size) + '-R-' + str(R) + '-beta-' + str(beta_ref) + '.npz'
     ndec = 5     # Number of significative figures
     np.savez_compressed(
