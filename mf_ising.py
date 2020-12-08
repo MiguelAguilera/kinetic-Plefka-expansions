@@ -6,7 +6,7 @@ This code defines a class for using Plefka Expansions.
 """
 
 import numpy as np
-from ising_functions import *
+from plefka_functions import *
 
 
 class mf_ising:

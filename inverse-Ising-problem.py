@@ -9,8 +9,8 @@ The results can be displayed running "inverse-Ising-problem-results.py"
 """
 
 from mf_ising import mf_ising
-from ising_functions import update_m_P_t1_t_o2, update_D_P_t1_t_o2, update_m_P_t_o2, update_D_P_t_o2
-from ising_functions import update_m_P_t1_o1, update_D_P_t1_o1, update_D_P2_t_o2
+from plefka_functions import update_m_P_t1_t_o2, update_D_P_t1_t_o2, update_m_P_t_o2, update_D_P_t_o2
+from plefka_functions import update_m_P_t1_o1, update_D_P_t1_o1, update_D_P2_t_o2
 import numpy as np
 import time
 from sys import argv
