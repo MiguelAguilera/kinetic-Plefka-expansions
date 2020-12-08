@@ -21,3 +21,8 @@ To reproduce the results in the paper, the following steps are necessary:
 * Finally, a comparison of execution times (Supplementary note), can be computed using 'execution-time-results.py'
 
 Note that some steps (specially those involving simulation of the models without approximations) are computationally costly. Alternatively, the data used for reproducing the exact results in the paper can be accessed in the Zenodo repository XXX
+
+Data is stored in the 'data/folder'.
+
+Figures in the paper are contained (and generated in) the folder 'img/' which contains the figures in the paper plus vectorial files for Fig. 1 and Fig. 2.
+
