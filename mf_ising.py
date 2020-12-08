@@ -2,7 +2,7 @@
 """
 GPLv3 2020 Miguel Aguilera
 
-This code defines a class for using Plefka Expansions.
+This code defines a class for using Plefka mean-field approximations.
 """
 
 import numpy as np
