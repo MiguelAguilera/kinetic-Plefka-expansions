@@ -123,7 +123,6 @@ plt.savefig('img/results-execution_time-forward.pdf', bbox_inches='tight')
 
 filename = 'data/inverse/inverse_100_R_' + str(R) + '.npz'
 data = np.load(filename)
-print(list(data.keys()))
 
 time_P_t1_t = data['time_P_t1_t']
 time_P_t = data['time_P_t']
