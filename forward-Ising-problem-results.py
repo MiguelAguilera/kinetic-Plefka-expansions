@@ -11,9 +11,6 @@ import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib import cm
 
-import matplotlib as mpl
-mpl.rcParams['agg.path.chunksize'] = 10000
-
 plt.rc('text', usetex=True)
 font = {'size': 15}
 plt.rc('font', **font)
