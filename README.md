@@ -20,7 +20,7 @@ To reproduce the results in the paper, the following steps are necessary:
 * The phase transition reconstruction results can be reproduced running 'reconstruction-Ising-problem.py', which computes the forward Ising problem for the original models (with more values of β) and the models from solving the inverse problem. The figure containing the results can be generated using 'reconstruction-Ising-problem-results.py'
 * Finally, a comparison of execution times (Supplementary note), can be computed using 'execution-time-results.py'
 
-Note that some steps (specially those involving simulation of the models without approximations) are computationally costly. Alternatively, the data used for reproducing the exact results in the paper can be accessed in the Zenodo repository XXX
+Note that some steps are computationally quite costly. Specifically, the results of  'generate_data.py', 'generate_data_transition.py' and 'reconstruction-Ising-problem.py' were obtained parallelizing the code in a computer cluster. Alternatively, the data used for reproducing the exact results in the paper can be accessed in the Zenodo repository XXX
 
 Data is stored in the 'data/folder'.
 
