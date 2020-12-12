@@ -32,7 +32,7 @@ B = 21
 
 betas = 1 + np.linspace(-1, 1, B) * 0.3
 
-for ib in range(len(betas)):
+for ib in range(B):
     beta_ref = round(betas[ib], 3)
 
     EmP_t1_t = np.zeros(T + 1)
