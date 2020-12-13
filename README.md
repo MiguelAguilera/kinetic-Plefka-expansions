@@ -1,6 +1,6 @@
 # A unifying framework for mean field theories of asymmetric kinetic Ising systems
 
-Code reproducing the models used in the article Aguilera, M., Moosavi, S. A., & Shimazaki, H. (preprint). [A unifying framework for mean field theories of asymmetric kinetic Ising systems](https://arxiv.org/abs/2002.04309). arXiv preprint arXiv:2002.04309. Nature Communications.
+Code reproducing the models used in the article Aguilera, M., Moosavi, S. A., & Shimazaki, H. (preprint). [A unifying framework for mean field theories of asymmetric kinetic Ising systems](https://arxiv.org/abs/2002.04309). arXiv preprint arXiv:2002.04309 - Nature Communications.
 
 ## Abstract
 
