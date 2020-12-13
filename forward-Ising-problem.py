@@ -10,8 +10,6 @@ The results can be displayed running "forward-Ising-problem-results.py"
 
 from mf_ising import mf_ising
 import numpy as np
-from matplotlib import pyplot as plt
-from matplotlib import cm
 import time
 
 
@@ -31,6 +29,8 @@ B = 21                    # Number of values of beta
 T = 2**7                  # Number of simulation time steps
 
 betas = 1 + np.linspace(-1, 1, B) * 0.3
+betas=np.array([1.0])
+B=1
 for ib in range(B):
     beta_ref = round(betas[ib], 3)
 

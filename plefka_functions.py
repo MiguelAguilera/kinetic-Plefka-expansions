@@ -6,7 +6,6 @@ This code defines functions for applying Plefka expansions for mean field simula
 """
 import numpy as np
 
-
 def bool2int(x):  # Transform bool array into positive integer
     y = 0
     for i, j in enumerate(np.array(x)[::-1]):

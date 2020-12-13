@@ -14,7 +14,6 @@ The results can be displayed running "reconstruction-Ising-problem-results.py"
 
 from mf_ising import mf_ising
 import numpy as np
-from matplotlib import pyplot as plt
 
 
 def nsf(num, n=4):
