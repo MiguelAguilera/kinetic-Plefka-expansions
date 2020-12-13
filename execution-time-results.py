@@ -2,7 +2,7 @@
 """
 GPLv3 2020 Miguel Aguilera
 
-This code displays the results of the forward Ising problem computed 
+This code displays the results of the forward Ising problem computed
 from running "generate_data.py" and "forward-Ising-problem.py"
 """
 
@@ -51,9 +51,9 @@ letters = ['A', 'B', 'C', 'D', 'E', 'F']
 filename = 'data/forward/forward_100_R_' + str(R) + '.npz'
 data = np.load(filename)
 
-time_P_t1_t = data['time_P_t1_t'] 
-time_P_t = data['time_P_t'] 
-time_P_t1 = data['time_P_t1'] 
+time_P_t1_t = data['time_P_t1_t']
+time_P_t = data['time_P_t']
+time_P_t1 = data['time_P_t1']
 time_P2_t = data['time_P2_t']
 
 
@@ -82,38 +82,89 @@ ax[0].loglog(time_P_t, np.mean(EmP_t), 's', ms=12, color=colors[1])
 ax[0].loglog(time_P_t1, np.mean(EmP_t1), 'd', ms=12, color=colors[2])
 ax[0].loglog(time_P2_t, np.mean(EmP2_t), 'o', ms=12, color=colors[3])
 ax[0].set_xticks([], minor=True)
-ax[0].set_xticks([1, 10, 100,1000])
+ax[0].set_xticks([1, 10, 100, 1000])
 ax[0].get_xaxis().set_major_formatter(matplotlib.ticker.ScalarFormatter())
 ax[0].set_xlabel(r'execution time (seconds)', fontsize=18)
 ax[0].set_ylabel(r'$\epsilon_m$', fontsize=18, rotation=0, labelpad=15)
-ax[0].text(pos_l[0], pos_l[1], r'\textbf ' + letters[0], transform=ax[0].transAxes,
-           fontsize=20, va='top', ha='right')
+ax[0].text(
+    pos_l[0],
+    pos_l[1],
+    r'\textbf ' +
+    letters[0],
+    transform=ax[0].transAxes,
+    fontsize=20,
+    va='top',
+    ha='right')
 
 ax[1].loglog(time_P_t1_t, np.mean(ECP_t1_t), 'v', ms=12, color=colors[0])
 ax[1].loglog(time_P_t, np.mean(ECP_t), 's', ms=12, color=colors[1])
 ax[1].loglog(time_P_t1, np.mean(ECP_t1), 'd', ms=12, color=colors[2])
 ax[1].loglog(time_P2_t, np.mean(ECP2_t), 'o', ms=12, color=colors[3])
 ax[1].set_xticks([], minor=True)
-ax[1].set_xticks([1, 10, 100,1000])
+ax[1].set_xticks([1, 10, 100, 1000])
 ax[1].get_xaxis().set_major_formatter(matplotlib.ticker.ScalarFormatter())
 ax[1].set_xlabel(r'execution time (seconds)', fontsize=18)
 ax[1].set_ylabel(r'$\epsilon_C$', fontsize=18, rotation=0, labelpad=15)
-ax[1].text(pos_l[0], pos_l[1], r'\textbf ' + letters[1], transform=ax[1].transAxes,
-           fontsize=20, va='top', ha='right')
+ax[1].text(
+    pos_l[0],
+    pos_l[1],
+    r'\textbf ' +
+    letters[1],
+    transform=ax[1].transAxes,
+    fontsize=20,
+    va='top',
+    ha='right')
 
-ax[2].loglog(time_P_t1_t, np.mean(EDP_t1_t), 'v', ms=12, color=colors[0], label=labels[0])
-ax[2].loglog(time_P_t, np.mean(EDP_t), 's', ms=12, color=colors[1], label=labels[1])
-ax[2].loglog(time_P_t1, np.mean(EDP_t1), 'd', ms=12, color=colors[2], label=labels[2])
-ax[2].loglog(time_P2_t, np.mean(EDP2_t), 'o', ms=12, color=colors[3], label=labels[3])
+ax[2].loglog(
+    time_P_t1_t,
+    np.mean(EDP_t1_t),
+    'v',
+    ms=12,
+    color=colors[0],
+    label=labels[0])
+ax[2].loglog(
+    time_P_t,
+    np.mean(EDP_t),
+    's',
+    ms=12,
+    color=colors[1],
+    label=labels[1])
+ax[2].loglog(
+    time_P_t1,
+    np.mean(EDP_t1),
+    'd',
+    ms=12,
+    color=colors[2],
+    label=labels[2])
+ax[2].loglog(
+    time_P2_t,
+    np.mean(EDP2_t),
+    'o',
+    ms=12,
+    color=colors[3],
+    label=labels[3])
 ax[2].set_xticks([], minor=True)
-ax[2].set_xticks([1, 10, 100,1000])
+ax[2].set_xticks([1, 10, 100, 1000])
 ax[2].get_xaxis().set_major_formatter(matplotlib.ticker.ScalarFormatter())
 ax[2].set_xlabel(r'execution time (seconds)', fontsize=18)
 ax[2].set_ylabel(r'$\epsilon_D$', fontsize=18, rotation=0, labelpad=15)
-ax[2].text(pos_l[0], pos_l[1], r'\textbf ' + letters[2], transform=ax[2].transAxes,
-           fontsize=20, va='top', ha='right')
+ax[2].text(
+    pos_l[0],
+    pos_l[1],
+    r'\textbf ' +
+    letters[2],
+    transform=ax[2].transAxes,
+    fontsize=20,
+    va='top',
+    ha='right')
 
-plt.figlegend(loc='upper center', bbox_to_anchor=(0.5, 1.), borderaxespad=0, ncol=5)
+plt.figlegend(
+    loc='upper center',
+    bbox_to_anchor=(
+        0.5,
+        1.),
+    borderaxespad=0,
+    ncol=5)
 fig.tight_layout(h_pad=0.3, w_pad=0.7, rect=[0, 0, 1, 0.95])
 plt.savefig('img/results-execution_time-forward.pdf', bbox_inches='tight')
 # plt.show()
@@ -146,24 +197,62 @@ ax[0].loglog(time_P_t, np.mean(EHP_t), 's', ms=12, color=colors[1])
 ax[0].loglog(time_P_t1, np.mean(EHP_t1), 'd', ms=12, color=colors[2])
 ax[0].loglog(time_P2_t, np.mean(EHP2_t), 'o', ms=12, color=colors[3])
 ax[0].set_xticks([], minor=True)
-ax[0].set_xticks([10, 100,1000])
+ax[0].set_xticks([10, 100, 1000])
 ax[0].get_xaxis().set_major_formatter(matplotlib.ticker.ScalarFormatter())
 ax[0].set_xlabel(r'execution time (seconds)', fontsize=18)
 ax[0].set_ylabel(r'$\epsilon_H$', fontsize=18, rotation=0, labelpad=15)
-ax[0].text(pos_l[0], pos_l[1], r'\textbf ' + letters[0], transform=ax[0].transAxes,
-           fontsize=20, va='top', ha='right')
+ax[0].text(
+    pos_l[0],
+    pos_l[1],
+    r'\textbf ' +
+    letters[0],
+    transform=ax[0].transAxes,
+    fontsize=20,
+    va='top',
+    ha='right')
 
-ax[1].loglog(time_P_t1_t, np.mean(EJP_t1_t), 'v', ms=12, color=colors[0], label=labels[0])
-ax[1].loglog(time_P_t, np.mean(EJP_t), 's', ms=12, color=colors[1], label=labels[1])
-ax[1].loglog(time_P_t1, np.mean(EJP_t1), 'd', ms=12, color=colors[2], label=labels[2])
-ax[1].loglog(time_P2_t, np.mean(EJP2_t), 'o', ms=12, color=colors[3], label=labels[3])
+ax[1].loglog(
+    time_P_t1_t,
+    np.mean(EJP_t1_t),
+    'v',
+    ms=12,
+    color=colors[0],
+    label=labels[0])
+ax[1].loglog(
+    time_P_t,
+    np.mean(EJP_t),
+    's',
+    ms=12,
+    color=colors[1],
+    label=labels[1])
+ax[1].loglog(
+    time_P_t1,
+    np.mean(EJP_t1),
+    'd',
+    ms=12,
+    color=colors[2],
+    label=labels[2])
+ax[1].loglog(
+    time_P2_t,
+    np.mean(EJP2_t),
+    'o',
+    ms=12,
+    color=colors[3],
+    label=labels[3])
 ax[1].set_xticks([], minor=True)
-ax[1].set_xticks([10, 100,1000])
+ax[1].set_xticks([10, 100, 1000])
 ax[1].get_xaxis().set_major_formatter(matplotlib.ticker.ScalarFormatter())
 ax[1].set_xlabel(r'execution time (minutes)', fontsize=18)
 ax[1].set_ylabel(r'$\epsilon_J$', fontsize=18, rotation=0, labelpad=15)
-ax[1].text(pos_l[0], pos_l[1], r'\textbf ' + letters[1], transform=ax[1].transAxes,
-           fontsize=20, va='top', ha='right')
+ax[1].text(
+    pos_l[0],
+    pos_l[1],
+    r'\textbf ' +
+    letters[1],
+    transform=ax[1].transAxes,
+    fontsize=20,
+    va='top',
+    ha='right')
 
 
 plt.figlegend(

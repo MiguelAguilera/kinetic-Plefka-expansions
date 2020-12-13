@@ -2,8 +2,8 @@
 """
 GPLv3 2020 Miguel Aguilera
 
-This code computes the solution of the forward Ising problem with different 
-mean-field approximation methods and compares it with the averages and 
+This code computes the solution of the forward Ising problem with different
+mean-field approximation methods and compares it with the averages and
 correlations obtained from simulation from "generate_data.py".
 The results can be displayed running "forward-Ising-problem-results.py"
 """
@@ -21,17 +21,16 @@ def nsf(num, n=4):
     return float(numstr)
 
 
-size = 512
+size = 512                 # Network size
+R = 1000000                # Repetitions of the simulation
+H0 = 0.5                   # Uniform distribution of fields parameter
+J0 = 1.0                   # Average value of couplings
+Js = 0.1                   # Standard deviation of couplings
 
-R = 1000000
-gamma1 = 0.5
-gamma2 = 0.1
-
-T = 128
-B = 21
+B = 21                    # Number of values of beta
+T = 2**7                  # Number of simulation time steps
 
 betas = 1 + np.linspace(-1, 1, B) * 0.3
-
 for ib in range(B):
     beta_ref = round(betas[ib], 3)
 
@@ -84,8 +83,8 @@ for ib in range(B):
     DPexp_final = np.zeros((size, size))
 
     # Load data
-    filename = 'data/data-gamma1-' + str(gamma1) + '-gamma2-' + str(
-        gamma2) + '-s-' + str(size) + '-R-' + str(R) + '-beta-' + str(beta_ref) + '.npz'
+    filename = 'data/data-H0-' + str(H0) + '-J0-' + str(J0) + '-Js-' + str(
+        Js) + '-N-' + str(size) + '-R-' + str(R) + '-beta-' + str(beta_ref) + '.npz'
     print(filename)
     data = np.load(filename)
     H = data['H']

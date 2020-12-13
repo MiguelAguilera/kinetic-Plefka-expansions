@@ -2,8 +2,8 @@
 """
 GPLv3 2020 Miguel Aguilera
 
-This code computes the solution of the inverse Ising problem with different 
-mean-field approximation methods using data generated form simulation from 
+This code computes the solution of the inverse Ising problem with different
+mean-field approximation methods using data generated form simulation from
 "generate_data.py".
 The results can be displayed running "inverse-Ising-problem-results.py"
 """
@@ -15,30 +15,31 @@ import numpy as np
 import time
 from sys import argv
 
+
 def nsf(num, n=4):
     """n-Significant Figures"""
     numstr = ("{0:.%ie}" % (n - 1)).format(num)
     return float(numstr)
 
 
-gamma1 = 0.5
-gamma2 = 0.1
+size = 512                 # Network size
+R = 1000000                # Repetitions of the simulation
+H0 = 0.5                   # Uniform distribution of fields parameter
+J0 = 1.0                   # Average value of couplings
+Js = 0.1                   # Standard deviation of couplings
 
-size = 512
-R = 1000000
+B = 21                    # Number of values of beta
+T = 2**7                  # Number of simulation time steps
 
-T = 128
+max_rep = 10000            # Maximum number of steps in the gradient ascent
 
-max_rep = 10000
-
-B = 21
 betas = 1 + np.linspace(-1, 1, B) * 0.3
 for ib in range(B):
 
     beta_ref = round(betas[ib], 3)        # beta_ref / beta_c value
 
-    filename = 'data/data-gamma1-' + str(gamma1) + '-gamma2-' + str(
-        gamma2) + '-s-' + str(size) + '-R-' + str(R) + '-beta-' + str(beta_ref) + '.npz'
+    filename = 'data/data-H0-' + str(H0) + '-J0-' + str(J0) + '-Js-' + str(
+        Js) + '-N-' + str(size) + '-R-' + str(R) + '-beta-' + str(beta_ref) + '.npz'
     data = np.load(filename)
 
     # We load original parameters for reference

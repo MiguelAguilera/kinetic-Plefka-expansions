@@ -20,9 +20,10 @@ plt.rc('legend', **{'fontsize': 18})
 
 size = 512
 R = 1000000
-R1 = 10000
-gamma1 = 0.5
-gamma2 = 0.1
+R1 = 100000
+J0 = 1.0
+H0 = 0.5
+Js = 0.1
 
 T = 128
 iu1 = np.triu_indices(size, 1)
@@ -94,7 +95,8 @@ sigmaP_t_0 = np.zeros(B)
 sigmaP_t1_0 = np.zeros(B)
 sigmaP2_t_0 = np.zeros(B)
 
-filename_exp = 'data/reconstruction/data-transition-gamma1-0.5-gamma2-0.1-s-512-R-100000-B-201.npz'
+filename_exp = 'data/reconstruction/data-transition-H0-' + str(H0) + '-J0-' + str(
+    J0) + '-Js-' + str(Js) + '-N-' + str(size) + '-R-' + str(R1) + '-B-' + str(B) + '.npz'
 data_exp = np.load(filename_exp)
 print(list(data_exp.keys()))
 mPexp = data_exp['m_mean']
@@ -215,59 +217,106 @@ nrow = 0
 ncol = 0
 ax[nrow, ncol].plot(betas, CP_t1_0, dashes=line[2], color=colors[2], lw=lws[2])
 ax[nrow, ncol].plot(betas, CP2_t_0, dashes=line[3], color=colors[3], lw=lws[3])
-ax[nrow, ncol].plot(betas, CP_t1_t_0, dashes=line[0], color=colors[0], lw=lws[0])
+ax[nrow, ncol].plot(betas, CP_t1_t_0, dashes=line[0],
+                    color=colors[0], lw=lws[0])
 ax[nrow, ncol].plot(betas, CP_t_0, dashes=line[1], color=colors[1], lw=lws[1])
 ax[nrow, ncol].plot(betas, CPexp, color='k')
 ax[nrow, ncol].plot(betas[np.argmax(CPexp)], [0.021], '*', ms=10, color='k')
-ax[nrow, ncol].plot(betas[np.argmax(CP_t1_t_0)], [ 0.021], '*', ms=10, color=colors[0])
-ax[nrow, ncol].plot(betas[np.argmax(CP_t_0)], [0.024], '*', ms=10, color=colors[1])
-ax[nrow, ncol].plot(betas[np.argmax(CP_t1_0)], [0.0225], '*', ms=10, color=colors[2])
-ax[nrow, ncol].plot(betas[np.argmax(CP2_t_0)], [0.0225], '*', ms=10, color=colors[3])
-ax[nrow, ncol].plot([1,1], [0,0.025], lw=0.5, color='k')
+ax[nrow, ncol].plot(betas[np.argmax(CP_t1_t_0)], [
+                    0.021], '*', ms=10, color=colors[0])
+ax[nrow, ncol].plot(betas[np.argmax(CP_t_0)], [0.024],
+                    '*', ms=10, color=colors[1])
+ax[nrow, ncol].plot(betas[np.argmax(CP_t1_0)], [0.0225],
+                    '*', ms=10, color=colors[2])
+ax[nrow, ncol].plot(betas[np.argmax(CP2_t_0)], [0.0225],
+                    '*', ms=10, color=colors[3])
+ax[nrow, ncol].plot([1, 1], [0, 0.025], lw=0.5, color='k')
 ax[nrow, ncol].axis([np.min(betas), np.max(betas), 0, 0.025])
 ax[nrow, ncol].set_xlabel(r'$\beta / \beta_c$', fontsize=18)
-ax[nrow, ncol].set_ylabel(r'$\langle C_{ik,t} \rangle$', fontsize=18, rotation=0, labelpad=25)
-ax[nrow, ncol].text(pos_l[0], pos_l[1], r'\textbf ' + letters[0], transform=ax[nrow, ncol].transAxes, fontsize=20, va='top', ha='right')
+ax[nrow, ncol].set_ylabel(
+    r'$\langle C_{ik,t} \rangle$', fontsize=18, rotation=0, labelpad=25)
+ax[nrow,
+    ncol].text(pos_l[0],
+               pos_l[1],
+               r'\textbf ' + letters[0],
+               transform=ax[nrow,
+                            ncol].transAxes,
+               fontsize=20,
+               va='top',
+               ha='right')
 
 nrow = 0
 ncol = 1
 ax[nrow, ncol].plot(betas, DP_t1_0, dashes=line[2], color=colors[2], lw=lws[2])
 ax[nrow, ncol].plot(betas, DP2_t_0, dashes=line[3], color=colors[3], lw=lws[3])
-ax[nrow, ncol].plot(betas, DP_t1_t_0, dashes=line[0], color=colors[0], lw=lws[0])
+ax[nrow, ncol].plot(betas, DP_t1_t_0, dashes=line[0],
+                    color=colors[0], lw=lws[0])
 ax[nrow, ncol].plot(betas, DP_t_0, dashes=line[1], color=colors[1], lw=lws[1])
 ax[nrow, ncol].plot(betas, DPexp, color='k')
 ax[nrow, ncol].plot(betas[np.argmax(DPexp)], [0.021], '*', ms=10, color='k')
-ax[nrow, ncol].plot(betas[np.argmax(DP_t1_t_0)], [ 0.021], '*', ms=10, color=colors[0])
-ax[nrow, ncol].plot(betas[np.argmax(DP_t_0)], [0.024], '*', ms=10, color=colors[1])
-ax[nrow, ncol].plot(betas[np.argmax(DP_t1_0)], [0.021], '*', ms=10, color=colors[2])
-ax[nrow, ncol].plot(betas[np.argmax(DP2_t_0)], [0.0225], '*', ms=10, color=colors[3])
-ax[nrow, ncol].plot([1,1], [0,0.025], lw=0.5, color='k')
+ax[nrow, ncol].plot(betas[np.argmax(DP_t1_t_0)], [
+                    0.021], '*', ms=10, color=colors[0])
+ax[nrow, ncol].plot(betas[np.argmax(DP_t_0)], [0.024],
+                    '*', ms=10, color=colors[1])
+ax[nrow, ncol].plot(betas[np.argmax(DP_t1_0)], [0.021],
+                    '*', ms=10, color=colors[2])
+ax[nrow, ncol].plot(betas[np.argmax(DP2_t_0)], [0.0225],
+                    '*', ms=10, color=colors[3])
+ax[nrow, ncol].plot([1, 1], [0, 0.025], lw=0.5, color='k')
 ax[nrow, ncol].axis([np.min(betas), np.max(betas), 0, 0.025])
 ax[nrow, ncol].set_xlabel(r'$\beta / \beta_c$', fontsize=18)
-ax[nrow, ncol].set_ylabel(r'$\langle D_{il,t} \rangle$', fontsize=18, rotation=0, labelpad=25)
-ax[nrow, ncol].text(pos_l[0], pos_l[1], r'\textbf ' + letters[1], transform=ax[nrow, ncol].transAxes, fontsize=20, va='top', ha='right')
+ax[nrow, ncol].set_ylabel(
+    r'$\langle D_{il,t} \rangle$', fontsize=18, rotation=0, labelpad=25)
+ax[nrow,
+    ncol].text(pos_l[0],
+               pos_l[1],
+               r'\textbf ' + letters[1],
+               transform=ax[nrow,
+                            ncol].transAxes,
+               fontsize=20,
+               va='top',
+               ha='right')
 
 nrow = 0
 ncol = 2
 
 ax[nrow, ncol].plot(betas, sigmaPexp, color='k', label=labels[4])
-ax[nrow, ncol].plot(betas, sigmaP_t1_t_0, dashes=line[0], color=colors[0], lw=lws[0], label=labels[0])
-ax[nrow, ncol].plot(betas, sigmaP_t_0, dashes=line[1], color=colors[1], lw=lws[1], label=labels[1])
-ax[nrow, ncol].plot(betas, sigmaP_t1_0, dashes=line[2], color=colors[2], lw=lws[2], label=labels[2])
-ax[nrow, ncol].plot(betas, sigmaP2_t_0, dashes=line[3], color=colors[3], lw=lws[3], label=labels[3])
+ax[nrow, ncol].plot(betas, sigmaP_t1_t_0, dashes=line[0],
+                    color=colors[0], lw=lws[0], label=labels[0])
+ax[nrow, ncol].plot(betas, sigmaP_t_0, dashes=line[1],
+                    color=colors[1], lw=lws[1], label=labels[1])
+ax[nrow, ncol].plot(betas, sigmaP_t1_0, dashes=line[2],
+                    color=colors[2], lw=lws[2], label=labels[2])
+ax[nrow, ncol].plot(betas, sigmaP2_t_0, dashes=line[3],
+                    color=colors[3], lw=lws[3], label=labels[3])
 ax[nrow, ncol].plot(betas, sigmaPexp, color='k')
-ax[nrow, ncol].plot(betas, sigmaP_t1_t_0, dashes=line[0], color=colors[0], lw=lws[0])
-ax[nrow, ncol].plot(betas, sigmaP_t1_0, dashes=line[2], color=colors[2], lw=lws[2])
+ax[nrow, ncol].plot(betas, sigmaP_t1_t_0, dashes=line[0],
+                    color=colors[0], lw=lws[0])
+ax[nrow, ncol].plot(betas, sigmaP_t1_0, dashes=line[2],
+                    color=colors[2], lw=lws[2])
 ax[nrow, ncol].plot(betas[np.argmax(sigmaPexp)], [120], '*', ms=10, color='k')
-ax[nrow, ncol].plot(betas[np.argmax(sigmaP_t1_t_0)], [ 130], '*', ms=10, color=colors[0])
-ax[nrow, ncol].plot(betas[np.argmax(sigmaP_t_0)], [ 130], '*', ms=10, color=colors[1])
-ax[nrow, ncol].plot(betas[np.argmax(sigmaP_t1_0)], [ 110], '*', ms=10, color=colors[2])
-ax[nrow, ncol].plot(betas[np.argmax(sigmaP2_t_0)], [ 110], '*', ms=10, color=colors[3])
-ax[nrow, ncol].plot([1,1], [0,135], lw=0.5, color='k')
+ax[nrow, ncol].plot(betas[np.argmax(sigmaP_t1_t_0)], [
+                    130], '*', ms=10, color=colors[0])
+ax[nrow, ncol].plot(betas[np.argmax(sigmaP_t_0)], [
+                    130], '*', ms=10, color=colors[1])
+ax[nrow, ncol].plot(betas[np.argmax(sigmaP_t1_0)], [
+                    110], '*', ms=10, color=colors[2])
+ax[nrow, ncol].plot(betas[np.argmax(sigmaP2_t_0)], [
+                    110], '*', ms=10, color=colors[3])
+ax[nrow, ncol].plot([1, 1], [0, 135], lw=0.5, color='k')
 ax[nrow, ncol].axis([np.min(betas), np.max(betas), 0, 135])
 ax[nrow, ncol].set_xlabel(r'$\beta / \beta_c$', fontsize=18)
-ax[nrow, ncol].set_ylabel(r'$\mathrm{e}^{\langle \sigma_t\rangle}$', fontsize=18, rotation=0, labelpad=25)
-ax[nrow, ncol].text(pos_l[0], pos_l[1], r'\textbf ' + letters[2], transform=ax[nrow, ncol].transAxes, fontsize=20, va='top', ha='right')
+ax[nrow, ncol].set_ylabel(
+    r'$\mathrm{e}^{\langle \sigma_t\rangle}$', fontsize=18, rotation=0, labelpad=25)
+ax[nrow,
+    ncol].text(pos_l[0],
+               pos_l[1],
+               r'\textbf ' + letters[2],
+               transform=ax[nrow,
+                            ncol].transAxes,
+               fontsize=20,
+               va='top',
+               ha='right')
 
 nrow = 1
 ncol = 0
@@ -277,16 +326,28 @@ ax[nrow, ncol].plot(betas, CP_t1_t, dashes=line[0], color=colors[0], lw=lws[0])
 ax[nrow, ncol].plot(betas, CP_t, dashes=line[1], color=colors[1], lw=lws[1])
 ax[nrow, ncol].plot(betas, CPexp, color='k')
 ax[nrow, ncol].plot(betas[np.argmax(CPexp)], [0.0225], '*', ms=10, color='k')
-ax[nrow, ncol].plot(betas[np.argmax(CP_t1_t)], [0.0225], '*', ms=10, color=colors[0])
-ax[nrow, ncol].plot(betas[np.argmax(CP_t)], [0.021], '*', ms=10, color=colors[1])
-ax[nrow, ncol].plot(betas[np.argmax(CP_t1)], [0.0225], '*', ms=10, color=colors[2])
-ax[nrow, ncol].plot(betas[np.argmax(CP2_t)], [0.024], '*', ms=10, color=colors[3])
-ax[nrow, ncol].plot([1,1], [0,0.025], lw=0.5, color='k')
+ax[nrow, ncol].plot(betas[np.argmax(CP_t1_t)], [0.0225],
+                    '*', ms=10, color=colors[0])
+ax[nrow, ncol].plot(betas[np.argmax(CP_t)], [0.021],
+                    '*', ms=10, color=colors[1])
+ax[nrow, ncol].plot(betas[np.argmax(CP_t1)], [0.0225],
+                    '*', ms=10, color=colors[2])
+ax[nrow, ncol].plot(betas[np.argmax(CP2_t)], [0.024],
+                    '*', ms=10, color=colors[3])
+ax[nrow, ncol].plot([1, 1], [0, 0.025], lw=0.5, color='k')
 ax[nrow, ncol].axis([np.min(betas), np.max(betas), 0, 0.025])
 ax[nrow, ncol].set_xlabel(r'$\tilde\beta$', fontsize=18)
 ax[nrow, ncol].set_ylabel(
     r'$\langle C_{ik,t} \rangle$', fontsize=18, rotation=0, labelpad=25)
-ax[nrow, ncol].text(pos_l[0], pos_l[1], r'\textbf ' + letters[3], transform=ax[nrow, ncol].transAxes, fontsize=20, va='top', ha='right')
+ax[nrow,
+    ncol].text(pos_l[0],
+               pos_l[1],
+               r'\textbf ' + letters[3],
+               transform=ax[nrow,
+                            ncol].transAxes,
+               fontsize=20,
+               va='top',
+               ha='right')
 
 nrow = 1
 ncol = 1
@@ -296,33 +357,69 @@ ax[nrow, ncol].plot(betas, DP_t1_t, dashes=line[0], color=colors[0], lw=lws[0])
 ax[nrow, ncol].plot(betas, DP_t, dashes=line[1], color=colors[1], lw=lws[1])
 ax[nrow, ncol].plot(betas, DPexp, color='k')
 ax[nrow, ncol].plot(betas[np.argmax(DPexp)], [0.0225], '*', ms=10, color='k')
-ax[nrow, ncol].plot(betas[np.argmax(DP_t1_t)], [0.0225], '*', ms=10, color=colors[0])
-ax[nrow, ncol].plot(betas[np.argmax(DP_t)], [0.021], '*', ms=10, color=colors[1])
-ax[nrow, ncol].plot(betas[np.argmax(DP_t1)], [0.0225], '*', ms=10, color=colors[2])
-ax[nrow, ncol].plot(betas[np.argmax(DP2_t)], [0.024], '*', ms=10, color=colors[3])
-ax[nrow, ncol].plot([1,1], [0,0.025], lw=0.5, color='k')
+ax[nrow, ncol].plot(betas[np.argmax(DP_t1_t)], [0.0225],
+                    '*', ms=10, color=colors[0])
+ax[nrow, ncol].plot(betas[np.argmax(DP_t)], [0.021],
+                    '*', ms=10, color=colors[1])
+ax[nrow, ncol].plot(betas[np.argmax(DP_t1)], [0.0225],
+                    '*', ms=10, color=colors[2])
+ax[nrow, ncol].plot(betas[np.argmax(DP2_t)], [0.024],
+                    '*', ms=10, color=colors[3])
+ax[nrow, ncol].plot([1, 1], [0, 0.025], lw=0.5, color='k')
 ax[nrow, ncol].axis([np.min(betas), np.max(betas), 0, 0.025])
 ax[nrow, ncol].set_xlabel(r'$\tilde\beta$', fontsize=18)
-ax[nrow, ncol].set_ylabel(r'$\langle D_{il,t} \rangle$', fontsize=18, rotation=0, labelpad=25)
-ax[nrow, ncol].text(pos_l[0], pos_l[1], r'\textbf ' + letters[4], transform=ax[nrow, ncol].transAxes, fontsize=20, va='top', ha='right')
+ax[nrow, ncol].set_ylabel(
+    r'$\langle D_{il,t} \rangle$', fontsize=18, rotation=0, labelpad=25)
+ax[nrow,
+    ncol].text(pos_l[0],
+               pos_l[1],
+               r'\textbf ' + letters[4],
+               transform=ax[nrow,
+                            ncol].transAxes,
+               fontsize=20,
+               va='top',
+               ha='right')
 
 nrow = 1
 ncol = 2
-ax[nrow, ncol].plot(betas, sigmaP_t1, dashes=line[2], color=colors[2], lw=lws[2])
-ax[nrow, ncol].plot(betas, sigmaP2_t, dashes=line[3],  color=colors[3], lw=lws[3])
-ax[nrow, ncol].plot(betas, sigmaP_t1_t, dashes=line[0], color=colors[0], lw=lws[0])
-ax[nrow, ncol].plot(betas, sigmaP_t, dashes=line[1], color=colors[1], lw=lws[1])
+ax[nrow, ncol].plot(betas, sigmaP_t1, dashes=line[2],
+                    color=colors[2], lw=lws[2])
+ax[nrow, ncol].plot(betas, sigmaP2_t, dashes=line[3],
+                    color=colors[3], lw=lws[3])
+ax[nrow, ncol].plot(betas, sigmaP_t1_t, dashes=line[0],
+                    color=colors[0], lw=lws[0])
+ax[nrow, ncol].plot(betas, sigmaP_t, dashes=line[1],
+                    color=colors[1], lw=lws[1])
 ax[nrow, ncol].plot(betas, sigmaPexp, color='k')
 ax[nrow, ncol].plot(betas[np.argmax(sigmaPexp)], [110], '*', ms=10, color='k')
-ax[nrow, ncol].plot(betas[np.argmax(sigmaP_t1_t)], [ 120], '*', ms=10, color=colors[0])
-ax[nrow, ncol].plot(betas[np.argmax(sigmaP_t)], [ 100], '*', ms=10, color=colors[1])
-ax[nrow, ncol].plot(betas[np.argmax(sigmaP_t1)], [ 130], '*', ms=10, color=colors[2])
-ax[nrow, ncol].plot(betas[np.argmax(sigmaP2_t)], [ 120], '*', ms=10, color=colors[3])
-ax[nrow, ncol].plot([1,1], [0,135], lw=0.5, color='k')
+ax[nrow, ncol].plot(betas[np.argmax(sigmaP_t1_t)], [
+                    120], '*', ms=10, color=colors[0])
+ax[nrow, ncol].plot(betas[np.argmax(sigmaP_t)], [
+                    100], '*', ms=10, color=colors[1])
+ax[nrow, ncol].plot(betas[np.argmax(sigmaP_t1)], [
+                    130], '*', ms=10, color=colors[2])
+ax[nrow, ncol].plot(betas[np.argmax(sigmaP2_t)], [
+                    120], '*', ms=10, color=colors[3])
+ax[nrow, ncol].plot([1, 1], [0, 135], lw=0.5, color='k')
 ax[nrow, ncol].axis([np.min(betas), np.max(betas), 0, 135])
 ax[nrow, ncol].set_xlabel(r'$\tilde\beta$', fontsize=18)
-ax[nrow, ncol].set_ylabel(r'$\mathrm{e}^{\langle \sigma_t\rangle}$', fontsize=18, rotation=0, labelpad=25)
-ax[nrow, ncol].text(pos_l[0], pos_l[1], r'\textbf ' + letters[5], transform=ax[nrow, ncol].transAxes, fontsize=20, va='top', ha='right')
-plt.figlegend(loc='upper center', bbox_to_anchor=(0.5, 1.), borderaxespad=0, ncol=5)
+ax[nrow, ncol].set_ylabel(
+    r'$\mathrm{e}^{\langle \sigma_t\rangle}$', fontsize=18, rotation=0, labelpad=25)
+ax[nrow,
+    ncol].text(pos_l[0],
+               pos_l[1],
+               r'\textbf ' + letters[5],
+               transform=ax[nrow,
+                            ncol].transAxes,
+               fontsize=20,
+               va='top',
+               ha='right')
+plt.figlegend(
+    loc='upper center',
+    bbox_to_anchor=(
+        0.5,
+        1.),
+    borderaxespad=0,
+    ncol=5)
 fig.tight_layout(h_pad=0.3, w_pad=0.7, rect=[0, 0, 1, 0.975])
 plt.savefig('img/results-reconstruted-transition.pdf', bbox_inches='tight')

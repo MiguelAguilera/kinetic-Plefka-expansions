@@ -5,7 +5,7 @@ GPLv3 2020 Miguel Aguilera
 This code runs a simualtion of the kinetic Ising models form an initial
 state for T steps repeated over R trials. The results are used for reference
 in the forward Ising model and as input for the inverse Ising model.
-All simulations used pre-generated parameters 
+All simulations used pre-generated parameters
 An example of the data generated from this file can be found at XXX.
 """
 
@@ -14,20 +14,12 @@ import numpy as np
 from matplotlib import pyplot as plt
 from sys import argv
 
-if len(argv) < 3:
-    print(
-        "Usage: " +
-        argv[0] +
-        " <network size>" +
-        " <repetitions>" +
-        " <H0>" +
-        " <Js>")
-    exit(1)
 
-size = int(argv[1])        # Network size
-R = int(argv[2])           # Repetitions of the simulation
-H0 = float(argv[3])        # Uniform distribution of fields parameter
-Js = float(argv[4])        # Coupling distribution std parameter
+size = 512                 # Network size
+R = 1000000                # Repetitions of the simulation
+H0 = 0.5                   # Uniform distribution of fields parameter
+J0 = 1.0                   # Average value of couplings
+Js = 0.1                   # Standard deviation of couplings
 
 I = ising(size)
 
@@ -35,7 +27,7 @@ B = 21                    # Number of values of beta
 T = 2**7                  # Number of simulation time steps
 
 # Set critical inverse temperature value
-elif H0 == 0.5 and Js == 0.1:
+if H0 == 0.5 and Js == 0.1:
     beta0 = 1.1108397534245904
 else:
     print('Undefined beta0')
@@ -45,29 +37,21 @@ else:
 betas = 1 + np.linspace(-1, 1, B) * 0.3
 
 # Load network parameters
-filename = 'data/parameters_size-' + \
-    str(size) + '-H0-' + str(H0) + '-Js-' + str(Js) + '.npz'
+filename = 'data/parameters_H0-' + \
+    str(H0) + '-J0-' + str(J0) + '-Js-' + str(Js) + '-N-' + str(size) + '.npz'
 data = np.load(filename)
-H0 = data['H0']
-J0 = data['J0']
-
+H_init = data['H']
+J_init = data['J']
 
 # Run for each value of beta
 for ib in range(len(betas)):
     beta_ref = round(betas[ib], 3)
     beta = beta_ref * beta0
-    print(beta_ref, str(ib) + '/' + str(len(betas)), H0, Js, size)
+    print(beta_ref, str(ib) + '/' + str(len(betas)), H0, J0, Js, size)
 
-    I.H = beta * H0
-    if np.mean(I.H) < 0:
-        I.H *= -1
-    I.J = beta * J0
+    I.H = beta * H_init.copy()
+    I.J = beta * J_init.copy()
 
-    J = I.J.copy()
-    H = I.H.copy()
-
-#    print(J[0,0:10])
-#    print(J0[0,0:10]*beta)
     m_exp = np.zeros((size, T))
     m_exp_prev = np.zeros((size, T))
     C_exp = np.zeros((size, size, T))
@@ -103,15 +87,14 @@ for ib in range(len(betas)):
     D_exp -= np.einsum('it,lt->ilt', m_exp, m_exp_prev, optimize=True)
 
     # Save the evolution of statistical moments
-    filename = 'data/data-H0-' + str(H0) + '-Js-' + str(Js) + '-s-' + \
-        str(size) + '-R-' + str(R) + '-beta-' + str(beta_ref) + '.npz'
-    ndec = 5     # Number of significative figures
+    filename = 'data/data-H0-' + str(H0) + '-J0-' + str(J0) + '-Js-' + str(
+        Js) + '-N-' + str(size) + '-R-' + str(R) + '-beta-' + str(beta_ref) + '.npz'
     np.savez_compressed(
         filename,
         C_exp,
         m=m_exp,
         D=D_exp,
-        H=H,
-        J=J,
+        H=I.H,
+        J=I.J,
         s0=s0,
         beta_c=beta0)

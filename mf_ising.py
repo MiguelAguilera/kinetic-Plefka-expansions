@@ -13,26 +13,26 @@ class mf_ising:
     """
     This class implements the behaviour of a mean field approximations of an
     asymmetric kinetic Ising model according to different Plefka Expansions.
-    
-    P_t1_t represents the Plefka[t-1,t] approximation, corresponding to the 
+
+    P_t1_t represents the Plefka[t-1,t] approximation, corresponding to the
     naive mean field (_o1) and TAP (_o2) equations as in
     https://doi.org/10.1103/PhysRevE.61.5658
     https://doi.org/10.1088/1742-5468/2011/03/P03031
-    
+
     P_t represents the Plefka[t] approximation, which preserves correlations
-    at the previous timestep in a similar what than 
-    https://doi.org/10.1103/PhysRevLett.106.048702 
-    
+    at the previous timestep in a similar what than
+    https://doi.org/10.1103/PhysRevLett.106.048702
+
     P_t1 represents the Plefka[t-1] approximation, which preserves couplings
     at time t and assumes that activity is independent at t-1, assuming
     a Gaussian distribution of the effective field similarly as
     https://doi.org/10.1088/1742-5468/2011/07/L07001
-    
+
     P2_t represents the new pairwise Plefka2[t] approximation, which instead
     of a independent model uses pairwise models as a reference, being more
     effective for capturing correlations of a system.
-    
-    _o1 and _o2 represent the first and second order approximations of the 
+
+    _o1 and _o2 represent the first and second order approximations of the
     equations
     """
 
@@ -59,18 +59,18 @@ class mf_ising:
         self.C_p = self.C.copy()
         self.D = np.zeros((self.size, self.size))
 
-
     def random_fields(self, amp=1):
         """
         Set random values for H
         """
         self.H = (np.random.rand(self.size) * 2 - 1) * amp
 
-    def random_wiring(self, offset =0, std=1):
+    def random_wiring(self, offset=0, std=1):
         """
         Set random values for J
         """
-        self.J = (offset + np.random.randn(self.size, self.size) * std) / self.size
+        self.J = (offset + np.random.randn(self.size,
+                                           self.size) * std) / self.size
 
     def update_P_t1_t_o1(self):
         """
@@ -127,7 +127,7 @@ class mf_ising:
         self.m_p = self.m.copy()
         self.m, self.C, self.D = update_D_P2_t_o2(
             self.H, self.J, self.m_p)
-            
+
     def update_P2_t_o2(self):
         """
         Update pairwise Plefka2[t] order 2 approximation
@@ -137,6 +137,6 @@ class mf_ising:
         self.D_p = self.D.copy()
 #        self.m, self.C, self.D = update_D_P2_t_o2(
 #            self.H, self.J, self.m_p, self.C_p, self.D_p)
-        self.m, self.D = update_D_P2_t_o2(self.H, self.J, self.m_p, self.C_p, self.D_p)
+        self.m, self.D = update_D_P2_t_o2(
+            self.H, self.J, self.m_p, self.C_p, self.D_p)
         self.C = update_C_P2_t_o2(self.H, self.J, self.m, self.m_p, self.C_p)
-

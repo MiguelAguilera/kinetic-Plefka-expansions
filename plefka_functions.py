@@ -30,13 +30,13 @@ def diff_TAP_eq(x, H, Vii):
 
 def solve_TAP_eq(x0, H, Vii, TOL=1E-15):
     x = x0.copy()
-    TAP=TAP_eq(x, H, Vii)
+    TAP = TAP_eq(x, H, Vii)
     error = np.max(np.abs(TAP))
-    count=0
+    count = 0
     while error > TOL:
         TAP = TAP_eq(x, H, Vii)
         dTAP = diff_TAP_eq(x, H, Vii)
-        x -= TAP / dTAP * (np.abs(TAP)>TOL).astype(int)
+        x -= TAP / dTAP * (np.abs(TAP) > TOL).astype(int)
         error = np.max(np.abs(TAP))
     return x
 
@@ -194,7 +194,7 @@ def update_C_P_t1_o1(H, J, m, m_p, C_p):
     g = H + np.dot(J, m_p)
     D = np.dot(J**2, 1 - m_p**2)
     inv_D = np.zeros(size)
-    inv_D[D > 0]  = 1 / D[D > 0]
+    inv_D[D > 0] = 1 / D[D > 0]
     rho = np.einsum('i,k,ij,kl,jl->ik', np.sqrt(inv_D),
                     np.sqrt(inv_D), J, J, C_p, optimize=True)
     rho = np.clip(rho, -1, 1)
@@ -233,17 +233,20 @@ def update_D_P2_t_o1(H, J, m_p):
 
 # PLEFKA2[t], order 2
 
-#def TAP_eq_D(x, Heff_i, Jijsj, V_pij):
+# def TAP_eq_D(x, Heff_i, Jijsj, V_pij):
 #    return x - Heff_i + np.tanh(x + Jijsj) * V_pij
 
-#def diff_TAP_eq_D(x, Jijsj, V_pij):
+# def diff_TAP_eq_D(x, Jijsj, V_pij):
 #    return 1 + (1 - np.tanh(x + Jijsj)**2) * V_pij
-    
+
+
 def TAP_eq_D(x, Heff, V):
     return x - Heff + np.tanh(x) * V
 
+
 def diff_TAP_eq_D(x, V):
     return 1 + (1 - np.tanh(x)**2) * V
+
 
 def solve_TAP_eq_D(x0, Heff, V, TOL=1E-15):
     x = x0.copy()
@@ -252,9 +255,10 @@ def solve_TAP_eq_D(x0, Heff, V, TOL=1E-15):
     while error > TOL:
         TAP = TAP_eq_D(x, Heff, V)
         dTAP = diff_TAP_eq_D(x, V)
-        x -= TAP / dTAP * (np.abs(TAP)>TOL).astype(int)
+        x -= TAP / dTAP * (np.abs(TAP) > TOL).astype(int)
         error = np.max(np.abs(TAP))
     return x
+
 
 def update_D_P2_t_o2(H, J, m_p, C_p, D_p):
     size = len(H)
@@ -274,11 +278,11 @@ def update_D_P2_t_o2(H, J, m_p, C_p, D_p):
     V_pil -= 2 * np.einsum('il,in,ln->il', J, J, C_p)
     V_pil += np.einsum('il,ll->il', J**2, C_p)
     W_pil = W_p - np.einsum('il,ln,ln->il', J, J, D_p, optimize=True)
-    
+
 #    Heff_i -= J * m_pil
 #    Heff_i -= m_pil * W_pil
     Delta_il = J + W_pil
-    
+
 
 #    inds = np.zeros((size, size), int)
 #    for i in range(size):
@@ -286,7 +290,7 @@ def update_D_P2_t_o2(H, J, m_p, C_p, D_p):
 #            inds[i, k] = np.argmax(np.abs(Delta_il[i, :] * Delta_il[k, :]))
 
     for sl in [-1, 1]:
-        Heff_il = Heff_i + Delta_il*(sl-m_pil)
+        Heff_il = Heff_i + Delta_il * (sl - m_pil)
         Theta = solve_TAP_eq_D(Heff_il, Heff_il, V_pil)
 #        Theta = Heff_i.copy()
 #        error = np.max(np.abs(TAP_eq_D(Theta, Heff_i, Delta_il * sl, V_pil)))
@@ -303,7 +307,7 @@ def update_D_P2_t_o2(H, J, m_p, C_p, D_p):
 
     D -= m_i * m_pil
 #    m_D = np.diag(m_i)
-    m_D = np.einsum('il->i',m_i/size, optimize=True)
+    m_D = np.einsum('il->i', m_i / size, optimize=True)
     return m_D, D
 #    V_ik = np.einsum('ij,kl,jl->ik', J, J, C_p, optimize=True)
 #    V_ik -= np.einsum('ii,kl,il->ik', J, J, C_p, optimize=True) + \
@@ -312,7 +316,8 @@ def update_D_P2_t_o2(H, J, m_p, C_p, D_p):
 #    C_D = np.einsum('il,jn,ij->ij', (1 - t2)/size, (1 - t2)/size, V_ik, optimize=True)
 #    np.einsum('ii->i', C_D)[:] = 1 - m_D**2
 #    return m_D, C_D, D
-    
+
+
 def update_C_P2_t_o2(H, J, m, m_p, C_p):
     size = len(H)
     C_D = np.zeros((size, size))
@@ -326,10 +331,9 @@ def update_C_P2_t_o2(H, J, m, m_p, C_p):
     m_pik = np.einsum('k,ik->ik', m_p, np.ones((size, size)))
     Heff_i = np.einsum('i,il->il', Heff, np.ones((size, size)))
     Delta_ik = W_p
-    
 
     for sk in [-1, 1]:
-        Heff_ik = Heff_i + Delta_ik*(sk-m_pik)
+        Heff_ik = Heff_i + Delta_ik * (sk - m_pik)
         Theta = solve_TAP_eq_D(Heff_ik, Heff_ik, V_pik)
 #        Theta = Heff_i.copy()
 #        error = np.max(np.abs(TAP_eq_D(Theta, Heff_i, Delta_ik * (sk-m_pik), V_p)))
@@ -341,8 +345,8 @@ def update_C_P2_t_o2(H, J, m, m_p, C_p):
 #            error = np.max(np.abs(TAP))
 #            ind = np.argmax(np.abs(TAP))
         C_D += np.tanh(Theta) * (sk - m_pik) * (1 + sk * m_pik) / 2
-    
-    C_D = 0.5*(C_D + C_D.T)
+
+    C_D = 0.5 * (C_D + C_D.T)
     np.einsum('ii->i', C_D)[:] = 1 - m**2
     return C_D
 
