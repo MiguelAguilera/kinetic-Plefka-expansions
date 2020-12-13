@@ -242,7 +242,7 @@ ax[1].loglog(
 ax[1].set_xticks([], minor=True)
 ax[1].set_xticks([10, 100, 1000])
 ax[1].get_xaxis().set_major_formatter(matplotlib.ticker.ScalarFormatter())
-ax[1].set_xlabel(r'execution time (minutes)', fontsize=18)
+ax[1].set_xlabel(r'execution time (seconds)', fontsize=18)
 ax[1].set_ylabel(r'$\epsilon_J$', fontsize=18, rotation=0, labelpad=15)
 ax[1].text(
     pos_l[0],
