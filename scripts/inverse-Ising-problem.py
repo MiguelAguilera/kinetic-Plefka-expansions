@@ -8,9 +8,10 @@ mean-field approximation methods using data generated form simulation from
 The results can be displayed running "inverse-Ising-problem-results.py"
 """
 
-from mf_ising import mf_ising
-from plefka_functions import update_m_P_t1_t_o2, update_D_P_t1_t_o2, update_m_P_t_o2, update_D_P_t_o2
-from plefka_functions import update_m_P_t1_o1, update_D_P_t1_o1, update_D_P2_t_o2
+import context
+from plefka import mf_ising
+from plefka import update_m_P_t1_t_o2, update_D_P_t1_t_o2, update_m_P_t_o2, update_D_P_t_o2
+from plefka import update_m_P_t1_o1, update_D_P_t1_o1, update_D_P2_t_o2
 import numpy as np
 import time
 from sys import argv
@@ -35,6 +36,7 @@ max_rep = 10000            # Maximum number of steps in the gradient ascent
 
 betas = 1 + np.linspace(-1, 1, B) * 0.3
 for ib in range(B):
+
 
     beta_ref = round(betas[ib], 3)        # beta_ref / beta_c value
 
