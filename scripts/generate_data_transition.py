@@ -9,9 +9,9 @@ with shorter simulations for more points of beta.
 An example of the data generated from this file can be found at XXX.
 """
 
+import context
 from kinetic_ising import ising
 import numpy as np
-from matplotlib import pyplot as plt
 from sys import argv
 
 

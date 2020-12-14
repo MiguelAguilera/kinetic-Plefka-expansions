@@ -9,6 +9,7 @@ All simulations used pre-generated parameters
 An example of the data generated from this file can be found at XXX.
 """
 
+import context
 from kinetic_ising import ising
 import numpy as np
 from sys import argv

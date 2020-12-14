@@ -12,7 +12,8 @@ Ising problem.
 The results can be displayed running "reconstruction-Ising-problem-results.py"
 """
 
-from mf_ising import mf_ising
+import context
+from plefka import mf_ising
 import numpy as np
 
 
