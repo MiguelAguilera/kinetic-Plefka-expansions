@@ -422,5 +422,5 @@ plt.figlegend(
         1.),
     borderaxespad=0,
     ncol=5)
-fig.tight_layout(h_pad=0.3, w_pad=0.7, rect=[0, 0, 1, 0.975])
+fig.tight_layout(h_pad=0.3, w_pad=0.7, rect=[0, 0, 1, 0.95])
 plt.savefig('img/results-reconstruted-transition.pdf', bbox_inches='tight')
