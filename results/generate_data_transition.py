@@ -124,7 +124,6 @@ np.savez_compressed(
     m_mean=m_mean,
     C_mean=C_mean,
     D_mean=D_mean,
-    H=I.H,
-    J=I.J,
-    s0=s0,
-    beta_c=beta0)
+    sigma=sigma,
+    beta_c=beta0,
+    betas=betas)
