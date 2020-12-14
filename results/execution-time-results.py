@@ -166,7 +166,7 @@ plt.figlegend(
         1.),
     borderaxespad=0,
     ncol=5)
-fig.tight_layout(h_pad=0.3, w_pad=0.7, rect=[0, 0, 1, 0.95])
+fig.tight_layout(h_pad=0.3, w_pad=0.7, rect=[0, 0, 1, 0.92])
 plt.savefig('img/results-execution_time-forward.pdf', bbox_inches='tight')
 # plt.show()
 
@@ -263,5 +263,5 @@ plt.figlegend(
         1.),
     borderaxespad=0,
     ncol=5)
-fig.tight_layout(h_pad=0.3, w_pad=0.7, rect=[0, 0, 1, 0.95])
+fig.tight_layout(h_pad=0.3, w_pad=0.7, rect=[0, 0, 1, 0.92])
 plt.savefig('img/results-execution_time-inverse.pdf', bbox_inches='tight')
