@@ -6,7 +6,8 @@ This code displays the results of the inverse Ising problem computed
 from running "generate_data.py" and "inverse-Ising-problem.py"
 """
 
-from mf_ising import mf_ising
+import context
+from plefka import mf_ising
 import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib import cm
