@@ -6,6 +6,7 @@ This code displays the results of the forward Ising problem computed
 from running "generate_data.py" and "forward-Ising-problem.py"
 """
 
+import context
 import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib import cm
