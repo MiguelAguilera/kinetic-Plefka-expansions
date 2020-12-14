@@ -10,6 +10,23 @@ import numpy as np
 import urllib.request
 import zipfile
 import os
+import progressbar
+
+class MyProgressBar():
+    def __init__(self):
+        self.pbar = None
+
+    def __call__(self, block_num, block_size, total_size):
+        if not self.pbar:
+            self.pbar=progressbar.ProgressBar(maxval=total_size)
+            self.pbar.start()
+
+        downloaded = block_num * block_size
+        if downloaded < total_size:
+            self.pbar.update(downloaded)
+        else:
+            self.pbar.finish()
+
 
 size = 512                 # Network size
 R = 1000000                # Repetitions of the simulation
@@ -26,16 +43,16 @@ for ib in range(B):
     filename = 'data-H0-' + str(H0) + '-J0-' + str(J0) + '-Js-' + str(
         Js) + '-N-' + str(size) + '-R-' + str(R) + '-beta-' + str(beta_ref) + '.npz'
     url = 'https://zenodo.org/record/4318983/files/'+filename
-    print('Beginning download with urllib2 of '+ url)
+    print('Beginning download with urllib2 ('+str(ib+1)+'/24) of '+ url)
 
-    urllib.request.urlretrieve(url, 'data/'+filename)
+    urllib.request.urlretrieve(url, 'data/'+filename,MyProgressBar())
     
 # Download data for the forward, inverse, and phase reconstruction problems
 files = ['forward.zip', 'inverse.zip', 'reconstruction.zip']
-for f in files:
+for i,f in enumerate(files):
     url = 'https://zenodo.org/record/4318983/files/'+f
-    print('Beginning download with urllib2 of '+ url)
-    urllib.request.urlretrieve(url, 'data/'+f)
+    print('Beginning download with urllib2 ('+str(B+i+1)+'/24) of '+ url)
+    urllib.request.urlretrieve(url, 'data/'+f, MyProgressBar())
     with zipfile.ZipFile('data/'+f, 'r') as zip_ref:
         zip_ref.extractall('data/')
     os.remove('data/'+f)
