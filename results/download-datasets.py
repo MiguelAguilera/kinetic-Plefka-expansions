@@ -44,7 +44,7 @@ for ib in range(B):
         Js) + '-N-' + str(size) + '-R-' + str(R) + '-beta-' + str(beta_ref) + '.npz'
     url = 'https://zenodo.org/record/4318983/files/'+filename
     print()
-    print('Beginning download with urllib2 ('+str(ib+1)+'/24) of '+ url)
+    print('Download '+str(ib+1)+'/24: '+ url)
 
     urllib.request.urlretrieve(url, 'data/'+filename,MyProgressBar())
     
@@ -53,7 +53,7 @@ files = ['forward.zip', 'inverse.zip', 'reconstruction.zip']
 for i,f in enumerate(files):
     url = 'https://zenodo.org/record/4318983/files/'+f
     print()
-    print('Beginning download with urllib2 ('+str(B+i+1)+'/24) of '+ url)
+    print('Download '+str(B+i+1)+'/24: '+ url)
     urllib.request.urlretrieve(url, 'data/'+f, MyProgressBar())
     with zipfile.ZipFile('data/'+f, 'r') as zip_ref:
         zip_ref.extractall('data/')
