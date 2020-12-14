@@ -19,7 +19,6 @@ plt.rc('legend', **{'fontsize': 18})
 
 
 size = 512
-beta = 1.0
 R = 1000000
 
 T = 128
