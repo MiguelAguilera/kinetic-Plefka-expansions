@@ -6,8 +6,7 @@ This code defines a class for using Plefka mean-field approximations.
 """
 
 import numpy as np
-from plefka_functions import *
-
+from .plefka_functions import *
 
 class mf_ising:
     """
