@@ -59,6 +59,7 @@ for ib in range(len(betas)):
 
     # Initial state is all ones
     s0 = np.ones(size)
+    I.s = s0.copy()
 
     print('generate data')
     # Repeat for R repetitions
