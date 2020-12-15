@@ -63,7 +63,7 @@ for ib in range(len(betas)):
     print('generate data')
     # Repeat for R repetitions
     for rep in range(R):
-        I.s = s0.copy()
+        I.s = s0.copy()                      # Set network to the initial state
         m_exp_prev[:, 0] += I.s.copy() / R   # Mean value at the previous state
         # Run the simulation for T steps
         for t in range(T):
@@ -75,7 +75,7 @@ for ib in range(len(betas)):
                                         np.tanh(h),
                                         np.tanh(h),
                                         optimize=True) / R
-            C_exp[range(size), range(size), t] += (1 - np.tanh(h)**2) / R
+            C_exp[range(size), range(size), t] += (1 - np.tanh(h)**2) / R  # Diagonal should be equal to 1
             D_exp[:, :, t] += np.einsum('i,j->ij',
                                         np.tanh(h),
                                         s_prev,
