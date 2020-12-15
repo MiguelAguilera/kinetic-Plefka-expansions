@@ -26,7 +26,7 @@ J0 = 1.0
 H0 = 0.5
 Js = 0.1
 
-T = 128
+T = 2**7
 iu1 = np.triu_indices(size, 1)
 
 offset = np.arange(3)
