@@ -91,8 +91,8 @@ for ib in range(len(betas)):
         Js) + '-N-' + str(size) + '-R-' + str(R) + '-beta-' + str(beta_ref) + '.npz'
     np.savez_compressed(
         filename,
-        C_exp,
         m=m_exp,
+        C=C_exp,
         D=D_exp,
         H=I.H,
         J=I.J,
