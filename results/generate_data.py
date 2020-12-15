@@ -59,11 +59,11 @@ for ib in range(len(betas)):
 
     # Initial state is all ones
     s0 = np.ones(size)
-    I.s = s0.copy()
 
     print('generate data')
     # Repeat for R repetitions
     for rep in range(R):
+        I.s = s0.copy()
         m_exp_prev[:, 0] += I.s.copy() / R   # Mean value at the previous state
         # Run the simulation for T steps
         for t in range(T):
