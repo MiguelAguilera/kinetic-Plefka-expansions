@@ -13,7 +13,7 @@ import os
 import progressbar
 
 
-class MyProgressBar():
+class MyProgressBar():    # Define progress bar in downloads
     def __init__(self):
         self.pbar = None
 
@@ -57,5 +57,5 @@ for i, f in enumerate(files):
     print('Download ' + str(B + i + 1) + '/24: ' + url)
     urllib.request.urlretrieve(url, 'data/' + f, MyProgressBar())
     with zipfile.ZipFile('data/' + f, 'r') as zip_ref:
-        zip_ref.extractall('data/')
-    os.remove('data/' + f)
+        zip_ref.extractall('data/')         # Unzip file
+    os.remove('data/' + f)                  # Remove zip file
