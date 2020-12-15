@@ -12,13 +12,14 @@ import zipfile
 import os
 import progressbar
 
+
 class MyProgressBar():
     def __init__(self):
         self.pbar = None
 
     def __call__(self, block_num, block_size, total_size):
         if not self.pbar:
-            self.pbar=progressbar.ProgressBar(maxval=total_size)
+            self.pbar = progressbar.ProgressBar(maxval=total_size)
             self.pbar.start()
 
         downloaded = block_num * block_size
@@ -36,26 +37,25 @@ Js = 0.1                   # Standard deviation of couplings
 
 
 # Download data from the asymmetric SK model
-B=21
+B = 21
 betas = 1 + np.linspace(-1, 1, B) * 0.3
 for ib in range(B):
     beta_ref = round(betas[ib], 3)
     filename = 'data-H0-' + str(H0) + '-J0-' + str(J0) + '-Js-' + str(
         Js) + '-N-' + str(size) + '-R-' + str(R) + '-beta-' + str(beta_ref) + '.npz'
-    url = 'https://zenodo.org/record/4318983/files/'+filename
+    url = 'https://zenodo.org/record/4318983/files/' + filename
     print()
-    print('Download '+str(ib+1)+'/24: '+ url)
+    print('Download ' + str(ib + 1) + '/24: ' + url)
 
-    urllib.request.urlretrieve(url, 'data/'+filename,MyProgressBar())
-    
+    urllib.request.urlretrieve(url, 'data/' + filename, MyProgressBar())
+
 # Download data for the forward, inverse, and phase reconstruction problems
 files = ['forward.zip', 'inverse.zip', 'reconstruction.zip']
-for i,f in enumerate(files):
-    url = 'https://zenodo.org/record/4318983/files/'+f
+for i, f in enumerate(files):
+    url = 'https://zenodo.org/record/4318983/files/' + f
     print()
-    print('Download '+str(B+i+1)+'/24: '+ url)
-    urllib.request.urlretrieve(url, 'data/'+f, MyProgressBar())
-    with zipfile.ZipFile('data/'+f, 'r') as zip_ref:
+    print('Download ' + str(B + i + 1) + '/24: ' + url)
+    urllib.request.urlretrieve(url, 'data/' + f, MyProgressBar())
+    with zipfile.ZipFile('data/' + f, 'r') as zip_ref:
         zip_ref.extractall('data/')
-    os.remove('data/'+f)
-
+    os.remove('data/' + f)
