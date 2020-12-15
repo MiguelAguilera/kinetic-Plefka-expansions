@@ -86,6 +86,7 @@ for ib in range(len(betas)):
     print('generate data')
     # Repeat for R repetitions
     for rep in range(R):
+        I.s = s0.copy()
         # Run the simulation for T steps
         for t in range(T):
             s_prev = I.s.copy()              # Save previous state
