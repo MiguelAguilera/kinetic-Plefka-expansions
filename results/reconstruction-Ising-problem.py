@@ -64,7 +64,7 @@ for mode in modes:
         J = data['J'] * beta_ref
         H = data['H'] * beta_ref
         del data
-        # Load data
+
         filename1 = 'data/data-H0-' + str(H0) + '-J0-' + str(J0) + '-Js-' + str(
             Js) + '-N-' + str(size) + '-R-' + str(R) + '-beta-1.0.npz'
         data1 = np.load(filename1)
