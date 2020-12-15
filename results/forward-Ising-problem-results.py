@@ -21,7 +21,7 @@ plt.rc('legend', **{'fontsize': 18})
 size = 512
 R = 1000000
 
-T = 128
+T = 2**7
 
 cmap = cm.get_cmap('plasma_r')
 colors = []
