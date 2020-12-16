@@ -38,16 +38,16 @@ Js = 0.1                   # Standard deviation of couplings
 
 # Download data from the asymmetric SK model
 B = 21
-#betas = 1 + np.linspace(-1, 1, B) * 0.3
-#for ib in range(B):
-#    beta_ref = round(betas[ib], 3)
-#    filename = 'data-H0-' + str(H0) + '-J0-' + str(J0) + '-Js-' + str(
-#        Js) + '-N-' + str(size) + '-R-' + str(R) + '-beta-' + str(beta_ref) + '.npz'
-#    url = 'https://zenodo.org/record/4318983/files/' + filename
-#    print()
-#    print('Download ' + str(ib + 1) + '/24: ' + url)
+betas = 1 + np.linspace(-1, 1, B) * 0.3
+for ib in range(B):
+    beta_ref = round(betas[ib], 3)
+    filename = 'data-H0-' + str(H0) + '-J0-' + str(J0) + '-Js-' + str(
+        Js) + '-N-' + str(size) + '-R-' + str(R) + '-beta-' + str(beta_ref) + '.npz'
+    url = 'https://zenodo.org/record/4318983/files/' + filename
+    print()
+    print('Download ' + str(ib + 1) + '/24: ' + url)
 
-#    urllib.request.urlretrieve(url, 'data/' + filename, MyProgressBar())
+    urllib.request.urlretrieve(url, 'data/' + filename, MyProgressBar())
 
 # Download data for the forward, inverse, and phase reconstruction problems
 files = ['forward.zip', 'inverse.zip', 'reconstruction.zip']
