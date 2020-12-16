@@ -8,17 +8,17 @@ Kinetic Ising models are powerful tools for studying the non-equilibrium dynamic
 
 ## Description of the code
 
-The code reproducing the approximation methods in the paper is contained in:
-* 'plefka/plefka_expansions.py', calling the functions to perform each approximation
-* 'plefka/plefka_functions.py', containing the functions computing the equations behind each approximation
+The code reproducing the approximation methods in the paper is contained in the 'plefka/' folder:
+* 'plefka_expansions.py', calls the functions to perform each approximation
+* 'plefka_functions.py', contains additional functions computing the equations behind each approximation
 
-To reproduce the results in the paper, the following steps are necessary:
-* Simulation data of the asymmetric SK model to test against the models can be generated using 'results/generate_data.py', which uses 'kinetic_ising/kinetic_ising.py' to update a kinetic Ising model.
-* The forward Ising problem is computed with 'results/forward-Ising-problem.py', which compares the result with the simulated data. The figure containing the results can be generated using 'results/forward-Ising-problem-results.py'
-* The inverse Ising problem is computed with 'results/inverse-Ising-problem.py', which estimates the model parameters from the simulated data. The figure containing the results can be generated using 'results/inverse-Ising-problem-results.py'
-* Simulation data for testing phase reconstruction can be computed using 'results/generate_data_transition.py'.
-* The phase transition reconstruction results can be reproduced running 'results/reconstruction-Ising-problem.py', which computes the forward Ising problem for the original models (with more values of β) and the models from solving the inverse problem. The figure containing the results can be generated using 'results/reconstruction-Ising-problem-results.py'
-* Finally, a comparison of execution times (Supplementary note), can be computed using 'results/execution-time-results.py'
+The results in the paper can be reproduced by running the scripts in the 'results/' folder as follows:
+* Simulation data of the asymmetric SK model to test against the models can be generated using 'generate_data.py', which uses 'kinetic_ising/kinetic_ising.py' to update a kinetic Ising model.
+* The forward Ising problem is computed with 'forward-Ising-problem.py', which compares the result with the simulated data. The figure containing the results can be generated using 'forward-Ising-problem-results.py'
+* The inverse Ising problem is computed with 'inverse-Ising-problem.py', which estimates the model parameters from the simulated data. The figure containing the results can be generated using 'inverse-Ising-problem-results.py'
+* Simulation data for testing phase reconstruction can be computed using 'generate_data_transition.py'.
+* The phase transition reconstruction results can be reproduced running 'reconstruction-Ising-problem.py', which computes the forward Ising problem for the original models (with more values of β) and the models from solving the inverse problem. The figure containing the results can be generated using 'reconstruction-Ising-problem-results.py'
+* Finally, a comparison of execution times (Supplementary note), can be computed using 'execution-time-results.py'
 
 Note that some steps are computationally quite costly. Specifically, the results of  'results/generate_data.py', 'results/generate_data_transition.py' and 'reconstruction-Ising-problem.py' were obtained parallelizing the code in a computer cluster. Alternatively, the data used for reproducing the exact results in the paper can be accessed in the Zenodo repository [https://zenodo.org/record/4318983](https://zenodo.org/record/4318983) or downloaded directly using the script 'results/download-datasets.py'
 
