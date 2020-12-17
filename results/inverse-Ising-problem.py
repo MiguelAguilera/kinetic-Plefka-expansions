@@ -34,6 +34,11 @@ T = 2**7                  # Number of simulation time steps
 
 max_rep = 10000            # Maximum number of steps in the gradient ascent
 
+# Learning speed parameters
+etaH = 1 / 10
+etaJ = 1 / size**0.5
+
+
 betas = 1 + np.linspace(-1, 1, B) * 0.3
 for ib in range(B):
 
@@ -78,10 +83,6 @@ for ib in range(B):
     # Reference error for finishing gradient descent
     ref_error = 1E-12
     print('ref error:', ref_error)
-
-    # Learning speed parameters
-    etaH = 1 / 10
-    etaJ = 1 / size**0.5
 
 
 # Run Plefka[t-1,t], order 2
