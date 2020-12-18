@@ -75,7 +75,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -101,13 +101,13 @@
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
      x="203.35902"
-     y="220.11877"
+     y="218.24377"
      id="text4182-6-5"><tspan
        id="tspan4184-0-2"
        x="203.35902"
-       y="220.11877"
+       y="218.24377"
        style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25px;line-height:1.25;font-family:'latin modern roman';-inkscape-font-specification:'latin modern roman,  Italic'">Q<tspan
-   style="font-size:65%;baseline-shift:super;-inkscape-font-specification:'latin modern math';font-family:'latin modern math';font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal"
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:64.99999762%;font-family:'latin modern math';-inkscape-font-specification:'latin modern math';baseline-shift:super"
    id="tspan872">*</tspan><tspan
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'latin modern roman';-inkscape-font-specification:'latin modern roman, '"
    id="tspan71">(</tspan><tspan
