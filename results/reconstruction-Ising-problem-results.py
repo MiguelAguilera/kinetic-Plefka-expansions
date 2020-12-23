@@ -8,13 +8,12 @@ and "reconstruction-Ising-problem.py"
 """
 
 import context
-from plefka import mf_ising
 import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib import cm
 
 plt.rc('text', usetex=True)
-font = {'size': 15}
+font = {'size': 18, 'family':'serif', 'serif': ['latin modern roman']}
 plt.rc('font', **font)
 plt.rc('legend', **{'fontsize': 18})
 

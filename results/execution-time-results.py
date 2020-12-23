@@ -14,7 +14,7 @@ import matplotlib
 
 
 plt.rc('text', usetex=True)
-font = {'size': 15}
+font = {'size': 18, 'family':'serif', 'serif': ['latin modern roman']}
 plt.rc('font', **font)
 plt.rc('legend', **{'fontsize': 18})
 
