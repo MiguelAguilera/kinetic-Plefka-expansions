@@ -15,7 +15,7 @@ from matplotlib import cm
 plt.rc('text', usetex=True)
 font = {'size': 18, 'family':'serif', 'serif': ['latin modern roman']}
 plt.rc('font', **font)
-plt.rc('legend', **{'fontsize': 18})
+plt.rc('legend', **{'fontsize': 20})
 
 
 size = 512
