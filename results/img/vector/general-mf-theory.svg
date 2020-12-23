@@ -22,7 +22,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -43,9 +43,9 @@
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:zoom="0.70710678"
-     inkscape:cx="69.077591"
-     inkscape:cy="420.55597"
+     inkscape:zoom="1.4142136"
+     inkscape:cx="460.02671"
+     inkscape:cy="325.75473"
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
@@ -3924,7 +3924,11 @@
            style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'latin modern roman';-inkscape-font-specification:'latin modern roman,  Bold';stroke-width:0.74999994"
            id="tspan17034">s</tspan><tspan
            style="font-size:10.39999962px;baseline-shift:sub;stroke-width:0.74999994"
-           id="tspan3639">t-</tspan><tspan
+           id="tspan3639">t<tspan
+   style="font-size:5px"
+   id="tspan5607"> </tspan>–<tspan
+   style="font-size:5.00000021px"
+   id="tspan5609"> </tspan></tspan><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.39999962px;font-family:'latin modern roman';-inkscape-font-specification:'latin modern roman, ';baseline-shift:sub;stroke-width:0.74999994"
            id="tspan3637">1</tspan></tspan></text>
     <text
@@ -3941,7 +3945,11 @@
            style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'latin modern roman';-inkscape-font-specification:'latin modern roman,  Bold';stroke-width:0.74999994"
            id="tspan17028">s</tspan><tspan
            style="font-size:10.39999962px;baseline-shift:sub;stroke-width:0.74999994"
-           id="tspan3635">t-</tspan><tspan
+           id="tspan3635">t<tspan
+   style="font-size:5.00000021px"
+   id="tspan5603"> </tspan>–<tspan
+   style="font-size:5.00000021px"
+   id="tspan5605"> </tspan></tspan><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.39999962px;font-family:'latin modern roman';-inkscape-font-specification:'latin modern roman, ';baseline-shift:sub;stroke-width:0.74999994"
            id="tspan3633">2</tspan></tspan></text>
   </g>
@@ -4369,7 +4377,11 @@
            style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'latin modern roman';-inkscape-font-specification:'latin modern roman,  Bold';stroke-width:0.74999994"
            id="tspan17052">s</tspan><tspan
            style="font-size:10.39999962px;baseline-shift:sub;stroke-width:0.74999994"
-           id="tspan3649">t-</tspan><tspan
+           id="tspan3649">t<tspan
+   style="font-size:5.00000021px"
+   id="tspan5651"> </tspan>–<tspan
+   style="font-size:5.00000021px"
+   id="tspan5653"> </tspan></tspan><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.39999962px;font-family:'latin modern roman';-inkscape-font-specification:'latin modern roman, ';baseline-shift:sub;stroke-width:0.74999994"
            id="tspan3647">1</tspan></tspan></text>
     <text
@@ -4386,7 +4398,11 @@
            style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'latin modern roman';-inkscape-font-specification:'latin modern roman,  Bold';stroke-width:0.74999994"
            id="tspan17054">s</tspan><tspan
            style="font-size:10.39999962px;baseline-shift:sub;stroke-width:0.74999994"
-           id="tspan3645">t-</tspan><tspan
+           id="tspan3645">t<tspan
+   style="font-size:5.00000021px"
+   id="tspan5647"> </tspan>–<tspan
+   style="font-size:5.00000021px"
+   id="tspan5649"> </tspan></tspan><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.39999962px;font-family:'latin modern roman';-inkscape-font-specification:'latin modern roman, ';baseline-shift:sub;stroke-width:0.74999994"
            id="tspan3643">2</tspan></tspan></text>
   </g>
@@ -4404,7 +4420,11 @@
    style="font-weight:normal;font-size:16px"
    id="tspan2634"> Plefka[<tspan
    id="tspan5968"
-   style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:'latin modern roman';-inkscape-font-specification:'latin modern roman, Italic'">t-<tspan
+   style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:'latin modern roman';-inkscape-font-specification:'latin modern roman, Italic'">t<tspan
+   style="font-size:8.00000034px"
+   id="tspan5597"> </tspan>–<tspan
+   style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Latin Modern Math';-inkscape-font-specification:'Latin Modern Math Italic';font-size:8.00000034px"
+   id="tspan5593"> </tspan><tspan
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'latin modern roman';-inkscape-font-specification:'latin modern roman, '"
    id="tspan3641">1</tspan>,t<tspan
    id="tspan2198"
@@ -4756,7 +4776,11 @@
            style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'latin modern roman';-inkscape-font-specification:'latin modern roman,  Bold';stroke-width:0.74999994"
            id="tspan17042">s</tspan><tspan
            style="font-size:10.39999962px;baseline-shift:sub;stroke-width:0.74999994"
-           id="tspan3661">t-</tspan><tspan
+           id="tspan3661">t<tspan
+   style="font-size:5.00000021px"
+   id="tspan5641"> </tspan>–<tspan
+   style="font-size:5.00000021px"
+   id="tspan5639"> </tspan></tspan><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.39999962px;font-family:'latin modern roman';-inkscape-font-specification:'latin modern roman, ';baseline-shift:sub;stroke-width:0.74999994"
            id="tspan3659">1</tspan></tspan></text>
     <text
@@ -4773,7 +4797,11 @@
            style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'latin modern roman';-inkscape-font-specification:'latin modern roman,  Bold';stroke-width:0.74999994"
            id="tspan17038">s</tspan><tspan
            style="font-size:10.39999962px;baseline-shift:sub;stroke-width:0.74999994"
-           id="tspan3653">t-</tspan><tspan
+           id="tspan3653">t<tspan
+   style="font-size:5.00000021px"
+   id="tspan5643"> </tspan>–<tspan
+   style="font-size:5.00000021px"
+   id="tspan5645"> </tspan></tspan><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.39999962px;font-family:'latin modern roman';-inkscape-font-specification:'latin modern roman, ';baseline-shift:sub;stroke-width:0.74999994"
            id="tspan3651">2</tspan></tspan></text>
   </g>
@@ -5141,7 +5169,11 @@
            style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'latin modern roman';-inkscape-font-specification:'latin modern roman,  Bold';stroke-width:0.74999994"
            id="tspan17058">s</tspan><tspan
            style="font-size:10.39999962px;baseline-shift:sub;stroke-width:0.74999994"
-           id="tspan3607">t-</tspan><tspan
+           id="tspan3607">t<tspan
+   style="font-size:5.00000021px"
+   id="tspan5617"> </tspan>–<tspan
+   style="font-size:5.00000021px"
+   id="tspan5615"> </tspan></tspan><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.39999962px;font-family:'latin modern roman';-inkscape-font-specification:'latin modern roman, ';baseline-shift:sub;stroke-width:0.74999994"
            id="tspan3605">1</tspan></tspan></text>
     <text
@@ -5158,7 +5190,11 @@
            style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'latin modern roman';-inkscape-font-specification:'latin modern roman,  Bold';stroke-width:0.74999994"
            id="tspan17056">s</tspan><tspan
            style="font-size:10.39999962px;baseline-shift:sub;stroke-width:0.74999994"
-           id="tspan3603">t-</tspan><tspan
+           id="tspan3603">t<tspan
+   style="font-size:5.00000021px"
+   id="tspan5611"> </tspan>–<tspan
+   style="font-size:5.00000021px"
+   id="tspan5613"> </tspan></tspan><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.39999962px;font-family:'latin modern roman';-inkscape-font-specification:'latin modern roman, ';baseline-shift:sub;stroke-width:0.74999994"
            id="tspan3601">2</tspan></tspan></text>
   </g>
@@ -5176,7 +5212,11 @@
    style="font-weight:normal;font-size:16px"
    id="tspan2636"> Plefka[<tspan
    id="tspan5974"
-   style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:'latin modern roman';-inkscape-font-specification:'latin modern roman, Italic'">t-<tspan
+   style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:'latin modern roman';-inkscape-font-specification:'latin modern roman, Italic'">t<tspan
+   style="font-size:8.00000034px"
+   id="tspan5599"> </tspan>–<tspan
+   style="font-size:8.00000034px"
+   id="tspan5601"> </tspan><tspan
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'latin modern roman';-inkscape-font-specification:'latin modern roman, '"
    id="tspan3609">1</tspan><tspan
    id="tspan2206"
@@ -5552,7 +5592,11 @@
            style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'latin modern roman';-inkscape-font-specification:'latin modern roman,  Bold';stroke-width:0.74999994"
            id="tspan17042-9">s</tspan><tspan
            style="font-size:64.99999762%;baseline-shift:sub"
-           id="tspan3619">t-</tspan><tspan
+           id="tspan3619">t<tspan
+   style="font-size:5.00000021px"
+   id="tspan5623"> </tspan>–<tspan
+   style="font-size:5.00000021px"
+   id="tspan5625"> </tspan></tspan><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:64.99999762%;font-family:'latin modern roman';-inkscape-font-specification:'latin modern roman, ';baseline-shift:sub"
            id="tspan3617">1</tspan></tspan></text>
     <text
@@ -5569,22 +5613,30 @@
            style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'latin modern roman';-inkscape-font-specification:'latin modern roman,  Bold';stroke-width:0.74999994"
            id="tspan17038-4">s</tspan><tspan
            style="font-size:64.99999762%;baseline-shift:sub"
-           id="tspan3615">t-</tspan><tspan
+           id="tspan3615">t<tspan
+   style="font-size:5.00000021px"
+   id="tspan5619"> </tspan>–<tspan
+   style="font-size:5.00000021px"
+   id="tspan5621"> </tspan></tspan><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:64.99999762%;font-family:'latin modern roman';-inkscape-font-specification:'latin modern roman, ';baseline-shift:sub"
            id="tspan3613">2</tspan></tspan></text>
     <text
        id="text1128-0-1-9-6"
        y="225.3255"
-       x="236.07727"
+       x="237.57727"
        style="font-style:normal;font-weight:normal;font-size:30px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.75"
        xml:space="preserve"><tspan
          style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.99999905px;font-family:'latin modern roman';-inkscape-font-specification:'latin modern roman,  Italic';text-align:center;text-anchor:middle;stroke-width:0.75"
          y="225.3255"
-         x="236.07727"
+         x="237.57727"
          id="tspan1126-2-4-5-9"
          sodipodi:role="line">s<tspan
    id="tspan9571-5-9-0-4"
-   style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.40000057px;font-family:'latin modern roman';-inkscape-font-specification:'latin modern roman,  Italic';baseline-shift:sub;stroke-width:0.75">l,t-<tspan
+   style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.40000057px;font-family:'latin modern roman';-inkscape-font-specification:'latin modern roman,  Italic';baseline-shift:sub;stroke-width:0.75">l,t<tspan
+   style="font-size:5px"
+   id="tspan5627"> </tspan>–<tspan
+   style="font-size:5px"
+   id="tspan5629"> </tspan><tspan
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'latin modern roman';-inkscape-font-specification:'latin modern roman, ';baseline-shift:baseline"
    id="tspan3577">1</tspan></tspan></tspan></text>
     <path
@@ -5943,7 +5995,11 @@
          id="tspan17042-9-0"
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'latin modern roman';-inkscape-font-specification:'latin modern roman,  Bold';stroke-width:0.74999994">s</tspan><tspan
          id="tspan3619-4"
-         style="font-size:64.99999762%;baseline-shift:sub">t-</tspan><tspan
+         style="font-size:64.99999762%;baseline-shift:sub">t<tspan
+   style="font-size:5.00000021px"
+   id="tspan5635"> </tspan>–<tspan
+   style="font-size:5.00000021px"
+   id="tspan5637"> </tspan></tspan><tspan
          id="tspan3617-8"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:64.99999762%;font-family:'latin modern roman';-inkscape-font-specification:'latin modern roman, ';baseline-shift:sub">1</tspan></tspan></text>
   <text
@@ -5960,7 +6016,11 @@
          id="tspan17038-4-9"
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'latin modern roman';-inkscape-font-specification:'latin modern roman,  Bold';stroke-width:0.74999994">s</tspan><tspan
          id="tspan3615-6"
-         style="font-size:64.99999762%;baseline-shift:sub">t-</tspan><tspan
+         style="font-size:64.99999762%;baseline-shift:sub">t<tspan
+   style="font-size:5.00000021px"
+   id="tspan5633"> </tspan>–<tspan
+   style="font-size:5.00000021px"
+   id="tspan5631"> </tspan></tspan><tspan
          id="tspan3613-1"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:64.99999762%;font-family:'latin modern roman';-inkscape-font-specification:'latin modern roman, ';baseline-shift:sub">2</tspan></tspan></text>
   <path
