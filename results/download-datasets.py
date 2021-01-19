@@ -10,7 +10,14 @@ import numpy as np
 import urllib.request
 import zipfile
 import os
-import progressbar
+
+try:
+    import progressbar
+    showbar = True
+except ModuleNotFoundError:
+    print("Warning: downloads will not show a progress bar as 'progressbar' is not among installed modules")
+    showbar = False
+
 
 
 class MyProgressBar():    # Define progress bar in downloads
@@ -27,6 +34,13 @@ class MyProgressBar():    # Define progress bar in downloads
             self.pbar.update(downloaded)
         else:
             self.pbar.finish()
+
+
+def download_file(url, filename, showbar=False):
+    if showbar:
+        urllib.request.urlretrieve(url, filename, MyProgressBar())
+    else:
+        urllib.request.urlretrieve(url, filename)
 
 
 size = 512                 # Network size
@@ -47,15 +61,15 @@ for ib in range(B):
     print()
     print('Download ' + str(ib + 1) + '/24: ' + url)
 
-    urllib.request.urlretrieve(url, 'data/' + filename, MyProgressBar())
+    download_file(url, 'data/' + filename, showbar)
 
 # Download data for the forward, inverse, and phase reconstruction problems
 files = ['forward.zip', 'inverse.zip', 'reconstruction.zip']
-for i, f in enumerate(files):
-    url = 'https://zenodo.org/record/4318983/files/' + f
+for i, filename in enumerate(files):
+    url = 'https://zenodo.org/record/4318983/files/' + filename
     print()
     print('Download ' + str(B + i + 1) + '/24: ' + url)
-    urllib.request.urlretrieve(url, 'data/' + f, MyProgressBar())
-    with zipfile.ZipFile('data/' + f, 'r') as zip_ref:
+    download_file(url, 'data/' + filename, showbar)
+    with zipfile.ZipFile('data/' + filename, 'r') as zip_ref:
         zip_ref.extractall('data/')         # Unzip file
-    os.remove('data/' + f)                  # Remove zip file
+    os.remove('data/' + filename)                  # Remove zip file
