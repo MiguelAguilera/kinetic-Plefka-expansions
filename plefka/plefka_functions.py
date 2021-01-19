@@ -277,44 +277,19 @@ def update_D_P2_t_o2(H, J, m_p, C_p, D_p):
     V_pil -= 2 * np.einsum('il,in,ln->il', J, J, C_p)
     V_pil += np.einsum('il,ll->il', J**2, C_p)
     W_pil = W_p - np.einsum('il,ln,ln->il', J, J, D_p, optimize=True)
-
-#    Heff_i -= J * m_pil
-#    Heff_i -= m_pil * W_pil
+    
     Delta_il = J + W_pil
-
-
-#    inds = np.zeros((size, size), int)
-#    for i in range(size):
-#        for k in range(i + 1, size):
-#            inds[i, k] = np.argmax(np.abs(Delta_il[i, :] * Delta_il[k, :]))
 
     for sl in [-1, 1]:
         Heff_il = Heff_i + Delta_il * (sl - m_pil)
-        Theta = solve_TAP_eq_D(Heff_il, Heff_il, V_pil)
-#        Theta = Heff_i.copy()
-#        error = np.max(np.abs(TAP_eq_D(Theta, Heff_i, Delta_il * sl, V_pil)))
-#        count = 0
-#        while error > 1E-15:
-#            TAP = TAP_eq_D(Theta, Heff_i, Delta_il * sl, V_pil)
-#            dTAP = diff_TAP_eq_D(Theta, Delta_il * sl, V_pil)
-#            Theta -= TAP / dTAP
-#            error = np.max(np.abs(TAP))
-#            ind = np.argmax(np.abs(TAP))
-        D += np.tanh(Theta) * sl * (1 + sl * m_pil) / 2
-        m_i += np.tanh(Theta) * (1 + sl * m_pil) / 2
-#        t2 += np.tanh(Theta + Delta_il * sl)**2 * (1 + sl * m_pil) / 2
+        theta = solve_TAP_eq_D(Heff_il, Heff_il, V_pil)
+        D += np.tanh(theta) * sl * (1 + sl * m_pil) / 2
+        m_i += np.tanh(theta) * (1 + sl * m_pil) / 2
 
     D -= m_i * m_pil
-#    m_D = np.diag(m_i)
     m_D = np.einsum('il->i', m_i / size, optimize=True)
     return m_D, D
-#    V_ik = np.einsum('ij,kl,jl->ik', J, J, C_p, optimize=True)
-#    V_ik -= np.einsum('ii,kl,il->ik', J, J, C_p, optimize=True) + \
-#        np.einsum('ij,kk,jk->ik', J, J, C_p, optimize=True)
-##    C_D = np.einsum('i,j,ij->ij', np.diag(1 - t2), np.diag(1 - t2), V_ik, optimize=True)
-#    C_D = np.einsum('il,jn,ij->ij', (1 - t2)/size, (1 - t2)/size, V_ik, optimize=True)
-#    np.einsum('ii->i', C_D)[:] = 1 - m_D**2
-#    return m_D, C_D, D
+
 
 
 def update_C_P2_t_o2(H, J, m, m_p, C_p):
@@ -333,17 +308,8 @@ def update_C_P2_t_o2(H, J, m, m_p, C_p):
 
     for sk in [-1, 1]:
         Heff_ik = Heff_i + Delta_ik * (sk - m_pik)
-        Theta = solve_TAP_eq_D(Heff_ik, Heff_ik, V_pik)
-#        Theta = Heff_i.copy()
-#        error = np.max(np.abs(TAP_eq_D(Theta, Heff_i, Delta_ik * (sk-m_pik), V_p)))
-#        count = 0
-#        while error > 1E-15:
-#            TAP = TAP_eq_D(Theta, Heff_i, Delta_ik * (sk-m_pik), V_p)
-#            dTAP = diff_TAP_eq_D(Theta, Delta_ik * (sk-m_pik), V_p)
-#            Theta -= TAP / dTAP
-#            error = np.max(np.abs(TAP))
-#            ind = np.argmax(np.abs(TAP))
-        C_D += np.tanh(Theta) * (sk - m_pik) * (1 + sk * m_pik) / 2
+        theta = solve_TAP_eq_D(Heff_ik, Heff_ik, V_pik)
+        C_D += np.tanh(theta) * (sk - m_pik) * (1 + sk * m_pik) / 2
 
     C_D = 0.5 * (C_D + C_D.T)
     np.einsum('ii->i', C_D)[:] = 1 - m**2
