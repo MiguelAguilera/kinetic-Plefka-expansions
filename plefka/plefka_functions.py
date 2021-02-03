@@ -116,7 +116,7 @@ def update_C_P_t_o2(H, J, m, C_p):
         C_p,
         optimize=True)
     np.einsum('ii->i', C, optimize=True)[:] = 1 - m**2
-    return np.clip(C, -1, 1)
+    return C
 
 
 def update_D_P_t_o2(H, J, m, m_p, C_p):
