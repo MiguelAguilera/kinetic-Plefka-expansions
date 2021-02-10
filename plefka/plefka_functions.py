@@ -209,35 +209,7 @@ def update_C_P_t1_o1(H, J, m, m_p, C_p):
             C[j, i] = C[i, j]
     return C
 
-
-# PLEFKA2[t], order 1
-def update_D_P2_t_o1(H, J, m_p):
-    size = len(H)
-    D = np.zeros((size, size))
-    m_D = np.zeros(size)
-    Heff = H + np.dot(J, m_p)
-    for i in range(size):
-        for j in range(size):
-            m_ij = 0
-            for sj in [-1, 1]:
-                Theta = Heff[i] - J[i, j] * m_p[j]
-                D[i, j] += np.tanh(Theta + J[i, j] * sj) * \
-                    sj * (1 + sj * m_p[j]) / 2
-                m_ij += np.tanh(Theta + J[i, j] * sj) * \
-                    (1 + sj * m_p[j]) / 2
-            D[i, j] -= m_ij * m_p[j]
-            m_D[i] += m_ij / size
-    C_D = np.diag(1 - m_D**2)
-    return m_D, C_D, D
-
 # PLEFKA2[t], order 2
-
-# def TAP_eq_D(x, Heff_i, Jijsj, V_pij):
-#    return x - Heff_i + np.tanh(x + Jijsj) * V_pij
-
-# def diff_TAP_eq_D(x, Jijsj, V_pij):
-#    return 1 + (1 - np.tanh(x + Jijsj)**2) * V_pij
-
 
 def TAP_eq_D(x, Heff, V):
     return x - Heff + np.tanh(x) * V
