@@ -6,19 +6,6 @@ This code defines functions for applying Plefka expansions for mean field simula
 """
 import numpy as np
 
-def bool2int(x):  # Transform bool array into positive integer
-    y = 0
-    for i, j in enumerate(np.array(x)[::-1]):
-        y += j * 2**i
-    return y
-
-
-def bitfield(n, size):  # Transform positive integer into bit array
-    x = [int(x) for x in bin(n)[2:]]
-    x = [0] * (size - len(x)) + x
-    return np.array(x)
-
-
 def TAP_eq(x, H, Vii):
     return np.tanh(H - x * Vii) - x
 
