@@ -222,7 +222,6 @@ def update_D_P2_t_o2(H, J, m_p, C_p, D_p):
     size = len(H)
     D = np.zeros((size, size))
     m_D = np.zeros(size)
-    C_D = np.zeros((size, size))
     t2 = np.zeros((size, size))
 
     Heff = H + np.dot(J, m_p)
