@@ -181,9 +181,8 @@ def update_C_P_t1_o1(H, J, m, m_p, C_p):
     D = np.dot(J**2, 1 - m_p**2)
     inv_D = np.zeros(size)
     inv_D[D > 0] = 1 / D[D > 0]
-    rho = np.einsum('i,k,ij,kl,jl->ik', np.sqrt(inv_D),
-                    np.sqrt(inv_D), J, J, C_p, optimize=True)
-    rho = np.clip(rho, -1, 1)
+    rho = np.einsum('i,k,ij,kj,j->ik', np.sqrt(inv_D),
+                    np.sqrt(inv_D), J, J, 1 - m_p**2, optimize=True)
     for i in range(size):
         C[i, i] = 1 - m[i]**2
         for j in range(i + 1, size):
