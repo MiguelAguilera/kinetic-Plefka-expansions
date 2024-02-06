@@ -66,7 +66,7 @@ def update_C_P_t1_t_o2(H, J, m, m_p):
 
 def update_D_P_t1_t_o2(H, J, m, m_p):
     D = np.einsum('i,il,l->il', 1 - m**2, J, 1 - m_p**2, optimize=True)
-    D *= 1 + np.einsum('i,il,l->il', m, J, m_p, optimize=True)
+    D *= 1 + 2*np.einsum('i,il,l->il', m, J, m_p, optimize=True)
     return D
 
 # PLEFKA[t], order 1
