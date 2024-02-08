@@ -66,7 +66,7 @@ def update_C_P_t1_t_o2(H, J, m, m_p):
 
 def update_D_P_t1_t_o2(H, J, m, m_p):
     D = np.einsum('i,il,l->il', 1 - m**2, J, 1 - m_p**2, optimize=True)
-    D *= 1 + np.einsum('i,il,l->il', m, J, m_p, optimize=True)
+    D *= 1 + 2*np.einsum('i,il,l->il', m, J, m_p, optimize=True)
     return D
 
 # PLEFKA[t], order 1
@@ -166,7 +166,7 @@ def dT2_rot(p, n, gx, gy, Dx, Dy, rho):
         return 1 / np.sqrt(2 * np.pi) * np.exp(-0.5 * p**2) * np.tanh(gx + p * np.sqrt(
             1 + rho) * np.sqrt(Dx / 2)) * np.tanh(gy + p * np.sqrt(1 + rho) * np.sqrt(Dy / 2))
     elif p is None:
-        return 1 / np.sqrt(2 * np.pi) * np.exp(-0.5 * p**2) * np.tanh(gx + n * np.sqrt(
+        return 1 / np.sqrt(2 * np.pi) * np.exp(-0.5 * n**2) * np.tanh(gx + n * np.sqrt(
             1 - rho) * np.sqrt(Dx / 2)) * np.tanh(gy - n * np.sqrt(1 - rho) * np.sqrt(Dy / 2))
     else:
         return 1 / (2 * np.pi) * np.exp(-0.5 * (p**2 + n**2))  \
@@ -186,7 +186,7 @@ def update_C_P_t1_o1(H, J, m, m_p, C_p):
     for i in range(size):
         C[i, i] = 1 - m[i]**2
         for j in range(i + 1, size):
-            if rho[i, j] > (1 - 1E5):
+            if rho[i, j] > (1 - 1E-5):
                 C[i, j] = integrate_1DGaussian(
                     dT2_rot, (None, g[i], g[j], D[i], D[j], rho[i, j])) - m[i] * m[j]
             else:
